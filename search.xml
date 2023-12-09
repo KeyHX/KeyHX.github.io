@@ -336,13 +336,9 @@
       </tags>
   </entry>
   <entry>
-    <title></title>
+    <title>Redis</title>
     <url>/2023/12/09/Redis/</url>
-    <content><![CDATA[<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">title: Redis</span><br><span class="line">categories:</span><br><span class="line"></span><br><span class="line">- 技术</span><br><span class="line"></span><br><span class="line">tags:</span><br><span class="line"></span><br><span class="line">- 学习</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><h2 id="1-NoSQL数据库简介"><a href="#1-NoSQL数据库简介" class="headerlink" title="1. NoSQL数据库简介"></a>1. NoSQL数据库简介</h2><h3 id="1-1-技术发展"><a href="#1-1-技术发展" class="headerlink" title="1.1 技术发展"></a>1.1 技术发展</h3><ol>
+    <content><![CDATA[<h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><h2 id="1-NoSQL数据库简介"><a href="#1-NoSQL数据库简介" class="headerlink" title="1. NoSQL数据库简介"></a>1. NoSQL数据库简介</h2><h3 id="1-1-技术发展"><a href="#1-1-技术发展" class="headerlink" title="1.1 技术发展"></a>1.1 技术发展</h3><ol>
 <li><p>解决功能性的问题：Java、Jsp、RDBMS、Tomcat、HTML、Linux、JDBC、SVM</p>
 </li>
 <li><p>解决扩展性的问题：Struts、Spring、SpringMVC、Hibernate、Mybatis</p>
@@ -1099,5 +1095,11 @@
 </li>
 </ol>
 ]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>学习</tag>
+      </tags>
   </entry>
 </search>
