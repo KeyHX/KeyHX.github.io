@@ -1102,4 +1102,68 @@
         <tag>学习</tag>
       </tags>
   </entry>
+  <entry>
+    <title>曝光</title>
+    <url>/2023/12/10/%E6%91%84%E5%BD%B1%E4%B9%8B%E6%9B%9D%E5%85%89/</url>
+    <content><![CDATA[<h1 id="曝光"><a href="#曝光" class="headerlink" title="曝光"></a>曝光</h1><h2 id="1-何为正确曝光"><a href="#1-何为正确曝光" class="headerlink" title="1. 何为正确曝光"></a>1. 何为正确曝光</h2><p>两大评价标准</p>
+<ol>
+<li><p>主观感受</p>
+</li>
+<li><p>直方图</p>
+</li>
+</ol>
+<h2 id="2-主观感受判断标准"><a href="#2-主观感受判断标准" class="headerlink" title="2. 主观感受判断标准"></a>2. 主观感受判断标准</h2><ol>
+<li><p>主体元素正确曝光:确保拍摄主体正确曝光，其余元素过曝可以接受</p>
+</li>
+<li><p>场景的观感还原</p>
+</li>
+<li><p>暗部不死黑，亮部不死白</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji1.jpg"></p>
+</li>
+</ol>
+<h2 id="3-曝光三要素"><a href="#3-曝光三要素" class="headerlink" title="3. 曝光三要素"></a>3. 曝光三要素</h2><p>3.1 三要素：光圈、快门、感光度(ISO)</p>
+<p>3.2 光圈(Aperture)</p>
+<ul>
+<li><p>光圈F值&#x3D;焦距&#x2F;通光孔径</p>
+</li>
+<li><p>大光圈(F值小)：小景深(清晰的单位很小)、进光量更多、背景虚化</p>
+</li>
+<li><p>小光圈(F值大)：大景深(远近都清晰)、进光量更少、远近都清晰</p>
+</li>
+</ul>
+<p>3.3 快门(Shutter Speed)</p>
+<ul>
+<li><p>值大：长曝光、进光量更多、记录轨迹</p>
+</li>
+<li><p>值小：断曝光、进光量更少、凝固瞬间</p>
+</li>
+</ul>
+<p>3.4 感光度(ISO)</p>
+<ul>
+<li><p>值小：对光线不敏感、明亮场景使用、高画质</p>
+</li>
+<li><p>值大：对光线敏感、昏暗场景使用、低画质</p>
+</li>
+</ul>
+<p>3.5 三者关系</p>
+<ul>
+<li><p>曝光互易率：可以通过调节三者的参数，使获得相同的曝光水平</p>
+</li>
+<li><p>光圈相邻参数之间是根号两倍的关系，每差一档光圈，相当于差两档亮度</p>
+</li>
+<li><p>快门相邻参数之间是两倍关系，每一档快门也是差了两档的亮度</p>
+</li>
+<li><p>ISO之间也是两倍关系，每差一档感光度也是差了两档亮度</p>
+</li>
+<li><p>总结：某一个参数向一个方向调了n档，则另一个参数，向另外一个方向去调n档可保持曝光不变</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>摄影</category>
+      </categories>
+      <tags>
+        <tag>学习</tag>
+      </tags>
+  </entry>
 </search>

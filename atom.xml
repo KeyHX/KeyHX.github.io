@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2023-12-09T13:28:04.686Z</updated>
+  <updated>2023-12-10T06:56:43.542Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>曝光</title>
+    <link href="http://example.com/2023/12/10/%E6%91%84%E5%BD%B1%E4%B9%8B%E6%9B%9D%E5%85%89/"/>
+    <id>http://example.com/2023/12/10/%E6%91%84%E5%BD%B1%E4%B9%8B%E6%9B%9D%E5%85%89/</id>
+    <published>2023-12-10T05:07:36.647Z</published>
+    <updated>2023-12-10T06:56:43.542Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;曝光&quot;&gt;&lt;a href=&quot;#曝光&quot; class=&quot;headerlink&quot; title=&quot;曝光&quot;&gt;&lt;/a&gt;曝光&lt;/h1&gt;&lt;h2 id=&quot;1-何为正确曝光&quot;&gt;&lt;a href=&quot;#1-何为正确曝光&quot; class=&quot;headerlink&quot; title=&quot;1.</summary>
+        
+      
+    
+    
+    
+    <category term="摄影" scheme="http://example.com/categories/%E6%91%84%E5%BD%B1/"/>
+    
+    
+    <category term="学习" scheme="http://example.com/tags/%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
   
   <entry>
     <title>Redis</title>
