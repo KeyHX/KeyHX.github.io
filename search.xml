@@ -336,6 +336,240 @@
       </tags>
   </entry>
   <entry>
+    <title>函数式编程</title>
+    <url>/2023/12/18/Optional/</url>
+    <content><![CDATA[<h1 id="Optional"><a href="#Optional" class="headerlink" title="Optional"></a>Optional</h1><h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>        在编写代码的时候出现最多的就是空指针异常，所以在很多情况下我们需要做各种非空的判断，在<code>JDK1.8</code>之后，通过<code>Optional</code>我们可以写出更优雅的代码来避免空指针异常</p>
+<h2 id="2-使用"><a href="#2-使用" class="headerlink" title="2. 使用"></a>2. 使用</h2><h3 id="2-1-创建对象"><a href="#2-1-创建对象" class="headerlink" title="2.1 创建对象"></a>2.1 创建对象</h3><p>        <code>Optional</code>就好像是包装类，可以把我们的具体数据封装<code>Optional</code>对象内部，然后再去使用<code>Optional</code>中封装好的方法操作封装进去的数据就可以避免空指针异常</p>
+<p>        一般使用<code>Optional</code>的静态方法<code>ofNullable</code>来把数据封装成一个<code>Optional</code>对象，无论传入的参数是否为<code>null</code>都不会出现问题。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">Author</span> <span class="variable">author</span> <span class="operator">=</span> getAuthor();</span><br><span class="line">Optional&lt;Author&gt; authorOptional = Optional.ofNullable(author);</span><br></pre></td></tr></table></figure>
+
+<p>        如果确定一个对象不是空的则可以使用<code>Optional</code>的静态方法<code>of</code>来把数据封装成<code>Optional</code>对象</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">Author</span> <span class="variable">author</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Author</span>();</span><br><span class="line">Optional&lt;Author&gt; authorOptional = Optional.of(author);</span><br></pre></td></tr></table></figure>
+
+<p>       如果一个对象是<code>null</code>，这个时候需要将<code>null</code>封装成一个<code>Optional</code>对象返回，可以使用<code>Optional</code>的静态方法<code>empty</code>来进行封装</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Optional.empty()</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-安全消费值"><a href="#2-2-安全消费值" class="headerlink" title="2.2 安全消费值"></a>2.2 安全消费值</h3><p>        当获取到一个<code>Optional</code>对象后可以使用<code>ifPresent</code>方法消费其中的值，这个方法会判断其内封装的数据是否为空，不为空时才会执行具体的消费代码。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Optional&lt;Author&gt; authorOptional = Optional.ofNullable(getAuthor());</span><br><span class="line">authorOptional.ifPresent(author -&gt; System.out.println(author.getName());</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-获取值"><a href="#2-3-获取值" class="headerlink" title="2.3 获取值"></a>2.3 获取值</h3><p>        不推荐直接使用<code>get</code>方法获取值，因为当<code>Optional</code>内部的数据为空时会出现异常</p>
+<h3 id="2-4-安全获取值"><a href="#2-4-安全获取值" class="headerlink" title="2.4 安全获取值"></a>2.4 安全获取值</h3><ul>
+<li><p><code>orElseGet</code>：获取数据并且设置为空时的默认值。如果数据不为空就能获取到该数据，如果为空则根据传入的参数来创建对象。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Optional&lt;Author&gt; authorOptional = Optional.ofNullable(getAuthor));</span><br><span class="line"><span class="type">Author</span> <span class="variable">author</span> <span class="operator">=</span> authorOptional.orElseGet(() -&gt; <span class="keyword">new</span> <span class="title class_">Author</span>());</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>orElseThrow</code></p>
+<p>获取数据，如果数据不为空就能获取到该数据，如果为空则根据传入的参数来创建异常抛出</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Optional&lt;Author&gt; authorOptional = Optional.ofNullable(getAuthor));</span><br><span class="line"><span class="type">Author</span> <span class="variable">author</span> <span class="operator">=</span> authorOptional.orElseThrow((Supplier&lt;Throwable&gt;) ()</span><br><span class="line">-&gt; <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(<span class="string">&quot;author为空&quot;</span>));</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="2-5-过滤"><a href="#2-5-过滤" class="headerlink" title="2.5 过滤"></a>2.5 过滤</h3><p>        可以使用<code>filter</code>方法对数据进行过滤，如果原本是有数据的，但是不符合判断，也会变成一个无数据的<code>Optional</code>对象</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Optional&lt;Author&gt; authorOptional = Optional.ofNullable(getAuthor));</span><br><span class="line">authorOptional.filter(author -&gt; author.getAge() &gt; <span class="number">100</span>).ifPresent(</span><br><span class="line">    author -&gt; System.out.println(author.getAge())</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-6-判断"><a href="#2-6-判断" class="headerlink" title="2.6 判断"></a>2.6 判断</h3><p>        可以使用<code>isPresent</code>方法判断数据是否存在，如果为空返回值为<code>false</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Optional&lt;Author&gt; authorOptional = Optional.ofNullable(getAuthor));</span><br><span class="line"><span class="keyword">if</span>(authorOptional.isPresent())&#123;</span><br><span class="line">    System.out.println(authorOptional.get().getName());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-7-数据转换"><a href="#2-7-数据转换" class="headerlink" title="2.7 数据转换"></a>2.7 数据转换</h3><p>        <code>Optional</code>还提供了<code>map</code>可以让我们对数据进行转换，并且得到的数据也还是被<code>Optional</code>包装好的</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Optional&lt;Author&gt; authorOptional = Optional.ofNullable(getAuthor));</span><br><span class="line">Optional&lt;List&lt;Book&gt;&gt; books = authorOptional.map(author -&gt; author.getBooks())</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>编程能力</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>函数式编程</title>
+    <url>/2023/12/17/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="函数式编程"><a href="#函数式编程" class="headerlink" title="函数式编程"></a>函数式编程</h1><h2 id="1-Lambda表达式"><a href="#1-Lambda表达式" class="headerlink" title="1. Lambda表达式"></a>1. Lambda表达式</h2><h3 id="1-1-概述"><a href="#1-1-概述" class="headerlink" title="1.1 概述"></a>1.1 概述</h3><p>是JDK8中的一个语法糖。可以<strong>对某些匿名内部类</strong>的写法进行简化。我们不用关注是什么对象，而是更加关注对数据进行了什么操作。</p>
+<h3 id="1-2-基本格式"><a href="#1-2-基本格式" class="headerlink" title="1.2 基本格式"></a>1.2 基本格式</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(参数列表) -&gt; &#123;代码&#125;</span><br></pre></td></tr></table></figure>
+
+<p>例:</p>
+<p>创建线程，匿名内部类的写法：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">new Thread(new Runnable()&#123;</span><br><span class="line">    public void run()&#123;</span><br><span class="line">        System.out.println(&quot;111&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;).start();</span><br></pre></td></tr></table></figure>
+
+<p>  使用Lambda的写法</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">new Thread(() -&gt; &#123;</span><br><span class="line">    System.out.println(&quot;1111&quot;);</span><br><span class="line">&#125;).start();</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-3-省略规则"><a href="#1-3-省略规则" class="headerlink" title="1.3 省略规则"></a>1.3 省略规则</h3><ul>
+<li><p>参数类型可以省略</p>
+</li>
+<li><p>方法体只有一句代码时大括号return和唯一一句代码的分号可以省略</p>
+</li>
+<li><p>方法只有一个参数时小括号可以省略</p>
+</li>
+</ul>
+<h2 id="2-Stream流"><a href="#2-Stream流" class="headerlink" title="2. Stream流"></a>2. Stream流</h2><h3 id="2-1-概述"><a href="#2-1-概述" class="headerlink" title="2.1 概述"></a>2.1 概述</h3><p>Stream使用的是函数式编程模式，可以被用来对集合或者数组进行链状流式的操作。</p>
+<h3 id="2-2-案例数据准备"><a href="#2-2-案例数据准备" class="headerlink" title="2.2 案例数据准备"></a>2.2 案例数据准备</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Author</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> Integer age;</span><br><span class="line">    <span class="keyword">private</span> String intro;</span><br><span class="line">    <span class="keyword">private</span> List&lt;Book&gt; books;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Book</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> String category;</span><br><span class="line">    <span class="keyword">private</span> Integer score;</span><br><span class="line">    <span class="keyword">private</span> String intro;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> List&lt;Author&gt; <span class="title function_">getAuthors</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="type">Author</span> <span class="variable">author</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Author</span>(<span class="number">1L</span>,<span class="string">&quot;1&quot;</span>,<span class="number">11</span>,<span class="string">&quot;111&quot;</span>,<span class="literal">null</span>);</span><br><span class="line">    <span class="type">Author</span> <span class="variable">author2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Author</span>(<span class="number">2L</span>,<span class="string">&quot;2&quot;</span>,<span class="number">22</span>,<span class="string">&quot;222&quot;</span>,<span class="literal">null</span>);</span><br><span class="line">    <span class="type">Author</span> <span class="variable">author3</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Author</span>(<span class="number">3L</span>,<span class="string">&quot;3&quot;</span>,<span class="number">33</span>,<span class="string">&quot;333&quot;</span>,<span class="literal">null</span>);</span><br><span class="line">    <span class="type">Author</span> <span class="variable">author4</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Author</span>(<span class="number">4L</span>,<span class="string">&quot;4&quot;</span>,<span class="number">44</span>,<span class="string">&quot;444&quot;</span>,<span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line">    List&lt;Book&gt; books1 = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    List&lt;Book&gt; books2 = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    List&lt;Book&gt; books3 = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    books1.add(<span class="keyword">new</span> <span class="title class_">Book</span>(<span class="number">1L</span>,<span class="string">&quot;1&quot;</span>,<span class="string">&quot;1,1&quot;</span>,<span class="number">11</span>,<span class="string">&quot;11&quot;</span>));</span><br><span class="line">    books1.add(<span class="keyword">new</span> <span class="title class_">Book</span>(<span class="number">2L</span>,<span class="string">&quot;2&quot;</span>,<span class="string">&quot;2,2&quot;</span>,<span class="number">22</span>,<span class="string">&quot;22&quot;</span>));</span><br><span class="line"></span><br><span class="line">    books2.add(<span class="keyword">new</span> <span class="title class_">Book</span>(<span class="number">3L</span>,<span class="string">&quot;3&quot;</span>,<span class="string">&quot;3&quot;</span>,<span class="number">33</span>,<span class="string">&quot;33&quot;</span>));</span><br><span class="line">    books2.add(<span class="keyword">new</span> <span class="title class_">Book</span>(<span class="number">3L</span>,<span class="string">&quot;4&quot;</span>,<span class="string">&quot;4&quot;</span>,<span class="number">44</span>,<span class="string">&quot;44&quot;</span>));</span><br><span class="line">    books2.add(<span class="keyword">new</span> <span class="title class_">Book</span>(<span class="number">4L</span>,<span class="string">&quot;5&quot;</span>,<span class="string">&quot;5&quot;</span>,<span class="number">55</span>,<span class="string">&quot;55&quot;</span>));</span><br><span class="line"></span><br><span class="line">    books3.add(<span class="keyword">new</span> <span class="title class_">Book</span>(<span class="number">5L</span>,<span class="string">&quot;5&quot;</span>,<span class="string">&quot;5&quot;</span>,<span class="number">55</span>,<span class="string">&quot;55&quot;</span>));</span><br><span class="line">    books3.add(<span class="keyword">new</span> <span class="title class_">Book</span>(<span class="number">6L</span>,<span class="string">&quot;5&quot;</span>,<span class="string">&quot;5&quot;</span>,<span class="number">55</span>,<span class="string">&quot;55&quot;</span>));</span><br><span class="line">    books3.add(<span class="keyword">new</span> <span class="title class_">Book</span>(<span class="number">6L</span>,<span class="string">&quot;5&quot;</span>,<span class="string">&quot;5&quot;</span>,<span class="number">55</span>,<span class="string">&quot;55&quot;</span>));</span><br><span class="line"></span><br><span class="line">    author.setBooks(books1);</span><br><span class="line">    author2.setBooks(books2);</span><br><span class="line">    author3.setBooks(books3);</span><br><span class="line">    author4.setBooks(books4);</span><br><span class="line"></span><br><span class="line">    List&lt;Author&gt; authorList = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(Arrays.asList(author,author2,author3,author4));</span><br><span class="line">    <span class="keyword">return</span> authorList;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-案例"><a href="#2-3-案例" class="headerlink" title="2.3 案例"></a>2.3 案例</h3><ol>
+<li><p>需求</p>
+<p>调用<code> getAuthors</code>方法获取到作家的集合，需要打印所有年龄小于18的作家的名字，并且需要去重</p>
+</li>
+<li><p>实现</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">authors.stream()</span><br><span class="line">        .distinct()<span class="comment">//去重</span></span><br><span class="line">        .filter(author -&gt; author.getAge() &lt; <span class="number">18</span>)<span class="comment">//筛选条件</span></span><br><span class="line">        .forEach(author -&gt; System.out.println(author.getName());<span class="comment">//遍历打印名字</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="2-4-常用操作"><a href="#2-4-常用操作" class="headerlink" title="2.4 常用操作"></a>2.4 常用操作</h3><h4 id="2-4-1-创建流"><a href="#2-4-1-创建流" class="headerlink" title="2.4.1 创建流"></a>2.4.1 创建流</h4><ul>
+<li><p>单列结合：集合对象.stream()</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors;</span><br><span class="line">Stream&lt;Author&gt; stream = authors.stream();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>数组：<code>Arrays.stream(数组)</code>或者使用<code>Stream.of</code>来创建</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Integer[] arr = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;;</span><br><span class="line">Stream&lt;Integer&gt; stream = Arrays.stream(arr);</span><br><span class="line">Stream&lt;Integer&gt; stream2 = Stream.of(arr);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>双列集合：转换为单列集合后再创建</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Map&lt;String,Integer&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">map.put(<span class="string">&quot;1&quot;</span>,<span class="number">1</span>);</span><br><span class="line">map.put(<span class="string">&quot;2&quot;</span>,<span class="number">2</span>);</span><br><span class="line">map.put(<span class="string">&quot;3&quot;</span>,<span class="number">3</span>);</span><br><span class="line"></span><br><span class="line">Stream&lt;Map.Entry&lt;String,Integer&gt;&gt; stream = map.entrySet().stream();</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="2-4-2-中间操作"><a href="#2-4-2-中间操作" class="headerlink" title="2.4.2 中间操作"></a>2.4.2 中间操作</h4><h5 id="filter"><a href="#filter" class="headerlink" title="filter"></a>filter</h5><ul>
+<li><p><code>function</code>：可以对流中的元素进行条件过滤，符合条件的才能继续留在流中</p>
+</li>
+<li><p>例子：打印所有姓名长度大于1的作家的姓名</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">authors.stream()</span><br><span class="line">        .filter(author -&gt; author.getName().length() &gt; <span class="number">1</span>)</span><br><span class="line">        .foreach(author -&gt; System.out.println(author.getName()));</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h5 id="map"><a href="#map" class="headerlink" title="map"></a>map</h5><ul>
+<li><p><code>function</code>：对流中的元素进行计算或转换</p>
+</li>
+<li><p>例子：打印所有作家的姓名</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">authors.stream()</span><br><span class="line">        .map(author -&gt; author.getName())</span><br><span class="line">        .forEach(name -&gt; System.out.println(name));</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h5 id="distinct"><a href="#distinct" class="headerlink" title="distinct"></a>distinct</h5><ul>
+<li><p><code>function</code>：去除流中的重复元素</p>
+</li>
+<li><p>例如：打印所有作家的姓名，并且要求其中不能有重复的元素</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">authors.stream()</span><br><span class="line">        .distinct()</span><br><span class="line">        .forEach(author -&gt; System.out.println(author.getName));</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>说明：<code>distinct</code>方法依赖<code>Object</code>的<code>equals</code>方法来判断是否是相同的对象，所以需要重写<code>equals</code></p>
+</li>
+</ul>
+<h5 id="sorted"><a href="#sorted" class="headerlink" title="sorted"></a>sorted</h5><ul>
+<li><p><code>function</code>：对流中的元素进行排序</p>
+</li>
+<li><p>例子：对流中的元素按照年龄进行降序排序，并且要求不能有重复的元素</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">authors.stream()</span><br><span class="line">        .distinct()</span><br><span class="line">        .sorted((<span class="number">01</span>,<span class="number">02</span>) -&gt; o2.getAge() - o1.getAge())</span><br><span class="line">        .forEach(author -&gt; System.out.println(author.getName()));</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>说明：调用<code>sorted</code>方法，流中的元素需要实现<code>Comparable</code></p>
+</li>
+</ul>
+<h5 id="limit"><a href="#limit" class="headerlink" title="limit"></a>limit</h5><ul>
+<li><p><code>function</code>：设置流的最大长度，超出部分将被抛弃</p>
+</li>
+<li><p>例子：对流中的元素按照年龄进行降序排序，并且要求不能有重复的元素，然后打印其中年龄最大的两个作家的名字</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">authors.stream()</span><br><span class="line">        .distinct()</span><br><span class="line">        .sorted(<span class="number">01</span>,<span class="number">02</span>) -&gt; o2.getAge() - o1.getAge())</span><br><span class="line">        .limit(<span class="number">2</span>)</span><br><span class="line">        .forEach(author -&gt; System.out.println(author.getName()));</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h5 id="skip"><a href="#skip" class="headerlink" title="skip"></a>skip</h5><ul>
+<li><p><code>function</code>：跳过流中的前n个元素，返回剩下的元素</p>
+</li>
+<li><p>例子：打印除了年龄最大的作家外的其他作家，要求不能有重复元素，并且按照年龄降序排序</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">authors.stream()</span><br><span class="line">        .distinct()</span><br><span class="line">        .sorted(<span class="number">01</span>,<span class="number">02</span>) -&gt; o2.getAge() - o1.getAge())</span><br><span class="line">        .skip(n)</span><br><span class="line">        .forEach(author -&gt; System.out.println(author.getName()));</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h5 id="flatMap"><a href="#flatMap" class="headerlink" title="flatMap"></a>flatMap</h5><ul>
+<li><p><code>function</code>：<code>map</code>只能把一个对象转换成另一个对象来作为流中的元素，<code>flatMap</code>可以把一个对象转换成多个对象作为流中的元素</p>
+</li>
+<li><p>例子一：打印所有书籍名字，要求对去重</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">authors.stream()</span><br><span class="line">        .flatMap(author -&gt; author.getBooks().stream())<span class="comment">//获取每个author中的books，同时转换为流</span></span><br><span class="line">        .distinct()</span><br><span class="line">        .forEach(book -&gt; System.out.println(book.getName()));</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>例二：打印所有数据的所有分类，对分类进行去重</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">authors.stream()</span><br><span class="line">        .flatMap(author -&gt; author.getBooks().stream())</span><br><span class="line">        .distict()</span><br><span class="line">        .flatMap(book -&gt; Arrays.stream(book.getCategory().split(<span class="string">&quot;.&quot;</span>))<span class="comment">//一个book可能对应多个分类</span></span><br><span class="line">        .distinct()</span><br><span class="line">        .forEach(category -&gt; System.out.println(category));</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="2-4-3-终结操作"><a href="#2-4-3-终结操作" class="headerlink" title="2.4.3 终结操作"></a>2.4.3 终结操作</h4><h5 id="forEach"><a href="#forEach" class="headerlink" title="forEach"></a>forEach</h5><ul>
+<li><p><code>function</code>：对流中的元素进行遍历操作</p>
+</li>
+<li><p>例子：输出所有作家的名字</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">suthors.stream()</span><br><span class="line">        .map(author -&gt; author.getName())</span><br><span class="line">        .forEach(name -&gt; System.out.println(name));</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h5 id="count"><a href="#count" class="headerlink" title="count"></a>count</h5><ul>
+<li><p><code>function</code>：获取当前流中元素的个数</p>
+</li>
+<li><p>例子：打印作家所出书籍的数目</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line"><span class="type">long</span> <span class="variable">num</span> <span class="operator">=</span> suthors.stream()</span><br><span class="line">        .flatMap(author -&gt; author.getBooks().stream())</span><br><span class="line">        .distinct()</span><br><span class="line">        .count();</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h5 id="max-min"><a href="#max-min" class="headerlink" title="max&amp;min"></a>max&amp;min</h5><ul>
+<li><p><code>function</code>：用来求流中的最值</p>
+</li>
+<li><p>例子：分别获取作家所出书籍的最高分和最低分</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">Optional&lt;Integer&gt; num = suthors.stream()</span><br><span class="line">                    .flatMap(author -&gt; author.getBooks().stream())</span><br><span class="line">                    .map(book -&gt; book.getScore())</span><br><span class="line">                    .max((o1,o2) -&gt; o2 - o1);       </span><br></pre></td></tr></table></figure></li>
+</ul>
+<h5 id="collect"><a href="#collect" class="headerlink" title="collect"></a>collect</h5><ul>
+<li><p><code>function</code>:将当前流转换成一个集合</p>
+</li>
+<li><p>例子:</p>
+<ol>
+<li><p>获取一个存放所有作者名字的list集合</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">List&lt;String&gt; list = authors.stream()</span><br><span class="line">        .map(author -&gt; author.getName())</span><br><span class="line">        .collect(Collectors.toList())</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>获取一个所有书名的<code>set</code>集合</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">Set&lt;String&gt; set = authors.stream()</span><br><span class="line">        .flatMap(author -&gt; author.getBooks().stream())</span><br><span class="line">        .collect(Collectors.toSet())</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>获取一个<code>Map</code>集合，<code>map</code>的<code>key</code>为作者名，<code>value</code>为<code>List</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">Map&lt;String,List&lt;Book&gt;&gt; map = authors.stream()</span><br><span class="line">        .distinct()</span><br><span class="line">        .collect(Collectors.toMap(author.getName(),author.getBooks()))</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ul>
+<h5 id="查找和匹配"><a href="#查找和匹配" class="headerlink" title="查找和匹配"></a>查找和匹配</h5><h6 id="anyMatch"><a href="#anyMatch" class="headerlink" title="anyMatch"></a>anyMatch</h6><ul>
+<li><p><code>function</code>：用来判断是否有任意符合匹配条件的元素，结果为<code>boolean</code>类型</p>
+</li>
+<li><p>例子：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line"><span class="type">boolean</span> <span class="variable">res</span> <span class="operator">=</span> authors.stream()</span><br><span class="line">        .anyMatch(author -&gt; author.getAge() &gt; <span class="number">19</span>) </span><br></pre></td></tr></table></figure></li>
+</ul>
+<h6 id="allMatch"><a href="#allMatch" class="headerlink" title="allMatch"></a>allMatch</h6><ul>
+<li><p><code>function</code>：可以用来判断是否都符合匹配的条件，结果为boolean类型，如果都符合结果为<code>true</code></p>
+</li>
+<li><p>例子：判断是否所有的作家都是成年人</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line"><span class="type">boolean</span> <span class="variable">res</span> <span class="operator">=</span> authors.stream()</span><br><span class="line">        .allMatch(author -&gt; author.getAge() &gt;= <span class="number">18</span>) </span><br></pre></td></tr></table></figure></li>
+</ul>
+<h6 id="noneMatch"><a href="#noneMatch" class="headerlink" title="noneMatch"></a>noneMatch</h6><ul>
+<li><p><code>function</code>：判断流中的元素是否都不符合匹配条件，如果都不符合结果为<code>true</code></p>
+</li>
+<li><p>例子：判断作家是否都没有超过100岁的</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line"><span class="type">boolean</span> <span class="variable">res</span> <span class="operator">=</span> authors.stream()</span><br><span class="line">        .noneMatch(author -&gt; author.getAge() &gt;= <span class="number">100</span>) </span><br></pre></td></tr></table></figure></li>
+</ul>
+<h6 id="findAny"><a href="#findAny" class="headerlink" title="findAny"></a>findAny</h6><ul>
+<li><p><code>function</code>：获取流中的任意一个元素，无法保证获取的一定是流中的第一个元素</p>
+</li>
+<li><p>例子：获取任意一个大于18的作家，如果存在就输出他的名字</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">Optional&lt;Author&gt; res = authors.stream()</span><br><span class="line">        .filter(author -&gt; author.getAge() &gt; <span class="number">18</span>)</span><br><span class="line">        .findAny() </span><br></pre></td></tr></table></figure></li>
+</ul>
+<h6 id="findFirst"><a href="#findFirst" class="headerlink" title="findFirst"></a>findFirst</h6><ul>
+<li><p><code>function</code>：获取流中第一个元素</p>
+</li>
+<li><p>例子：获取一个年龄最小的作家，并输出他的姓名</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">Optional&lt;Author&gt; res = authors.stream()</span><br><span class="line">        .sorted((o1,o2) -&gt; o1.getAge() - o2.getAge())</span><br><span class="line">        .findFirst()</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h5 id="reduce归并"><a href="#reduce归并" class="headerlink" title="reduce归并"></a>reduce归并</h5><ul>
+<li><p><code>function</code>：对流中的数据按照指定制定的计算方式计算出一个结果。<code>reduce</code>会把<code>stream</code>中元素组合起来，我们可以传入一个初始值，它会按照我们的计算方式依次拿流中的元素和在初始化值的基础上进行计算，计算的结果再和后面的元素计算。</p>
+<p>内部计算方式如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">T</span> <span class="variable">res</span> <span class="operator">=</span> identity;<span class="comment">//初始值</span></span><br><span class="line"><span class="keyword">for</span>(T element : <span class="built_in">this</span> stream)</span><br><span class="line">    res = accumulator.apply(res,element);</span><br><span class="line"><span class="keyword">return</span> res;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>例子：</p>
+<ol>
+<li><p>使用<code>reduce</code>求所有作者的年龄和</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line"><span class="type">Integer</span> <span class="variable">sum</span> <span class="operator">=</span> authors.stream()</span><br><span class="line">        .distinct()</span><br><span class="line">        .map(author -&gt; author.getAge())</span><br><span class="line">        .reduce(<span class="number">0</span>,(res,age) -&gt; res + age)</span><br><span class="line"><span class="comment">//0代表初始值</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ul>
+<ol start="2">
+<li><p>使用<code>reduce</code> 求所有作者中年龄最大值</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line"><span class="type">Integer</span> <span class="variable">max</span> <span class="operator">=</span> athors.stream()</span><br><span class="line">        .distinct()</span><br><span class="line">        .map(author -&gt; author.getAge())</span><br><span class="line">        .reduce(Integer.MIN_VALUE,(res,age) -&gt; res&gt;age ? RES : AGE)</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="使用注意"><a href="#使用注意" class="headerlink" title="使用注意"></a>使用注意</h4><ol>
+<li><p>惰性求值(如果没有终结操作，中间操作不会得到执行)</p>
+</li>
+<li><p>流是一次性的，一旦经过一个终结操作之后，这个流不能再被使用</p>
+</li>
+<li><p>不会影响原始的数据</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>编程能力</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Redis</title>
     <url>/2023/12/09/Redis/</url>
     <content><![CDATA[<h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><h2 id="1-NoSQL数据库简介"><a href="#1-NoSQL数据库简介" class="headerlink" title="1. NoSQL数据库简介"></a>1. NoSQL数据库简介</h2><h3 id="1-1-技术发展"><a href="#1-1-技术发展" class="headerlink" title="1.1 技术发展"></a>1.1 技术发展</h3><ol>
@@ -1225,198 +1459,6 @@
       </categories>
       <tags>
         <tag>学习</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>函数式编程</title>
-    <url>/2023/12/17/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="函数式编程"><a href="#函数式编程" class="headerlink" title="函数式编程"></a>函数式编程</h1><h2 id="1-Lambda表达式"><a href="#1-Lambda表达式" class="headerlink" title="1. Lambda表达式"></a>1. Lambda表达式</h2><h3 id="1-1-概述"><a href="#1-1-概述" class="headerlink" title="1.1 概述"></a>1.1 概述</h3><p>是JDK8中的一个语法糖。可以<strong>对某些匿名内部类</strong>的写法进行简化。我们不用关注是什么对象，而是更加关注对数据进行了什么操作。</p>
-<h3 id="1-2-基本格式"><a href="#1-2-基本格式" class="headerlink" title="1.2 基本格式"></a>1.2 基本格式</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(参数列表) -&gt; &#123;代码&#125;</span><br></pre></td></tr></table></figure>
-
-<p>例:</p>
-<p>创建线程，匿名内部类的写法：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">new Thread(new Runnable()&#123;</span><br><span class="line">    public void run()&#123;</span><br><span class="line">        System.out.println(&quot;111&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;).start();</span><br></pre></td></tr></table></figure>
-
-<p>  使用Lambda的写法</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">new Thread(() -&gt; &#123;</span><br><span class="line">    System.out.println(&quot;1111&quot;);</span><br><span class="line">&#125;).start();</span><br></pre></td></tr></table></figure>
-
-<h3 id="1-3-省略规则"><a href="#1-3-省略规则" class="headerlink" title="1.3 省略规则"></a>1.3 省略规则</h3><ul>
-<li><p>参数类型可以省略</p>
-</li>
-<li><p>方法体只有一句代码时大括号return和唯一一句代码的分号可以省略</p>
-</li>
-<li><p>方法只有一个参数时小括号可以省略</p>
-</li>
-</ul>
-<h2 id="2-Stream流"><a href="#2-Stream流" class="headerlink" title="2. Stream流"></a>2. Stream流</h2><h3 id="2-1-概述"><a href="#2-1-概述" class="headerlink" title="2.1 概述"></a>2.1 概述</h3><p>Stream使用的是函数式编程模式，可以被用来对集合或者数组进行链状流式的操作。</p>
-<h3 id="2-2-案例数据准备"><a href="#2-2-案例数据准备" class="headerlink" title="2.2 案例数据准备"></a>2.2 案例数据准备</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Author</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> Integer age;</span><br><span class="line">    <span class="keyword">private</span> String intro;</span><br><span class="line">    <span class="keyword">private</span> List&lt;Book&gt; books;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Book</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> String category;</span><br><span class="line">    <span class="keyword">private</span> Integer score;</span><br><span class="line">    <span class="keyword">private</span> String intro;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> List&lt;Author&gt; <span class="title function_">getAuthors</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="type">Author</span> <span class="variable">author</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Author</span>(<span class="number">1L</span>,<span class="string">&quot;1&quot;</span>,<span class="number">11</span>,<span class="string">&quot;111&quot;</span>,<span class="literal">null</span>);</span><br><span class="line">    <span class="type">Author</span> <span class="variable">author2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Author</span>(<span class="number">2L</span>,<span class="string">&quot;2&quot;</span>,<span class="number">22</span>,<span class="string">&quot;222&quot;</span>,<span class="literal">null</span>);</span><br><span class="line">    <span class="type">Author</span> <span class="variable">author3</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Author</span>(<span class="number">3L</span>,<span class="string">&quot;3&quot;</span>,<span class="number">33</span>,<span class="string">&quot;333&quot;</span>,<span class="literal">null</span>);</span><br><span class="line">    <span class="type">Author</span> <span class="variable">author4</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Author</span>(<span class="number">4L</span>,<span class="string">&quot;4&quot;</span>,<span class="number">44</span>,<span class="string">&quot;444&quot;</span>,<span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line">    List&lt;Book&gt; books1 = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    List&lt;Book&gt; books2 = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    List&lt;Book&gt; books3 = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    books1.add(<span class="keyword">new</span> <span class="title class_">Book</span>(<span class="number">1L</span>,<span class="string">&quot;1&quot;</span>,<span class="string">&quot;1,1&quot;</span>,<span class="number">11</span>,<span class="string">&quot;11&quot;</span>));</span><br><span class="line">    books1.add(<span class="keyword">new</span> <span class="title class_">Book</span>(<span class="number">2L</span>,<span class="string">&quot;2&quot;</span>,<span class="string">&quot;2,2&quot;</span>,<span class="number">22</span>,<span class="string">&quot;22&quot;</span>));</span><br><span class="line"></span><br><span class="line">    books2.add(<span class="keyword">new</span> <span class="title class_">Book</span>(<span class="number">3L</span>,<span class="string">&quot;3&quot;</span>,<span class="string">&quot;3&quot;</span>,<span class="number">33</span>,<span class="string">&quot;33&quot;</span>));</span><br><span class="line">    books2.add(<span class="keyword">new</span> <span class="title class_">Book</span>(<span class="number">3L</span>,<span class="string">&quot;4&quot;</span>,<span class="string">&quot;4&quot;</span>,<span class="number">44</span>,<span class="string">&quot;44&quot;</span>));</span><br><span class="line">    books2.add(<span class="keyword">new</span> <span class="title class_">Book</span>(<span class="number">4L</span>,<span class="string">&quot;5&quot;</span>,<span class="string">&quot;5&quot;</span>,<span class="number">55</span>,<span class="string">&quot;55&quot;</span>));</span><br><span class="line"></span><br><span class="line">    books3.add(<span class="keyword">new</span> <span class="title class_">Book</span>(<span class="number">5L</span>,<span class="string">&quot;5&quot;</span>,<span class="string">&quot;5&quot;</span>,<span class="number">55</span>,<span class="string">&quot;55&quot;</span>));</span><br><span class="line">    books3.add(<span class="keyword">new</span> <span class="title class_">Book</span>(<span class="number">6L</span>,<span class="string">&quot;5&quot;</span>,<span class="string">&quot;5&quot;</span>,<span class="number">55</span>,<span class="string">&quot;55&quot;</span>));</span><br><span class="line">    books3.add(<span class="keyword">new</span> <span class="title class_">Book</span>(<span class="number">6L</span>,<span class="string">&quot;5&quot;</span>,<span class="string">&quot;5&quot;</span>,<span class="number">55</span>,<span class="string">&quot;55&quot;</span>));</span><br><span class="line"></span><br><span class="line">    author.setBooks(books1);</span><br><span class="line">    author2.setBooks(books2);</span><br><span class="line">    author3.setBooks(books3);</span><br><span class="line">    author4.setBooks(books4);</span><br><span class="line"></span><br><span class="line">    List&lt;Author&gt; authorList = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(Arrays.asList(author,author2,author3,author4));</span><br><span class="line">    <span class="keyword">return</span> authorList;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-3-案例"><a href="#2-3-案例" class="headerlink" title="2.3 案例"></a>2.3 案例</h3><ol>
-<li><p>需求</p>
-<p>调用<code> getAuthors</code>方法获取到作家的集合，需要打印所有年龄小于18的作家的名字，并且需要去重</p>
-</li>
-<li><p>实现</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">authors.stream()</span><br><span class="line">        .distinct()<span class="comment">//去重</span></span><br><span class="line">        .filter(author -&gt; author.getAge() &lt; <span class="number">18</span>)<span class="comment">//筛选条件</span></span><br><span class="line">        .forEach(author -&gt; System.out.println(author.getName());<span class="comment">//遍历打印名字</span></span><br></pre></td></tr></table></figure></li>
-</ol>
-<h3 id="2-4-常用操作"><a href="#2-4-常用操作" class="headerlink" title="2.4 常用操作"></a>2.4 常用操作</h3><h4 id="2-4-1-创建流"><a href="#2-4-1-创建流" class="headerlink" title="2.4.1 创建流"></a>2.4.1 创建流</h4><ul>
-<li><p>单列结合：集合对象.stream()</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors;</span><br><span class="line">Stream&lt;Author&gt; stream = authors.stream();</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>数组：<code>Arrays.stream(数组)</code>或者使用<code>Stream.of</code>来创建</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Integer[] arr = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;;</span><br><span class="line">Stream&lt;Integer&gt; stream = Arrays.stream(arr);</span><br><span class="line">Stream&lt;Integer&gt; stream2 = Stream.of(arr);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>双列集合：转换为单列集合后再创建</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Map&lt;String,Integer&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">map.put(<span class="string">&quot;1&quot;</span>,<span class="number">1</span>);</span><br><span class="line">map.put(<span class="string">&quot;2&quot;</span>,<span class="number">2</span>);</span><br><span class="line">map.put(<span class="string">&quot;3&quot;</span>,<span class="number">3</span>);</span><br><span class="line"></span><br><span class="line">Stream&lt;Map.Entry&lt;String,Integer&gt;&gt; stream = map.entrySet().stream();</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h4 id="2-4-2-中间操作"><a href="#2-4-2-中间操作" class="headerlink" title="2.4.2 中间操作"></a>2.4.2 中间操作</h4><h5 id="filter"><a href="#filter" class="headerlink" title="filter"></a>filter</h5><ul>
-<li><p><code>function</code>：可以对流中的元素进行条件过滤，符合条件的才能继续留在流中</p>
-</li>
-<li><p>例子：打印所有姓名长度大于1的作家的姓名</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">authors.stream()</span><br><span class="line">        .filter(author -&gt; author.getName().length() &gt; <span class="number">1</span>)</span><br><span class="line">        .foreach(author -&gt; System.out.println(author.getName()));</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h5 id="map"><a href="#map" class="headerlink" title="map"></a>map</h5><ul>
-<li><p><code>function</code>：对流中的元素进行计算或转换</p>
-</li>
-<li><p>例子：打印所有作家的姓名</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">authors.stream()</span><br><span class="line">        .map(author -&gt; author.getName())</span><br><span class="line">        .forEach(name -&gt; System.out.println(name));</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h5 id="distinct"><a href="#distinct" class="headerlink" title="distinct"></a>distinct</h5><ul>
-<li><p><code>function</code>：去除流中的重复元素</p>
-</li>
-<li><p>例如：打印所有作家的姓名，并且要求其中不能有重复的元素</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">authors.stream()</span><br><span class="line">        .distinct()</span><br><span class="line">        .forEach(author -&gt; System.out.println(author.getName));</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>说明：<code>distinct</code>方法依赖<code>Object</code>的<code>equals</code>方法来判断是否是相同的对象，所以需要重写<code>equals</code></p>
-</li>
-</ul>
-<h5 id="sorted"><a href="#sorted" class="headerlink" title="sorted"></a>sorted</h5><ul>
-<li><p><code>function</code>：对流中的元素进行排序</p>
-</li>
-<li><p>例子：对流中的元素按照年龄进行降序排序，并且要求不能有重复的元素</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">authors.stream()</span><br><span class="line">        .distinct()</span><br><span class="line">        .sorted((<span class="number">01</span>,<span class="number">02</span>) -&gt; o2.getAge() - o1.getAge())</span><br><span class="line">        .forEach(author -&gt; System.out.println(author.getName()));</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>说明：调用<code>sorted</code>方法，流中的元素需要实现<code>Comparable</code></p>
-</li>
-</ul>
-<h5 id="limit"><a href="#limit" class="headerlink" title="limit"></a>limit</h5><ul>
-<li><p><code>function</code>：设置流的最大长度，超出部分将被抛弃</p>
-</li>
-<li><p>例子：对流中的元素按照年龄进行降序排序，并且要求不能有重复的元素，然后打印其中年龄最大的两个作家的名字</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">authors.stream()</span><br><span class="line">        .distinct()</span><br><span class="line">        .sorted(<span class="number">01</span>,<span class="number">02</span>) -&gt; o2.getAge() - o1.getAge())</span><br><span class="line">        .limit(<span class="number">2</span>)</span><br><span class="line">        .forEach(author -&gt; System.out.println(author.getName()));</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h5 id="skip"><a href="#skip" class="headerlink" title="skip"></a>skip</h5><ul>
-<li><p><code>function</code>：跳过流中的前n个元素，返回剩下的元素</p>
-</li>
-<li><p>例子：打印除了年龄最大的作家外的其他作家，要求不能有重复元素，并且按照年龄降序排序</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">authors.stream()</span><br><span class="line">        .distinct()</span><br><span class="line">        .sorted(<span class="number">01</span>,<span class="number">02</span>) -&gt; o2.getAge() - o1.getAge())</span><br><span class="line">        .skip(n)</span><br><span class="line">        .forEach(author -&gt; System.out.println(author.getName()));</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h5 id="flatMap"><a href="#flatMap" class="headerlink" title="flatMap"></a>flatMap</h5><ul>
-<li><p><code>function</code>：<code>map</code>只能把一个对象转换成另一个对象来作为流中的元素，<code>flatMap</code>可以把一个对象转换成多个对象作为流中的元素</p>
-</li>
-<li><p>例子一：打印所有书籍名字，要求对去重</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">authors.stream()</span><br><span class="line">        .flatMap(author -&gt; author.getBooks().stream())<span class="comment">//获取每个author中的books，同时转换为流</span></span><br><span class="line">        .distinct()</span><br><span class="line">        .forEach(book -&gt; System.out.println(book.getName()));</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>例二：打印所有数据的所有分类，对分类进行去重</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">authors.stream()</span><br><span class="line">        .flatMap(author -&gt; author.getBooks().stream())</span><br><span class="line">        .distict()</span><br><span class="line">        .flatMap(book -&gt; Arrays.stream(book.getCategory().split(<span class="string">&quot;.&quot;</span>))<span class="comment">//一个book可能对应多个分类</span></span><br><span class="line">        .distinct()</span><br><span class="line">        .forEach(category -&gt; System.out.println(category));</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h4 id="2-4-3-终结操作"><a href="#2-4-3-终结操作" class="headerlink" title="2.4.3 终结操作"></a>2.4.3 终结操作</h4><h5 id="forEach"><a href="#forEach" class="headerlink" title="forEach"></a>forEach</h5><ul>
-<li><p><code>function</code>：对流中的元素进行遍历操作</p>
-</li>
-<li><p>例子：输出所有作家的名字</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">suthors.stream()</span><br><span class="line">        .map(author -&gt; author.getName())</span><br><span class="line">        .forEach(name -&gt; System.out.println(name));</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h5 id="count"><a href="#count" class="headerlink" title="count"></a>count</h5><ul>
-<li><p><code>function</code>：获取当前流中元素的个数</p>
-</li>
-<li><p>例子：打印作家所出书籍的数目</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line"><span class="type">long</span> <span class="variable">num</span> <span class="operator">=</span> suthors.stream()</span><br><span class="line">        .flatMap(author -&gt; author.getBooks().stream())</span><br><span class="line">        .distinct()</span><br><span class="line">        .count();</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h5 id="max-min"><a href="#max-min" class="headerlink" title="max&amp;min"></a>max&amp;min</h5><ul>
-<li><p><code>function</code>：用来求流中的最值</p>
-</li>
-<li><p>例子：分别获取作家所出书籍的最高分和最低分</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">Optional&lt;Integer&gt; num = suthors.stream()</span><br><span class="line">                    .flatMap(author -&gt; author.getBooks().stream())</span><br><span class="line">                    .map(book -&gt; book.getScore())</span><br><span class="line">                    .max((o1,o2) -&gt; o2 - o1);       </span><br></pre></td></tr></table></figure></li>
-</ul>
-<h5 id="collect"><a href="#collect" class="headerlink" title="collect"></a>collect</h5><ul>
-<li><p><code>function</code>:将当前流转换成一个集合</p>
-</li>
-<li><p>例子:</p>
-<ol>
-<li><p>获取一个存放所有作者名字的list集合</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">List&lt;String&gt; list = authors.stream()</span><br><span class="line">        .map(author -&gt; author.getName())</span><br><span class="line">        .collect(Collectors.toList())</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>获取一个所有书名的<code>set</code>集合</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">Set&lt;String&gt; set = authors.stream()</span><br><span class="line">        .flatMap(author -&gt; author.getBooks().stream())</span><br><span class="line">        .collect(Collectors.toSet())</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>获取一个<code>Map</code>集合，<code>map</code>的<code>key</code>为作者名，<code>value</code>为<code>List</code></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">Map&lt;String,List&lt;Book&gt;&gt; map = authors.stream()</span><br><span class="line">        .distinct()</span><br><span class="line">        .collect(Collectors.toMap(author.getName(),author.getBooks()))</span><br></pre></td></tr></table></figure></li>
-</ol>
-</li>
-</ul>
-<h5 id="查找和匹配"><a href="#查找和匹配" class="headerlink" title="查找和匹配"></a>查找和匹配</h5><h6 id="anyMatch"><a href="#anyMatch" class="headerlink" title="anyMatch"></a>anyMatch</h6><ul>
-<li><p><code>function</code>：用来判断是否有任意符合匹配条件的元素，结果为<code>boolean</code>类型</p>
-</li>
-<li><p>例子：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line"><span class="type">boolean</span> <span class="variable">res</span> <span class="operator">=</span> authors.stream()</span><br><span class="line">        .anyMatch(author -&gt; author.getAge() &gt; <span class="number">19</span>) </span><br></pre></td></tr></table></figure></li>
-</ul>
-<h6 id="allMatch"><a href="#allMatch" class="headerlink" title="allMatch"></a>allMatch</h6><ul>
-<li><p><code>function</code>：可以用来判断是否都符合匹配的条件，结果为boolean类型，如果都符合结果为<code>true</code></p>
-</li>
-<li><p>例子：判断是否所有的作家都是成年人</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line"><span class="type">boolean</span> <span class="variable">res</span> <span class="operator">=</span> authors.stream()</span><br><span class="line">        .allMatch(author -&gt; author.getAge() &gt;= <span class="number">18</span>) </span><br></pre></td></tr></table></figure></li>
-</ul>
-<h6 id="noneMatch"><a href="#noneMatch" class="headerlink" title="noneMatch"></a>noneMatch</h6><ul>
-<li><p><code>function</code>：判断流中的元素是否都不符合匹配条件，如果都不符合结果为<code>true</code></p>
-</li>
-<li><p>例子：判断作家是否都没有超过100岁的</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line"><span class="type">boolean</span> <span class="variable">res</span> <span class="operator">=</span> authors.stream()</span><br><span class="line">        .noneMatch(author -&gt; author.getAge() &gt;= <span class="number">100</span>) </span><br></pre></td></tr></table></figure></li>
-</ul>
-<h6 id="findAny"><a href="#findAny" class="headerlink" title="findAny"></a>findAny</h6><ul>
-<li><p><code>function</code>：获取流中的任意一个元素，无法保证获取的一定是流中的第一个元素</p>
-</li>
-<li><p>例子：获取任意一个大于18的作家，如果存在就输出他的名字</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">Optional&lt;Author&gt; res = authors.stream()</span><br><span class="line">        .filter(author -&gt; author.getAge() &gt; <span class="number">18</span>)</span><br><span class="line">        .findAny() </span><br></pre></td></tr></table></figure></li>
-</ul>
-<h6 id="findFirst"><a href="#findFirst" class="headerlink" title="findFirst"></a>findFirst</h6><ul>
-<li><p><code>function</code>：获取流中第一个元素</p>
-</li>
-<li><p>例子：获取一个年龄最小的作家，并输出他的姓名</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">Optional&lt;Author&gt; res = authors.stream()</span><br><span class="line">        .sorted((o1,o2) -&gt; o1.getAge() - o2.getAge())</span><br><span class="line">        .findFirst()</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h5 id="reduce归并"><a href="#reduce归并" class="headerlink" title="reduce归并"></a>reduce归并</h5><ul>
-<li><p><code>function</code>：对流中的数据按照指定制定的计算方式计算出一个结果。<code>reduce</code>会把<code>stream</code>中元素组合起来，我们可以传入一个初始值，它会按照我们的计算方式依次拿流中的元素和在初始化值的基础上进行计算，计算的结果再和后面的元素计算。</p>
-<p>内部计算方式如下：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">T</span> <span class="variable">res</span> <span class="operator">=</span> identity;<span class="comment">//初始值</span></span><br><span class="line"><span class="keyword">for</span>(T element : <span class="built_in">this</span> stream)</span><br><span class="line">    res = accumulator.apply(res,element);</span><br><span class="line"><span class="keyword">return</span> res;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>例子：</p>
-<ol>
-<li><p>使用<code>reduce</code>求所有作者的年龄和</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line"><span class="type">Integer</span> <span class="variable">sum</span> <span class="operator">=</span> authors.stream()</span><br><span class="line">        .distinct()</span><br><span class="line">        .map(author -&gt; author.getAge())</span><br><span class="line">        .reduce(<span class="number">0</span>,(res,age) -&gt; res + age)</span><br><span class="line"><span class="comment">//0代表初始值</span></span><br></pre></td></tr></table></figure></li>
-</ol>
-</li>
-</ul>
-<ol start="2">
-<li><p>使用<code>reduce</code> 求所有作者中年龄最大值</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line"><span class="type">Integer</span> <span class="variable">max</span> <span class="operator">=</span> athors.stream()</span><br><span class="line">        .distinct()</span><br><span class="line">        .map(author -&gt; author.getAge())</span><br><span class="line">        .reduce(Integer.MIN_VALUE,(res,age) -&gt; res&gt;age ? RES : AGE)</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h4 id="使用注意"><a href="#使用注意" class="headerlink" title="使用注意"></a>使用注意</h4><ol>
-<li><p>惰性求值(如果没有终结操作，中间操作不会得到执行)</p>
-</li>
-<li><p>流是一次性的，一旦经过一个终结操作之后，这个流不能再被使用</p>
-</li>
-<li><p>不会影响原始的数据</p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>编程能力</tag>
       </tags>
   </entry>
   <entry>
