@@ -1337,6 +1337,141 @@
       </tags>
   </entry>
   <entry>
+    <title>MySQL基础</title>
+    <url>/2023/12/19/LR/</url>
+    <content><![CDATA[<h1 id="LR"><a href="#LR" class="headerlink" title="LR"></a>LR</h1><h2 id="1-修图思路"><a href="#1-修图思路" class="headerlink" title="1. 修图思路"></a>1. 修图思路</h2><ol>
+<li><p>合成</p>
+<ul>
+<li><p>曝光合成</p>
+</li>
+<li><p>全景合成</p>
+</li>
+</ul>
+</li>
+<li><p>修正</p>
+<ul>
+<li><p>裁剪构图</p>
+</li>
+<li><p>污点修复</p>
+</li>
+</ul>
+</li>
+<li><p>明暗</p>
+<ul>
+<li><p>曝光明暗</p>
+</li>
+<li><p>对比曲线</p>
+</li>
+<li><p>高光阴影</p>
+</li>
+<li><p>黑色白色</p>
+</li>
+</ul>
+</li>
+<li><p>色彩</p>
+<ul>
+<li><p>色温色调</p>
+</li>
+<li><p>分离色调</p>
+</li>
+<li><p>HSL调色、相机校准</p>
+</li>
+</ul>
+</li>
+<li><p>效果</p>
+<ul>
+<li><p>噪点颗粒</p>
+</li>
+<li><p>锐化细节</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="2-瑕疵修复与透视矫正"><a href="#2-瑕疵修复与透视矫正" class="headerlink" title="2. 瑕疵修复与透视矫正"></a>2. 瑕疵修复与透视矫正</h2><h3 id="2-1-瑕疵修复"><a href="#2-1-瑕疵修复" class="headerlink" title="2.1 瑕疵修复"></a>2.1 瑕疵修复</h3><p>        LR中修复或者仿制可以P调一些多余的物体</p>
+<h3 id="2-2-透视矫正"><a href="#2-2-透视矫正" class="headerlink" title="2.2 透视矫正"></a>2.2 透视矫正</h3><ul>
+<li><p>透视原则：近大远小</p>
+</li>
+<li><p>透视类型：</p>
+<ul>
+<li><p>一点透视：横平竖直，只有一个消失点</p>
+</li>
+<li><p>两点透视：竖线垂直+有两个消失点（横线不平行画面）</p>
+</li>
+<li><p>三点透视：画面没有横平竖直的线</p>
+</li>
+</ul>
+</li>
+<li><p>矫正方法</p>
+<ul>
+<li><p>水平：自动水平方向矫正，适合海平线&#x2F;地平线</p>
+</li>
+<li><p>垂直：自动垂直方向矫正，实现两点透视</p>
+</li>
+<li><p>完全：实现一点透视</p>
+</li>
+<li><p>引动&#x2F;自动：都可以使用，通过画水平垂直线来引导LR矫正，广角拍摄的照片最好使用边缘的建筑绘制引导线</p>
+</li>
+<li><p>手动操作调整水平垂直等</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-3-裁剪"><a href="#2-3-裁剪" class="headerlink" title="2.3 裁剪"></a>2.3 裁剪</h3><ol>
+<li><p>根据风格确认画幅比例</p>
+<ul>
+<li>电影感：2.35：1</li>
+</ul>
+</li>
+<li><p>确认画面主体元素</p>
+</li>
+<li><p>去掉无关因素</p>
+</li>
+</ol>
+<h3 id="2-4-配置文件矫正"><a href="#2-4-配置文件矫正" class="headerlink" title="2.4 配置文件矫正"></a>2.4 配置文件矫正</h3><p>镜头矫正面板：</p>
+<ol>
+<li><p>色差：紫边、绿边、老镜头明显</p>
+</li>
+<li><p>暗角：四周暗、中心亮、广角比较明显</p>
+</li>
+<li><p>扭曲度：边缘弯曲的畸变、广角桶形畸变、长焦枕形畸变</p>
+</li>
+</ol>
+<h2 id="3-明暗调整"><a href="#3-明暗调整" class="headerlink" title="3.明暗调整"></a>3.明暗调整</h2><ul>
+<li><p>曝光：影响画面的整体亮度</p>
+</li>
+<li><p>对比度：控制画面的反差(明暗的反差)</p>
+</li>
+<li><p>高光：画面中较亮部分</p>
+</li>
+<li><p>阴影：画面中较暗部分</p>
+</li>
+<li><p>白色色阶：控制画面中最亮部分</p>
+</li>
+<li><p>黑色色阶：控制画面中最暗部分</p>
+</li>
+</ul>
+<p>总结：</p>
+<ol>
+<li><p>曝光：定基调&#x2F;影调、</p>
+</li>
+<li><p>高光阴影：恢复画面细节</p>
+</li>
+<li><p>黑色白色：控制画面反差通透</p>
+</li>
+<li><p>对比度：微调反差</p>
+</li>
+</ol>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji23.jpg"></p>
+<p>注：未完待续….</p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>学习</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>拍摄指南</title>
     <url>/2023/12/17/%E6%8B%8D%E6%91%84%E6%8C%87%E5%8D%97/</url>
     <content><![CDATA[<h1 id="拍摄指南"><a href="#拍摄指南" class="headerlink" title="拍摄指南"></a>拍摄指南</h1><h2 id="1-好照片定义"><a href="#1-好照片定义" class="headerlink" title="1. 好照片定义"></a>1. 好照片定义</h2><ul>
@@ -1451,6 +1586,85 @@
 <li><p>善于利用道具、前景、光线</p>
 </li>
 </ul>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>摄影</category>
+      </categories>
+      <tags>
+        <tag>学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>拍摄模式与构图</title>
+    <url>/2023/12/10/%E6%8B%8D%E6%91%84%E6%A8%A1%E5%BC%8F%E4%B8%8E%E6%9E%84%E5%9B%BE/</url>
+    <content><![CDATA[<h1 id="拍摄模式与构图"><a href="#拍摄模式与构图" class="headerlink" title="拍摄模式与构图"></a>拍摄模式与构图</h1><h2 id="1-常用模式"><a href="#1-常用模式" class="headerlink" title="1. 常用模式"></a>1. 常用模式</h2><ul>
+<li><p>Auto：全自动模式，所有参数自己不可调节</p>
+</li>
+<li><p>P-程序曝光：可以调节感光度，其余两个不可</p>
+</li>
+<li><p>A&#x2F;AV-光圈优先：可以调节光圈或者感光度(主)</p>
+</li>
+<li><p>S&#x2F;TV-快门优先：可以调节快门和感光度，主要用于抓拍</p>
+</li>
+<li><p>M-手动曝光：三个参数都可调节</p>
+</li>
+</ul>
+<h2 id="2-背景虚化"><a href="#2-背景虚化" class="headerlink" title="2. 背景虚化"></a>2. 背景虚化</h2><p>核心四要素</p>
+<ul>
+<li><p>背景离主体远</p>
+</li>
+<li><p>相机离主体近</p>
+</li>
+<li><p>光圈较大</p>
+</li>
+<li><p>焦距较长</p>
+</li>
+</ul>
+<h2 id="3-构图核心"><a href="#3-构图核心" class="headerlink" title="3. 构图核心"></a>3. 构图核心</h2><ol>
+<li><p><strong>确认画面主体或主题</strong></p>
+</li>
+<li><p>去掉画面中与主题或主体无关的元素</p>
+</li>
+<li><p>加入突出主体或主体表达的元素并合理摆放</p>
+</li>
+</ol>
+<h2 id="4-构图法则"><a href="#4-构图法则" class="headerlink" title="4. 构图法则"></a>4. 构图法则</h2><ol>
+<li><p>视觉凝聚</p>
+<ul>
+<li><p>明亮的部分吸引视觉</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji2.jpg"></p>
+</li>
+<li><p>鲜艳&#x2F;对比色的部分吸引视觉</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji3.jpg"></p>
+</li>
+<li><p>清晰的地方更吸引视觉</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji4.jpg"></p>
+</li>
+</ul>
+</li>
+<li><p>视觉引导</p>
+<ul>
+<li><p>引导线:可以有形、可以无形</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji5.jpg"></p>
+</li>
+<li><p>视线</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji6.jpg"></p>
+</li>
+</ul>
+</li>
+<li><p>三分法：</p>
+<p>人像:人物更多在三分线焦点上，人物看的方向应该留白，留白处可稍微点缀</p>
+<p>景像:物体与水面交际线在三分线</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji7.jpg"></p>
+</li>
+<li><p>居中法：左右对称 (正式场合、庄严)</p>
+</li>
+<li><p>三角形构图：三个物体连成三角形</p>
+</li>
+<li><p>层次构图：前中后景</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji8.jpg"></p>
 </li>
 </ol>
 ]]></content>
@@ -1585,85 +1799,6 @@
 <li><p>人像可进行补光</p>
 </li>
 </ul>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>摄影</category>
-      </categories>
-      <tags>
-        <tag>学习</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>拍摄模式与构图</title>
-    <url>/2023/12/10/%E6%8B%8D%E6%91%84%E6%A8%A1%E5%BC%8F%E4%B8%8E%E6%9E%84%E5%9B%BE/</url>
-    <content><![CDATA[<h1 id="拍摄模式与构图"><a href="#拍摄模式与构图" class="headerlink" title="拍摄模式与构图"></a>拍摄模式与构图</h1><h2 id="1-常用模式"><a href="#1-常用模式" class="headerlink" title="1. 常用模式"></a>1. 常用模式</h2><ul>
-<li><p>Auto：全自动模式，所有参数自己不可调节</p>
-</li>
-<li><p>P-程序曝光：可以调节感光度，其余两个不可</p>
-</li>
-<li><p>A&#x2F;AV-光圈优先：可以调节光圈或者感光度(主)</p>
-</li>
-<li><p>S&#x2F;TV-快门优先：可以调节快门和感光度，主要用于抓拍</p>
-</li>
-<li><p>M-手动曝光：三个参数都可调节</p>
-</li>
-</ul>
-<h2 id="2-背景虚化"><a href="#2-背景虚化" class="headerlink" title="2. 背景虚化"></a>2. 背景虚化</h2><p>核心四要素</p>
-<ul>
-<li><p>背景离主体远</p>
-</li>
-<li><p>相机离主体近</p>
-</li>
-<li><p>光圈较大</p>
-</li>
-<li><p>焦距较长</p>
-</li>
-</ul>
-<h2 id="3-构图核心"><a href="#3-构图核心" class="headerlink" title="3. 构图核心"></a>3. 构图核心</h2><ol>
-<li><p><strong>确认画面主体或主题</strong></p>
-</li>
-<li><p>去掉画面中与主题或主体无关的元素</p>
-</li>
-<li><p>加入突出主体或主体表达的元素并合理摆放</p>
-</li>
-</ol>
-<h2 id="4-构图法则"><a href="#4-构图法则" class="headerlink" title="4. 构图法则"></a>4. 构图法则</h2><ol>
-<li><p>视觉凝聚</p>
-<ul>
-<li><p>明亮的部分吸引视觉</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji2.jpg"></p>
-</li>
-<li><p>鲜艳&#x2F;对比色的部分吸引视觉</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji3.jpg"></p>
-</li>
-<li><p>清晰的地方更吸引视觉</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji4.jpg"></p>
-</li>
-</ul>
-</li>
-<li><p>视觉引导</p>
-<ul>
-<li><p>引导线:可以有形、可以无形</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji5.jpg"></p>
-</li>
-<li><p>视线</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji6.jpg"></p>
-</li>
-</ul>
-</li>
-<li><p>三分法：</p>
-<p>人像:人物更多在三分线焦点上，人物看的方向应该留白，留白处可稍微点缀</p>
-<p>景像:物体与水面交际线在三分线</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji7.jpg"></p>
-</li>
-<li><p>居中法：左右对称 (正式场合、庄严)</p>
-</li>
-<li><p>三角形构图：三个物体连成三角形</p>
-</li>
-<li><p>层次构图：前中后景</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji8.jpg"></p>
 </li>
 </ol>
 ]]></content>
