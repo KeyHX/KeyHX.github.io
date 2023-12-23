@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2023-12-19T13:25:19.318Z</updated>
+  <updated>2023-12-23T01:46:11.428Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -17,11 +17,61 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>MySQL基础</title>
+    <title>方法引用</title>
+    <link href="http://example.com/2023/12/23/%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8/"/>
+    <id>http://example.com/2023/12/23/%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8/</id>
+    <published>2023-12-23T01:44:16.335Z</published>
+    <updated>2023-12-23T01:46:11.428Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;方法引用&quot;&gt;&lt;a href=&quot;#方法引用&quot; class=&quot;headerlink&quot; title=&quot;方法引用&quot;&gt;&lt;/a&gt;方法引用&lt;/h1&gt;&lt;h2 id=&quot;1-简介&quot;&gt;&lt;a href=&quot;#1-简介&quot; class=&quot;headerlink&quot; title=&quot;1.</summary>
+        
+      
+    
+    
+    
+    <category term="技术" scheme="http://example.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+    <category term="函数式编程" scheme="http://example.com/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Stream高级用法</title>
+    <link href="http://example.com/2023/12/23/Stream%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95/"/>
+    <id>http://example.com/2023/12/23/Stream%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95/</id>
+    <published>2023-12-23T01:44:16.333Z</published>
+    <updated>2023-12-23T01:46:09.732Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;Stream高级用法&quot;&gt;&lt;a href=&quot;#Stream高级用法&quot; class=&quot;headerlink&quot; title=&quot;Stream高级用法&quot;&gt;&lt;/a&gt;Stream高级用法&lt;/h1&gt;&lt;h2 id=&quot;1-基本数据类型优化&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="技术" scheme="http://example.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+    <category term="函数式编程" scheme="http://example.com/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>LR</title>
     <link href="http://example.com/2023/12/19/LR/"/>
     <id>http://example.com/2023/12/19/LR/</id>
     <published>2023-12-19T13:24:25.578Z</published>
-    <updated>2023-12-19T13:25:19.318Z</updated>
+    <updated>2023-12-23T01:48:09.799Z</updated>
     
     
       
@@ -37,16 +87,16 @@
     <category term="技术" scheme="http://example.com/categories/%E6%8A%80%E6%9C%AF/"/>
     
     
-    <category term="学习" scheme="http://example.com/tags/%E5%AD%A6%E4%B9%A0/"/>
+    <category term="修图" scheme="http://example.com/tags/%E4%BF%AE%E5%9B%BE/"/>
     
   </entry>
   
   <entry>
-    <title>函数式编程</title>
+    <title>Optional</title>
     <link href="http://example.com/2023/12/18/Optional/"/>
     <id>http://example.com/2023/12/18/Optional/</id>
     <published>2023-12-18T12:22:48.941Z</published>
-    <updated>2023-12-18T12:23:36.128Z</updated>
+    <updated>2023-12-23T01:47:51.281Z</updated>
     
     
       
@@ -62,7 +112,7 @@
     <category term="技术" scheme="http://example.com/categories/%E6%8A%80%E6%9C%AF/"/>
     
     
-    <category term="编程能力" scheme="http://example.com/tags/%E7%BC%96%E7%A8%8B%E8%83%BD%E5%8A%9B/"/>
+    <category term="函数式编程" scheme="http://example.com/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/"/>
     
   </entry>
   
@@ -96,7 +146,7 @@
     <link href="http://example.com/2023/12/17/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/"/>
     <id>http://example.com/2023/12/17/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/</id>
     <published>2023-12-17T13:52:05.463Z</published>
-    <updated>2023-12-17T14:00:55.510Z</updated>
+    <updated>2023-12-23T01:46:23.303Z</updated>
     
     
       
@@ -112,7 +162,7 @@
     <category term="技术" scheme="http://example.com/categories/%E6%8A%80%E6%9C%AF/"/>
     
     
-    <category term="编程能力" scheme="http://example.com/tags/%E7%BC%96%E7%A8%8B%E8%83%BD%E5%8A%9B/"/>
+    <category term="函数式编程" scheme="http://example.com/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/"/>
     
   </entry>
   

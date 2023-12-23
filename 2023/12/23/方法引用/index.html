@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>LR |  KeyHX</title>
+      <title>方法引用 |  KeyHX</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -54,7 +54,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-LR"
+  id="post-方法引用"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -65,7 +65,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  LR
+  方法引用
 </h1>
  
 
@@ -73,8 +73,8 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2023/12/19/LR/" class="article-date">
-  <time datetime="2023-12-19T13:24:25.578Z" itemprop="datePublished">2023-12-19</time>
+      <a href="/2023/12/23/%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8/" class="article-date">
+  <time datetime="2023-12-23T01:44:16.335Z" itemprop="datePublished">2023-12-23</time>
 </a> 
   <div class="article-category">
     <a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
@@ -85,7 +85,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">1.2k</span>
+            <span class="post-count">697</span>
         </span>
     </span>
 
@@ -94,7 +94,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">4 min</span>
+            <span class="post-count">2 min</span>
         </span>
     </span>
 </div>
@@ -109,292 +109,51 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h1 id="LR"><a href="#LR" class="headerlink" title="LR"></a>LR</h1><h2 id="1-修图思路"><a href="#1-修图思路" class="headerlink" title="1. 修图思路"></a>1. 修图思路</h2><ol>
-<li><p>合成</p>
+  <h1 id="方法引用"><a href="#方法引用" class="headerlink" title="方法引用"></a>方法引用</h1><h2 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h2><p>        在使用<code>lambda</code>时，如果方法体中只有一个方法的调用，可以使用方法引用进一步简化代码</p>
+<h2 id="2-推荐用法"><a href="#2-推荐用法" class="headerlink" title="2. 推荐用法"></a>2. 推荐用法</h2><p>        在写完<code>lambda</code>方法时发现方法体只有一行代码，并且是方法的调用时使用快捷键尝试是否能够转换成方法引用即可。</p>
+<h2 id="3-基本格式"><a href="#3-基本格式" class="headerlink" title="3. 基本格式"></a>3. 基本格式</h2><p>        类名或者对象名::方法名</p>
+<h2 id="4-语法详解"><a href="#4-语法详解" class="headerlink" title="4. 语法详解"></a>4. 语法详解</h2><h3 id="4-1-引用静态方法"><a href="#4-1-引用静态方法" class="headerlink" title="4.1 引用静态方法"></a>4.1 引用静态方法</h3><ul>
+<li><p>其实就是引用类的静态方法</p>
+</li>
+<li><p>格式：类名::方法名</p>
+</li>
+<li><p>使用前提：在重写方法的时候，方法体中<strong>只有一行代码</strong>，并且<strong>这行代码调用了某个类的静态方法</strong>，并且我们把要重写的<strong>抽象方法中的所有的参数都按照顺序传入了这个静态方法</strong></p>
+</li>
+<li><p>例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">Stream&lt;Author&gt; authorStream = authors.stream();</span><br><span class="line">author.map(author -&gt; author.getAge())</span><br><span class="line">       .map(age -&gt; String.valueOf(age));</span><br></pre></td></tr></table></figure>
+
+<p>优化后：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">author.map(author -&gt; author.getAge())</span><br><span class="line">       .map(String::valueOf);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="4-2-引用对象的实例方法"><a href="#4-2-引用对象的实例方法" class="headerlink" title="4.2 引用对象的实例方法"></a>4.2 引用对象的实例方法</h3><ul>
+<li><p>格式：对象名::方法名</p>
+</li>
+<li><p>使用前提：在重写方法的时候，方法体中<strong>只有一行代码</strong>，并且这行代码是<strong>调用了某个对象的成员方法</strong>，并且把要<strong>重写的抽象方法中所有参数都按照顺序传入了这个成员方法中</strong>，这时候可以引用对象的实例方法</p>
+</li>
+<li><p>例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">Stream&lt;Author&gt; authorStream = authors.stream();</span><br><span class="line"><span class="type">StringBuilder</span> <span class="variable">sb</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">authorStream.map(author -&gt; author.getName())</span><br><span class="line">            .forEach(name -&gt; sb.append(name));</span><br></pre></td></tr></table></figure>
+
+<p>优化后：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">authorStream.map(author -&gt; author.getName())</span><br><span class="line">            .forEach(sb::append);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="4-3-引用类的实例方法"><a href="#4-3-引用类的实例方法" class="headerlink" title="4.3 引用类的实例方法"></a>4.3 引用类的实例方法</h3><ul>
+<li><p>格式：类名::方法名</p>
+</li>
+<li><p>使用前提：在重写方法的时候，方法体中<strong>只有一行代码</strong>，并且这行代码<strong>调用了第一个参数的成员方法</strong>，并且<strong>重写的抽象方法中剩余的所有的参数都按照顺序传入了这个成员方法中</strong>，这个时候可以引用类的实例方法</p>
+</li>
+</ul>
+<h3 id="4-4-构造器引用"><a href="#4-4-构造器引用" class="headerlink" title="4.4 构造器引用"></a>4.4 构造器引用</h3><p>        如果方法体中的一行代码是构造器的话可以使用构造器引用</p>
 <ul>
-<li><p>曝光合成</p>
+<li><p>格式：类名::new</p>
 </li>
-<li><p>全景合成</p>
+<li><p>使用前提：在重写方法的时候，方法体中<strong>只有一行代码</strong>，并且这行代码是<strong>调用了某个类的构造方法</strong>，并且把<strong>要重写的抽象方法中的所有参数都按照顺序传入了这个构造方法中</strong>，这时候就可以使用引用构造</p>
 </li>
+<li><p>例如</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">authors.stream()</span><br><span class="line">        .map(author -&gt; author.getName())</span><br><span class="line">        .map(name -&gt; <span class="keyword">new</span> <span class="title class_">StringBuilder</span>(name))</span><br><span class="line">        .map(sb -&gt; sb.append(<span class="string">&quot;三更&quot;</span>).toString())</span><br><span class="line">        .forEach(str -&gt; System.out.println(str));</span><br></pre></td></tr></table></figure>
+
+<p>优化后:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">authors.stream()</span><br><span class="line">        .map(Author::getName)</span><br><span class="line">        .map(StringBuilder::<span class="keyword">new</span>)</span><br><span class="line">        .map(sb -&gt; sb.append(<span class="string">&quot;三更&quot;</span>).toString())</span><br><span class="line">        .forEach(System.out::println);</span><br></pre></td></tr></table></figure></li>
 </ul>
-</li>
-<li><p>修正</p>
-<ul>
-<li><p>裁剪构图</p>
-</li>
-<li><p>污点修复</p>
-</li>
-</ul>
-</li>
-<li><p>明暗</p>
-<ul>
-<li><p>曝光明暗</p>
-</li>
-<li><p>对比曲线</p>
-</li>
-<li><p>高光阴影</p>
-</li>
-<li><p>黑色白色</p>
-</li>
-</ul>
-</li>
-<li><p>色彩</p>
-<ul>
-<li><p>色温色调</p>
-</li>
-<li><p>分离色调</p>
-</li>
-<li><p>HSL调色、相机校准</p>
-</li>
-</ul>
-</li>
-<li><p>效果</p>
-<ul>
-<li><p>噪点颗粒</p>
-</li>
-<li><p>锐化细节</p>
-</li>
-</ul>
-</li>
-</ol>
-<h2 id="2-瑕疵修复与透视矫正"><a href="#2-瑕疵修复与透视矫正" class="headerlink" title="2. 瑕疵修复与透视矫正"></a>2. 瑕疵修复与透视矫正</h2><h3 id="2-1-瑕疵修复"><a href="#2-1-瑕疵修复" class="headerlink" title="2.1 瑕疵修复"></a>2.1 瑕疵修复</h3><p>        LR中修复或者仿制可以P调一些多余的物体</p>
-<h3 id="2-2-透视矫正"><a href="#2-2-透视矫正" class="headerlink" title="2.2 透视矫正"></a>2.2 透视矫正</h3><ul>
-<li><p>透视原则：近大远小</p>
-</li>
-<li><p>透视类型：</p>
-<ul>
-<li><p>一点透视：横平竖直，只有一个消失点</p>
-</li>
-<li><p>两点透视：竖线垂直+有两个消失点（横线不平行画面）</p>
-</li>
-<li><p>三点透视：画面没有横平竖直的线</p>
-</li>
-</ul>
-</li>
-<li><p>矫正方法</p>
-<ul>
-<li><p>水平：自动水平方向矫正，适合海平线&#x2F;地平线</p>
-</li>
-<li><p>垂直：自动垂直方向矫正，实现两点透视</p>
-</li>
-<li><p>完全：实现一点透视</p>
-</li>
-<li><p>引动&#x2F;自动：都可以使用，通过画水平垂直线来引导LR矫正，广角拍摄的照片最好使用边缘的建筑绘制引导线</p>
-</li>
-<li><p>手动操作调整水平垂直等</p>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="2-3-裁剪"><a href="#2-3-裁剪" class="headerlink" title="2.3 裁剪"></a>2.3 裁剪</h3><ol>
-<li><p>根据风格确认画幅比例</p>
-<ul>
-<li>电影感：2.35：1</li>
-</ul>
-</li>
-<li><p>确认画面主体元素</p>
-</li>
-<li><p>去掉无关因素</p>
-</li>
-</ol>
-<h3 id="2-4-配置文件矫正"><a href="#2-4-配置文件矫正" class="headerlink" title="2.4 配置文件矫正"></a>2.4 配置文件矫正</h3><p>镜头矫正面板：</p>
-<ol>
-<li><p>色差：紫边、绿边、老镜头明显</p>
-</li>
-<li><p>暗角：四周暗、中心亮、广角比较明显</p>
-</li>
-<li><p>扭曲度：边缘弯曲的畸变、广角桶形畸变、长焦枕形畸变</p>
-</li>
-</ol>
-<h2 id="3-明暗调整"><a href="#3-明暗调整" class="headerlink" title="3.明暗调整"></a>3.明暗调整</h2><ul>
-<li><p>曝光：影响画面的整体亮度</p>
-</li>
-<li><p>对比度：控制画面的反差(明暗的反差)</p>
-</li>
-<li><p>高光：画面中较亮部分</p>
-</li>
-<li><p>阴影：画面中较暗部分</p>
-</li>
-<li><p>白色色阶：控制画面中最亮部分</p>
-</li>
-<li><p>黑色色阶：控制画面中最暗部分</p>
-</li>
-</ul>
-<p>总结：</p>
-<ol>
-<li><p>曝光：定基调&#x2F;影调、</p>
-</li>
-<li><p>高光阴影：恢复画面细节</p>
-</li>
-<li><p>黑色白色：控制画面反差通透</p>
-</li>
-<li><p>对比度：微调反差</p>
-</li>
-</ol>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji23.jpg"></p>
-<h2 id="4-色彩调整"><a href="#4-色彩调整" class="headerlink" title="4. 色彩调整"></a>4. 色彩调整</h2><ul>
-<li><p>加色模型：三原色RGB，三个颜色两两形成的是二次色，是自发光体</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji24.jpg"></p>
-</li>
-<li><p>减色模型：C(青色)M(品红色)Y(黄色)</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji256.jpg"></p>
-</li>
-<li><p>加色模型的二次色是减色模型CMY的原色</p>
-<p>减色模型的三原色是加色模型RGB的三原色</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji25.jpg"></p>
-<p>支持色(相邻色)：比如说青色是蓝色和绿色的相邻色，通过增加青色和蓝色可以增加画面中绿色的纯度，相当于支持性的作用，一般想增加某个颜色的鲜艳和纯净程度，就可以增加相邻色</p>
-<p>互补色(消色)：用来抵消某个颜色的纯度，一般在图表上成对立关系，比如黄色和蓝色，如果想减少蓝色，就可以增加黄色</p>
-</li>
-<li><p>HSL模型：色相&#x2F;饱和度&#x2F;明度</p>
-<ul>
-<li><p>色相：表明颜色种类</p>
-</li>
-<li><p>饱和度：颜色的鲜艳程度</p>
-</li>
-<li><p>明度：表示暗色和亮色</p>
-</li>
-</ul>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji26.jpg"></p>
-</li>
-<li><p>对应LR操作</p>
-<ul>
-<li><p>色温：影响画面的蓝&#x2F;黄色彩倾向</p>
-</li>
-<li><p>色调：影响画面青&#x2F;品色彩倾向</p>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="5-局部调整"><a href="#5-局部调整" class="headerlink" title="5. 局部调整"></a>5. 局部调整</h2><ul>
-<li><p>局部调整工具</p>
-<ul>
-<li><p>智能选择</p>
-<ul>
-<li><p>选择主体</p>
-</li>
-<li><p>选择天空</p>
-</li>
-<li><p>选择背景</p>
-</li>
-<li><p>选择人物</p>
-</li>
-<li><p>对象选择</p>
-</li>
-</ul>
-</li>
-<li><p>区域选择</p>
-<ul>
-<li><p>画笔</p>
-</li>
-<li><p>线性渐变</p>
-</li>
-<li><p>径向渐变</p>
-</li>
-</ul>
-</li>
-<li><p>范围选择</p>
-<ul>
-<li><p>明亮度范围</p>
-</li>
-<li><p>色彩范围</p>
-</li>
-<li><p>景深范围</p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="6-噪点与锐化"><a href="#6-噪点与锐化" class="headerlink" title="6. 噪点与锐化"></a>6. 噪点与锐化</h2><ol>
-<li><p>噪点</p>
-<p>噪点是画面中一些白色或者彩色的颗粒，通常是因为高ISO拍摄或者大幅度欠曝提升阴影而产生的</p>
-<ul>
-<li><p>明度噪点：白色颗粒</p>
-</li>
-<li><p>色彩噪点：红绿蓝彩色颗粒</p>
-</li>
-</ul>
-</li>
-<li><p>科学降噪</p>
-<ul>
-<li><p>明度噪点：使用细节中的明亮度，值越大效果越好，但是画面细节也会缺失</p>
-</li>
-<li><p>色彩噪点：使用细节中的颜色</p>
-</li>
-</ul>
-</li>
-<li><p>使用插件降噪</p>
-<p><code>DeNoise Al</code>可参考杰夫流程2.0</p>
-</li>
-<li><p>胶片感照片</p>
-<p>效果中添加颗粒</p>
-</li>
-<li><p>锐化</p>
-<ul>
-<li><p>定义：增加了对边缘细小对比，让线条变得更加清晰</p>
-</li>
-<li><p>操作：基本面板纹理和细节面板</p>
-<p>细节面板：</p>
-<ol>
-<li><p>数量：为0关闭锐化，数值大锐化效果越强烈</p>
-</li>
-<li><p>细节半径一般默认：半径控制大纹理还是小纹理锐化，细节很多的照片需要小半径。细节是对物体边缘的强调程度，值越大画面边缘越明显</p>
-</li>
-<li><p>蒙版：控制画面哪个地方需要被锐化，通过alt调整观察，白色是会被锐化掉的细节，黑色不会</p>
-</li>
-</ol>
-</li>
-<li><p>锐化步骤</p>
-<ol>
-<li><p>初步锐化</p>
-<ul>
-<li><p>纹理&#x2F;清晰度</p>
-</li>
-<li><p>适度提升</p>
-</li>
-</ul>
-</li>
-<li><p>精细锐化</p>
-<ul>
-<li><p>锐化面板</p>
-</li>
-<li><p>调整蒙版</p>
-</li>
-</ul>
-</li>
-<li><p>输出锐化</p>
-<ul>
-<li><p>选择介质：屏幕</p>
-</li>
-<li><p>选择程度</p>
-</li>
-</ul>
-</li>
-</ol>
-</li>
-<li><p>去朦胧</p>
-<ul>
-<li>正向提升可以去除雾霾感，让更面更通透，但是画面饱和度和对比度会变高</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>导出</p>
-<ul>
-<li><p>右键导出</p>
-<ul>
-<li><p>适当提升文件质量</p>
-</li>
-<li><p>调整大小，一般长边三千</p>
-</li>
-<li><p>选择输出锐化</p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<h2 id="7-曝光合成和全景合成"><a href="#7-曝光合成和全景合成" class="headerlink" title="7. 曝光合成和全景合成"></a>7. 曝光合成和全景合成</h2><p>注：未完待续….</p>
  
       <!-- reward -->
       
@@ -465,12 +224,12 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2023/12/19/LR/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2023/12/23/%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BF%AE%E5%9B%BE/" rel="tag">修图</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" rel="tag">函数式编程</a></li></ul>
 
     </footer>
   </div>
@@ -478,19 +237,10 @@
    
   <nav class="article-nav">
     
+    
       <a href="/2023/12/23/Stream%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            Stream高级用法
-          
-        </div>
-      </a>
-    
-    
-      <a href="/2023/12/18/Optional/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">Optional</div>
+        <div class="article-nav-title">Stream高级用法</div>
       </a>
     
   </nav>
