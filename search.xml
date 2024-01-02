@@ -675,6 +675,32 @@
       </tags>
   </entry>
   <entry>
+    <title>Stream高级用法</title>
+    <url>/2023/12/23/Stream%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="Stream高级用法"><a href="#Stream高级用法" class="headerlink" title="Stream高级用法"></a>Stream高级用法</h1><h2 id="1-基本数据类型优化"><a href="#1-基本数据类型优化" class="headerlink" title="1. 基本数据类型优化"></a>1. 基本数据类型优化</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Authors&gt; authors = getAuthors();</span><br><span class="line">authors.stream</span><br><span class="line">        .map(author -&gt; author.getAge())</span><br><span class="line">        .map(age -&gt; age + <span class="number">10</span>)</span><br><span class="line">        .filter(age -&gt; age &gt; <span class="number">10</span>)    </span><br><span class="line">        .map(age -&gt; age + <span class="number">2</span>)</span><br><span class="line">        .forEach(System.out::println)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>问题：在对<code>age</code>进行加减比较操作的时候，首先需要转换为<code>Integer</code>类型，然后进行一些操作，操作完毕之后还需要转换为<code>Integer</code>类型，在数据量较大的时候需要耗费较大的时间。</p>
+</li>
+<li><p>优化：<code>mapToInt、mapToLong、mapToDouble、flatMapToInt、flatMapToDouble</code>等</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Authors&gt; authors = getAuthors();</span><br><span class="line">authors.stream</span><br><span class="line">        .mapToInt(author -&gt; author.getAge())<span class="comment">//经历这一步之后流中元素都是int类型</span></span><br><span class="line">        .map(age -&gt; age + <span class="number">10</span>)</span><br><span class="line">        .filter(age -&gt; age &gt; <span class="number">10</span>)    </span><br><span class="line">        .map(age -&gt; age + <span class="number">2</span>)</span><br><span class="line">        .forEach(System.out::println)</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-并行流"><a href="#2-并行流" class="headerlink" title="2. 并行流"></a>2. 并行流</h2><p>        当流中有大量元素的时候，我们可以使用并行流去提高操作的效率，本质就是把任务分配给多个线程去完成。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Stream&lt;Integer&gt; stream = Stream.of(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>)</span><br><span class="line"><span class="type">Integer</span> <span class="variable">sum</span> <span class="operator">=</span> stream.filter(num -&gt; num &gt; <span class="number">5</span>)</span><br><span class="line">        .reduce((res,ele) -&gt; res + ele)<span class="comment">//结果是Optional类型</span></span><br><span class="line">        .get();</span><br></pre></td></tr></table></figure>
+
+<p>优化：<code>parallel</code>可以将串行流变为并行流</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Stream&lt;Integer&gt; stream = Stream.of(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>)</span><br><span class="line"><span class="type">Integer</span> <span class="variable">sum</span> <span class="operator">=</span> stream.parallel() <span class="comment">//变为并行流</span></span><br><span class="line">        .filter(num -&gt; num &gt; <span class="number">5</span>)</span><br><span class="line">        .reduce((res,ele) -&gt; res + ele)<span class="comment">//结果是Optional类型</span></span><br><span class="line">        .get();</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>函数式编程</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Redis</title>
     <url>/2023/12/09/Redis/</url>
     <content><![CDATA[<h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><h2 id="1-NoSQL数据库简介"><a href="#1-NoSQL数据库简介" class="headerlink" title="1. NoSQL数据库简介"></a>1. NoSQL数据库简介</h2><h3 id="1-1-技术发展"><a href="#1-1-技术发展" class="headerlink" title="1.1 技术发展"></a>1.1 技术发展</h3><ol>
@@ -1442,291 +1468,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Stream高级用法</title>
-    <url>/2023/12/23/Stream%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="Stream高级用法"><a href="#Stream高级用法" class="headerlink" title="Stream高级用法"></a>Stream高级用法</h1><h2 id="1-基本数据类型优化"><a href="#1-基本数据类型优化" class="headerlink" title="1. 基本数据类型优化"></a>1. 基本数据类型优化</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Authors&gt; authors = getAuthors();</span><br><span class="line">authors.stream</span><br><span class="line">        .map(author -&gt; author.getAge())</span><br><span class="line">        .map(age -&gt; age + <span class="number">10</span>)</span><br><span class="line">        .filter(age -&gt; age &gt; <span class="number">10</span>)    </span><br><span class="line">        .map(age -&gt; age + <span class="number">2</span>)</span><br><span class="line">        .forEach(System.out::println)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>问题：在对<code>age</code>进行加减比较操作的时候，首先需要转换为<code>Integer</code>类型，然后进行一些操作，操作完毕之后还需要转换为<code>Integer</code>类型，在数据量较大的时候需要耗费较大的时间。</p>
-</li>
-<li><p>优化：<code>mapToInt、mapToLong、mapToDouble、flatMapToInt、flatMapToDouble</code>等</p>
-</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Authors&gt; authors = getAuthors();</span><br><span class="line">authors.stream</span><br><span class="line">        .mapToInt(author -&gt; author.getAge())<span class="comment">//经历这一步之后流中元素都是int类型</span></span><br><span class="line">        .map(age -&gt; age + <span class="number">10</span>)</span><br><span class="line">        .filter(age -&gt; age &gt; <span class="number">10</span>)    </span><br><span class="line">        .map(age -&gt; age + <span class="number">2</span>)</span><br><span class="line">        .forEach(System.out::println)</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-并行流"><a href="#2-并行流" class="headerlink" title="2. 并行流"></a>2. 并行流</h2><p>        当流中有大量元素的时候，我们可以使用并行流去提高操作的效率，本质就是把任务分配给多个线程去完成。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Stream&lt;Integer&gt; stream = Stream.of(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>)</span><br><span class="line"><span class="type">Integer</span> <span class="variable">sum</span> <span class="operator">=</span> stream.filter(num -&gt; num &gt; <span class="number">5</span>)</span><br><span class="line">        .reduce((res,ele) -&gt; res + ele)<span class="comment">//结果是Optional类型</span></span><br><span class="line">        .get();</span><br></pre></td></tr></table></figure>
-
-<p>优化：<code>parallel</code>可以将串行流变为并行流</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Stream&lt;Integer&gt; stream = Stream.of(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>)</span><br><span class="line"><span class="type">Integer</span> <span class="variable">sum</span> <span class="operator">=</span> stream.parallel() <span class="comment">//变为并行流</span></span><br><span class="line">        .filter(num -&gt; num &gt; <span class="number">5</span>)</span><br><span class="line">        .reduce((res,ele) -&gt; res + ele)<span class="comment">//结果是Optional类型</span></span><br><span class="line">        .get();</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>函数式编程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>拍摄指南</title>
-    <url>/2023/12/17/%E6%8B%8D%E6%91%84%E6%8C%87%E5%8D%97/</url>
-    <content><![CDATA[<h1 id="拍摄指南"><a href="#拍摄指南" class="headerlink" title="拍摄指南"></a>拍摄指南</h1><h2 id="1-好照片定义"><a href="#1-好照片定义" class="headerlink" title="1. 好照片定义"></a>1. 好照片定义</h2><ul>
-<li><p>有明确的主题</p>
-</li>
-<li><p>突出的主体&#x2F;兴趣点</p>
-</li>
-<li><p>简洁的画面&#x2F;好看的形式</p>
-</li>
-<li><p>细节完成度高</p>
-</li>
-</ul>
-<h2 id="2-优秀作品论坛"><a href="#2-优秀作品论坛" class="headerlink" title="2. 优秀作品论坛"></a>2. 优秀作品论坛</h2><ul>
-<li><p>500PX.ME</p>
-</li>
-<li><p>35PHOTO.PRO</p>
-</li>
-<li><p>1X.COM</p>
-</li>
-</ul>
-<h2 id="3-照片分析要点"><a href="#3-照片分析要点" class="headerlink" title="3. 照片分析要点"></a>3. 照片分析要点</h2><ol>
-<li><p>内容</p>
-<ul>
-<li>内容&#x2F;观感</li>
-</ul>
-</li>
-<li><p>形式</p>
-<ul>
-<li><p>视觉引导</p>
-<ul>
-<li><p>引导线</p>
-</li>
-<li><p>明暗引导</p>
-</li>
-</ul>
-</li>
-<li><p>影调(明暗)</p>
-</li>
-<li><p>色彩(色调)</p>
-<ul>
-<li><p>色彩倾向：低饱和 冷色</p>
-</li>
-<li><p>色彩搭配：单色 不同明度的蓝色</p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>技巧</p>
-<ul>
-<li><p>策划：主题、时间、天气、地点</p>
-</li>
-<li><p>前期：器材、取景构图、曝光、光线、虚实</p>
-</li>
-<li><p>后期：合成、曲线、磨皮</p>
-</li>
-</ul>
-</li>
-<li><p>器材</p>
-</li>
-</ol>
-<h2 id="4-自然风光拍摄"><a href="#4-自然风光拍摄" class="headerlink" title="4. 自然风光拍摄"></a>4. 自然风光拍摄</h2><ol>
-<li><p>风光摄影拍摄流程(部分)</p>
-<ul>
-<li>确定目的地、机位、机位适合的天气</li>
-</ul>
-</li>
-<li><p>技巧与题材</p>
-<ul>
-<li><p>通用参数套路</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji18.jpg"></p>
-</li>
-<li><p>题材</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji19.jpg"></p>
-</li>
-</ul>
-</li>
-</ol>
-<h2 id="5-城市风光"><a href="#5-城市风光" class="headerlink" title="5. 城市风光"></a>5. 城市风光</h2><ol>
-<li><p>参数和自然风光一致</p>
-</li>
-<li><p>如何拍摄出好看的星芒</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji20.jpg"></p>
-<ul>
-<li>小光圈：F11以上</li>
-</ul>
-</li>
-<li><p>如何拍摄好看的长曝光？</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji21.jpg"></p>
-<ul>
-<li><p>以车轨为例</p>
-<ul>
-<li><p>曝光时间尽量较长：让车轨可以铺满画面</p>
-</li>
-<li><p>尽量多拍摄几张：方便后期挑选和堆栈</p>
-</li>
-<li><p>多次拍摄来车方向</p>
-</li>
-<li><p>可以搭配ND镜使用</p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<h2 id="6-人像"><a href="#6-人像" class="headerlink" title="6. 人像"></a>6. 人像</h2><ol>
-<li><p>技巧</p>
-<ul>
-<li><p>通用参数套路</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/%E7%9B%B8%E6%9C%BA22.jpg"></p>
-</li>
-<li><p>善于利用道具、前景、光线</p>
-</li>
-</ul>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>摄影</category>
-      </categories>
-      <tags>
-        <tag>学习</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>曝光</title>
-    <url>/2023/12/10/%E6%91%84%E5%BD%B1%E4%B9%8B%E6%9B%9D%E5%85%89/</url>
-    <content><![CDATA[<h1 id="曝光"><a href="#曝光" class="headerlink" title="曝光"></a>曝光</h1><h2 id="1-何为正确曝光"><a href="#1-何为正确曝光" class="headerlink" title="1. 何为正确曝光"></a>1. 何为正确曝光</h2><p>两大评价标准</p>
-<ol>
-<li><p>主观感受</p>
-</li>
-<li><p>直方图</p>
-</li>
-</ol>
-<h2 id="2-主观感受判断标准"><a href="#2-主观感受判断标准" class="headerlink" title="2. 主观感受判断标准"></a>2. 主观感受判断标准</h2><ol>
-<li><p>主体元素正确曝光:确保拍摄主体正确曝光，其余元素过曝可以接受</p>
-</li>
-<li><p>场景的观感还原</p>
-</li>
-<li><p>暗部不死黑，亮部不死白</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji1.jpg"></p>
-</li>
-</ol>
-<h2 id="3-曝光三要素"><a href="#3-曝光三要素" class="headerlink" title="3. 曝光三要素"></a>3. 曝光三要素</h2><p>3.1 三要素：光圈、快门、感光度(ISO)</p>
-<p>3.2 光圈(Aperture)</p>
-<ul>
-<li><p>光圈F值&#x3D;焦距&#x2F;通光孔径</p>
-</li>
-<li><p>大光圈(F值小)：小景深(清晰的单位很小)、进光量更多、背景虚化</p>
-</li>
-<li><p>小光圈(F值大)：大景深(远近都清晰)、进光量更少、远近都清晰</p>
-</li>
-</ul>
-<p>3.3 快门(Shutter Speed)</p>
-<ul>
-<li><p>值大：长曝光、进光量更多、记录轨迹</p>
-</li>
-<li><p>值小：断曝光、进光量更少、凝固瞬间</p>
-</li>
-</ul>
-<p>3.4 感光度(ISO)</p>
-<ul>
-<li><p>值小：对光线不敏感、明亮场景使用、高画质</p>
-</li>
-<li><p>值大：对光线敏感、昏暗场景使用、低画质</p>
-</li>
-</ul>
-<p>3.5 三者关系</p>
-<ul>
-<li><p>曝光互易率：可以通过调节三者的参数，使获得相同的曝光水平</p>
-</li>
-<li><p>光圈相邻参数之间是根号两倍的关系，每差一档光圈，相当于差两档亮度</p>
-</li>
-<li><p>快门相邻参数之间是两倍关系，每一档快门也是差了两档的亮度</p>
-</li>
-<li><p>ISO之间也是两倍关系，每差一档感光度也是差了两档亮度</p>
-</li>
-<li><p>总结：某一个参数向一个方向调了n档，则另一个参数，向另外一个方向去调n档可保持曝光不变</p>
-</li>
-</ul>
-<h2 id="4-影调"><a href="#4-影调" class="headerlink" title="4. 影调"></a>4. 影调</h2><ol>
-<li><p>何为影调</p>
-<p>画面中明暗的艺术化氛围化的体现</p>
-</li>
-<li><p>影调分类</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji9.jpg"></p>
-<p>低调又可以分为三种</p>
-<ul>
-<li><p>低短调</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji10.jpg"></p>
-</li>
-<li><p>低中调</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji11.jpg"></p>
-</li>
-<li><p>低长调</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji12.jpg"></p>
-</li>
-</ul>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji13.jpg"></p>
-</li>
-<li><p>影调量化</p>
-<ul>
-<li><p>直方图<img src="C:\Users\AIERXUAN\AppData\Roaming\marktext\images\2023-12-10-21-13-01-image.png"></p>
-<ul>
-<li><p>低调：主要像素集中在左侧</p>
-</li>
-<li><p>中间调：主要像素集中在中间</p>
-</li>
-<li><p>高调：主要像素集中在右侧</p>
-</li>
-</ul>
-</li>
-<li><p>直方图判断曝光</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji15.jpg"></p>
-</li>
-</ul>
-</li>
-</ol>
-<h2 id="5-最佳曝光方式"><a href="#5-最佳曝光方式" class="headerlink" title="5. 最佳曝光方式"></a>5. 最佳曝光方式</h2><ol>
-<li><p>向右曝光：<strong>画面直方图</strong>的右边尽可能贴近右边缘，但是不被切断。</p>
-<p>好处：前期拍摄记录更多画面细节，以便后期画面噪点更少</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji16.jpg"></p>
-</li>
-</ol>
-<h2 id="6-大光比处理"><a href="#6-大光比处理" class="headerlink" title="6. 大光比处理"></a>6. 大光比处理</h2><ol>
-<li><p>何为大光比</p>
-<ul>
-<li><p>明暗反差大(最亮与最暗)，容易出现过曝欠曝情况</p>
-</li>
-<li><p>直方图体现：暗部和亮部有大量的像素堆积，中间凹进去，两头突出</p>
-</li>
-</ul>
-</li>
-<li><p>场景</p>
-<p>日出、日落、夜晚城市灯光…</p>
-</li>
-<li><p>应对方式</p>
-<ul>
-<li><p>曝光合成(包围曝光、HDR)</p>
-<ul>
-<li>原理：在不同的曝光范围内拍摄多张，让相机宽容度覆盖不同的动态范围，后期合成</li>
-</ul>
-</li>
-<li><p>前期欠曝、后期提亮</p>
-</li>
-<li><p>人像可进行补光</p>
-</li>
-</ul>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>摄影</category>
-      </categories>
-      <tags>
-        <tag>学习</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>MyBatis</title>
     <url>/2022/04/11/MyBatis/</url>
     <content><![CDATA[<h2 id="一、MyBatis简介"><a href="#一、MyBatis简介" class="headerlink" title="一、MyBatis简介"></a>一、MyBatis简介</h2><h3 id="1、MyBatis特性"><a href="#1、MyBatis特性" class="headerlink" title="1、MyBatis特性"></a>1、MyBatis特性</h3><ol>
@@ -2284,7 +2025,7 @@
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CacheMapperTest</span> &#123;</span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testCache</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="type">SqlSession</span> <span class="variable">sqlSession1</span> <span class="operator">=</span> SQLSessionUtils.getSQLSession();</span><br><span class="line">        <span class="type">CacheMapper</span> <span class="variable">mapper1</span> <span class="operator">=</span> sqlSession1.getMapper(CacheMapper.class);</span><br><span class="line">        <span class="type">Emp</span> <span class="variable">emp1</span> <span class="operator">=</span> mapper1.getEmpByEid(<span class="number">1</span>);</span><br><span class="line">        System.out.println(emp1);</span><br><span class="line">        <span class="type">CacheMapper</span> <span class="variable">mapper2</span> <span class="operator">=</span> sqlSession1.getMapper(CacheMapper.class);</span><br><span class="line">        <span class="type">Emp</span> <span class="variable">emp2</span> <span class="operator">=</span> mapper2.getEmpByEid(<span class="number">1</span>);</span><br><span class="line">        System.out.println(emp2);</span><br><span class="line"></span><br><span class="line">        <span class="type">SqlSession</span> <span class="variable">sqlSession2</span> <span class="operator">=</span> SQLSessionUtils.getSQLSession();</span><br><span class="line">        <span class="type">CacheMapper</span> <span class="variable">mapper3</span> <span class="operator">=</span> sqlSession2.getMapper(CacheMapper.class);</span><br><span class="line">        <span class="type">Emp</span> <span class="variable">empByEid</span> <span class="operator">=</span> mapper3.getEmpByEid(<span class="number">1</span>);</span><br><span class="line">        System.out.println(empByEid);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>执行结果</p>
-<p>DEBUG 04-14 11:24:47,487 &#x3D;&#x3D;&gt;  Preparing: select * from t_emp where eid &#x3D; ? (BaseJdbcLogger.java:137)<br>DEBUG 04-14 11:24:47,506 &#x3D;&#x3D;&gt; Parameters: 1(Integer) (BaseJdbcLogger.java:137)<br>DEBUG 04-14 11:24:47,521 &lt;&#x3D;&#x3D;      Total: 1 (BaseJdbcLogger.java:137)<br>Emp{eid&#x3D;1, empName&#x3D;’张三’, age&#x3D;1, sex&#x3D;’男’, email&#x3D;‘<a href="mailto:&#49;&#50;&#51;&#x40;&#113;&#113;&#46;&#x63;&#x6f;&#109;">&#49;&#50;&#51;&#x40;&#113;&#113;&#46;&#x63;&#x6f;&#109;</a>‘, dept&#x3D;null}<br>Emp{eid&#x3D;1, empName&#x3D;’张三’, age&#x3D;1, sex&#x3D;’男’, email&#x3D;‘<a href="mailto:&#x31;&#x32;&#51;&#x40;&#113;&#x71;&#46;&#x63;&#111;&#x6d;">&#x31;&#x32;&#51;&#x40;&#113;&#x71;&#46;&#x63;&#111;&#x6d;</a>‘, dept&#x3D;null}<br>DEBUG 04-14 11:24:47,593 &#x3D;&#x3D;&gt;  Preparing: select * from t_emp where eid &#x3D; ? (BaseJdbcLogger.java:137)<br>DEBUG 04-14 11:24:47,594 &#x3D;&#x3D;&gt; Parameters: 1(Integer) (BaseJdbcLogger.java:137)<br>DEBUG 04-14 11:24:47,595 &lt;&#x3D;&#x3D;      Total: 1 (BaseJdbcLogger.java:137)<br>Emp{eid&#x3D;1, empName&#x3D;’张三’, age&#x3D;1, sex&#x3D;’男’, email&#x3D;‘<a href="mailto:&#x31;&#50;&#x33;&#64;&#x71;&#113;&#46;&#99;&#x6f;&#109;">&#x31;&#50;&#x33;&#64;&#x71;&#113;&#46;&#99;&#x6f;&#109;</a>‘, dept&#x3D;null}</p>
+<p>DEBUG 04-14 11:24:47,487 &#x3D;&#x3D;&gt;  Preparing: select * from t_emp where eid &#x3D; ? (BaseJdbcLogger.java:137)<br>DEBUG 04-14 11:24:47,506 &#x3D;&#x3D;&gt; Parameters: 1(Integer) (BaseJdbcLogger.java:137)<br>DEBUG 04-14 11:24:47,521 &lt;&#x3D;&#x3D;      Total: 1 (BaseJdbcLogger.java:137)<br>Emp{eid&#x3D;1, empName&#x3D;’张三’, age&#x3D;1, sex&#x3D;’男’, email&#x3D;‘<a href="mailto:&#x31;&#50;&#x33;&#x40;&#113;&#x71;&#x2e;&#x63;&#x6f;&#109;">&#x31;&#50;&#x33;&#x40;&#113;&#x71;&#x2e;&#x63;&#x6f;&#109;</a>‘, dept&#x3D;null}<br>Emp{eid&#x3D;1, empName&#x3D;’张三’, age&#x3D;1, sex&#x3D;’男’, email&#x3D;‘<a href="mailto:&#x31;&#x32;&#x33;&#x40;&#x71;&#x71;&#x2e;&#x63;&#111;&#x6d;">&#x31;&#x32;&#x33;&#x40;&#x71;&#x71;&#x2e;&#x63;&#111;&#x6d;</a>‘, dept&#x3D;null}<br>DEBUG 04-14 11:24:47,593 &#x3D;&#x3D;&gt;  Preparing: select * from t_emp where eid &#x3D; ? (BaseJdbcLogger.java:137)<br>DEBUG 04-14 11:24:47,594 &#x3D;&#x3D;&gt; Parameters: 1(Integer) (BaseJdbcLogger.java:137)<br>DEBUG 04-14 11:24:47,595 &lt;&#x3D;&#x3D;      Total: 1 (BaseJdbcLogger.java:137)<br>Emp{eid&#x3D;1, empName&#x3D;’张三’, age&#x3D;1, sex&#x3D;’男’, email&#x3D;‘<a href="mailto:&#x31;&#50;&#x33;&#64;&#x71;&#x71;&#46;&#x63;&#x6f;&#x6d;">&#x31;&#50;&#x33;&#64;&#x71;&#x71;&#46;&#x63;&#x6f;&#x6d;</a>‘, dept&#x3D;null}</p>
 <h3 id="2、MyBatis二级缓存"><a href="#2、MyBatis二级缓存" class="headerlink" title="2、MyBatis二级缓存"></a>2、MyBatis二级缓存</h3><p>二级缓存是SqlSessionFactory级别的，通过一个SqlSessionFactory创建的SqlSession查询的结果会被缓存，此后若再执行相同的查询语句，结果就会从缓存中取</p>
 <p>二级缓存开启的条件</p>
 <ol>
@@ -2588,6 +2329,131 @@
       </tags>
   </entry>
   <entry>
+    <title>拍摄指南</title>
+    <url>/2023/12/17/%E6%8B%8D%E6%91%84%E6%8C%87%E5%8D%97/</url>
+    <content><![CDATA[<h1 id="拍摄指南"><a href="#拍摄指南" class="headerlink" title="拍摄指南"></a>拍摄指南</h1><h2 id="1-好照片定义"><a href="#1-好照片定义" class="headerlink" title="1. 好照片定义"></a>1. 好照片定义</h2><ul>
+<li><p>有明确的主题</p>
+</li>
+<li><p>突出的主体&#x2F;兴趣点</p>
+</li>
+<li><p>简洁的画面&#x2F;好看的形式</p>
+</li>
+<li><p>细节完成度高</p>
+</li>
+</ul>
+<h2 id="2-优秀作品论坛"><a href="#2-优秀作品论坛" class="headerlink" title="2. 优秀作品论坛"></a>2. 优秀作品论坛</h2><ul>
+<li><p>500PX.ME</p>
+</li>
+<li><p>35PHOTO.PRO</p>
+</li>
+<li><p>1X.COM</p>
+</li>
+</ul>
+<h2 id="3-照片分析要点"><a href="#3-照片分析要点" class="headerlink" title="3. 照片分析要点"></a>3. 照片分析要点</h2><ol>
+<li><p>内容</p>
+<ul>
+<li>内容&#x2F;观感</li>
+</ul>
+</li>
+<li><p>形式</p>
+<ul>
+<li><p>视觉引导</p>
+<ul>
+<li><p>引导线</p>
+</li>
+<li><p>明暗引导</p>
+</li>
+</ul>
+</li>
+<li><p>影调(明暗)</p>
+</li>
+<li><p>色彩(色调)</p>
+<ul>
+<li><p>色彩倾向：低饱和 冷色</p>
+</li>
+<li><p>色彩搭配：单色 不同明度的蓝色</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>技巧</p>
+<ul>
+<li><p>策划：主题、时间、天气、地点</p>
+</li>
+<li><p>前期：器材、取景构图、曝光、光线、虚实</p>
+</li>
+<li><p>后期：合成、曲线、磨皮</p>
+</li>
+</ul>
+</li>
+<li><p>器材</p>
+</li>
+</ol>
+<h2 id="4-自然风光拍摄"><a href="#4-自然风光拍摄" class="headerlink" title="4. 自然风光拍摄"></a>4. 自然风光拍摄</h2><ol>
+<li><p>风光摄影拍摄流程(部分)</p>
+<ul>
+<li>确定目的地、机位、机位适合的天气</li>
+</ul>
+</li>
+<li><p>技巧与题材</p>
+<ul>
+<li><p>通用参数套路</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji18.jpg"></p>
+</li>
+<li><p>题材</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji19.jpg"></p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="5-城市风光"><a href="#5-城市风光" class="headerlink" title="5. 城市风光"></a>5. 城市风光</h2><ol>
+<li><p>参数和自然风光一致</p>
+</li>
+<li><p>如何拍摄出好看的星芒</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji20.jpg"></p>
+<ul>
+<li>小光圈：F11以上</li>
+</ul>
+</li>
+<li><p>如何拍摄好看的长曝光？</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji21.jpg"></p>
+<ul>
+<li><p>以车轨为例</p>
+<ul>
+<li><p>曝光时间尽量较长：让车轨可以铺满画面</p>
+</li>
+<li><p>尽量多拍摄几张：方便后期挑选和堆栈</p>
+</li>
+<li><p>多次拍摄来车方向</p>
+</li>
+<li><p>可以搭配ND镜使用</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="6-人像"><a href="#6-人像" class="headerlink" title="6. 人像"></a>6. 人像</h2><ol>
+<li><p>技巧</p>
+<ul>
+<li><p>通用参数套路</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/%E7%9B%B8%E6%9C%BA22.jpg"></p>
+</li>
+<li><p>善于利用道具、前景、光线</p>
+</li>
+</ul>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>摄影</category>
+      </categories>
+      <tags>
+        <tag>学习</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>拍摄模式与构图</title>
     <url>/2023/12/10/%E6%8B%8D%E6%91%84%E6%A8%A1%E5%BC%8F%E4%B8%8E%E6%9E%84%E5%9B%BE/</url>
     <content><![CDATA[<h1 id="拍摄模式与构图"><a href="#拍摄模式与构图" class="headerlink" title="拍摄模式与构图"></a>拍摄模式与构图</h1><h2 id="1-常用模式"><a href="#1-常用模式" class="headerlink" title="1. 常用模式"></a>1. 常用模式</h2><ul>
@@ -2656,6 +2522,140 @@
 </li>
 <li><p>层次构图：前中后景</p>
 <p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji8.jpg"></p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>摄影</category>
+      </categories>
+      <tags>
+        <tag>学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>曝光</title>
+    <url>/2023/12/10/%E6%91%84%E5%BD%B1%E4%B9%8B%E6%9B%9D%E5%85%89/</url>
+    <content><![CDATA[<h1 id="曝光"><a href="#曝光" class="headerlink" title="曝光"></a>曝光</h1><h2 id="1-何为正确曝光"><a href="#1-何为正确曝光" class="headerlink" title="1. 何为正确曝光"></a>1. 何为正确曝光</h2><p>两大评价标准</p>
+<ol>
+<li><p>主观感受</p>
+</li>
+<li><p>直方图</p>
+</li>
+</ol>
+<h2 id="2-主观感受判断标准"><a href="#2-主观感受判断标准" class="headerlink" title="2. 主观感受判断标准"></a>2. 主观感受判断标准</h2><ol>
+<li><p>主体元素正确曝光:确保拍摄主体正确曝光，其余元素过曝可以接受</p>
+</li>
+<li><p>场景的观感还原</p>
+</li>
+<li><p>暗部不死黑，亮部不死白</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji1.jpg"></p>
+</li>
+</ol>
+<h2 id="3-曝光三要素"><a href="#3-曝光三要素" class="headerlink" title="3. 曝光三要素"></a>3. 曝光三要素</h2><p>3.1 三要素：光圈、快门、感光度(ISO)</p>
+<p>3.2 光圈(Aperture)</p>
+<ul>
+<li><p>光圈F值&#x3D;焦距&#x2F;通光孔径</p>
+</li>
+<li><p>大光圈(F值小)：小景深(清晰的单位很小)、进光量更多、背景虚化</p>
+</li>
+<li><p>小光圈(F值大)：大景深(远近都清晰)、进光量更少、远近都清晰</p>
+</li>
+</ul>
+<p>3.3 快门(Shutter Speed)</p>
+<ul>
+<li><p>值大：长曝光、进光量更多、记录轨迹</p>
+</li>
+<li><p>值小：断曝光、进光量更少、凝固瞬间</p>
+</li>
+</ul>
+<p>3.4 感光度(ISO)</p>
+<ul>
+<li><p>值小：对光线不敏感、明亮场景使用、高画质</p>
+</li>
+<li><p>值大：对光线敏感、昏暗场景使用、低画质</p>
+</li>
+</ul>
+<p>3.5 三者关系</p>
+<ul>
+<li><p>曝光互易率：可以通过调节三者的参数，使获得相同的曝光水平</p>
+</li>
+<li><p>光圈相邻参数之间是根号两倍的关系，每差一档光圈，相当于差两档亮度</p>
+</li>
+<li><p>快门相邻参数之间是两倍关系，每一档快门也是差了两档的亮度</p>
+</li>
+<li><p>ISO之间也是两倍关系，每差一档感光度也是差了两档亮度</p>
+</li>
+<li><p>总结：某一个参数向一个方向调了n档，则另一个参数，向另外一个方向去调n档可保持曝光不变</p>
+</li>
+</ul>
+<h2 id="4-影调"><a href="#4-影调" class="headerlink" title="4. 影调"></a>4. 影调</h2><ol>
+<li><p>何为影调</p>
+<p>画面中明暗的艺术化氛围化的体现</p>
+</li>
+<li><p>影调分类</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji9.jpg"></p>
+<p>低调又可以分为三种</p>
+<ul>
+<li><p>低短调</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji10.jpg"></p>
+</li>
+<li><p>低中调</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji11.jpg"></p>
+</li>
+<li><p>低长调</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji12.jpg"></p>
+</li>
+</ul>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji13.jpg"></p>
+</li>
+<li><p>影调量化</p>
+<ul>
+<li><p>直方图<img src="C:\Users\AIERXUAN\AppData\Roaming\marktext\images\2023-12-10-21-13-01-image.png"></p>
+<ul>
+<li><p>低调：主要像素集中在左侧</p>
+</li>
+<li><p>中间调：主要像素集中在中间</p>
+</li>
+<li><p>高调：主要像素集中在右侧</p>
+</li>
+</ul>
+</li>
+<li><p>直方图判断曝光</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji15.jpg"></p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="5-最佳曝光方式"><a href="#5-最佳曝光方式" class="headerlink" title="5. 最佳曝光方式"></a>5. 最佳曝光方式</h2><ol>
+<li><p>向右曝光：<strong>画面直方图</strong>的右边尽可能贴近右边缘，但是不被切断。</p>
+<p>好处：前期拍摄记录更多画面细节，以便后期画面噪点更少</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/xiangji/xiangji16.jpg"></p>
+</li>
+</ol>
+<h2 id="6-大光比处理"><a href="#6-大光比处理" class="headerlink" title="6. 大光比处理"></a>6. 大光比处理</h2><ol>
+<li><p>何为大光比</p>
+<ul>
+<li><p>明暗反差大(最亮与最暗)，容易出现过曝欠曝情况</p>
+</li>
+<li><p>直方图体现：暗部和亮部有大量的像素堆积，中间凹进去，两头突出</p>
+</li>
+</ul>
+</li>
+<li><p>场景</p>
+<p>日出、日落、夜晚城市灯光…</p>
+</li>
+<li><p>应对方式</p>
+<ul>
+<li><p>曝光合成(包围曝光、HDR)</p>
+<ul>
+<li>原理：在不同的曝光范围内拍摄多张，让相机宽容度覆盖不同的动态范围，后期合成</li>
+</ul>
+</li>
+<li><p>前期欠曝、后期提亮</p>
+</li>
+<li><p>人像可进行补光</p>
+</li>
+</ul>
 </li>
 </ol>
 ]]></content>
