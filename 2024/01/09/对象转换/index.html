@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="方法引用, KeyHX">
+    <meta name="keywords" content="对象转换, KeyHX">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>方法引用 | KeyHX</title>
+    <title>对象转换 | KeyHX</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -316,12 +316,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">方法引用</h1>
+                    <h1 class="description center-align post-title">对象转换</h1>
                 </div>
             </div>
         </div>
@@ -343,8 +343,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/">
-                                <span class="chip bg-color">函数式编程</span>
+                            <a href="/tags/%E7%BC%96%E7%A8%8B%E5%AE%9E%E6%88%98/">
+                                <span class="chip bg-color">编程实战</span>
                             </a>
                         
                     </div>
@@ -368,7 +368,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2023-12-23
+                    2024-01-09
                 </div>
                 
 
@@ -394,51 +394,17 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="方法引用"><a href="#方法引用" class="headerlink" title="方法引用"></a>方法引用</h1><h2 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h2><p>        在使用<code>lambda</code>时，如果方法体中只有一个方法的调用，可以使用方法引用进一步简化代码</p>
-<h2 id="2-推荐用法"><a href="#2-推荐用法" class="headerlink" title="2. 推荐用法"></a>2. 推荐用法</h2><p>        在写完<code>lambda</code>方法时发现方法体只有一行代码，并且是方法的调用时使用快捷键尝试是否能够转换成方法引用即可。</p>
-<h2 id="3-基本格式"><a href="#3-基本格式" class="headerlink" title="3. 基本格式"></a>3. 基本格式</h2><p>        类名或者对象名::方法名</p>
-<h2 id="4-语法详解"><a href="#4-语法详解" class="headerlink" title="4. 语法详解"></a>4. 语法详解</h2><h3 id="4-1-引用静态方法"><a href="#4-1-引用静态方法" class="headerlink" title="4.1 引用静态方法"></a>4.1 引用静态方法</h3><ul>
-<li><p>其实就是引用类的静态方法</p>
-</li>
-<li><p>格式：类名::方法名</p>
-</li>
-<li><p>使用前提：在重写方法的时候，方法体中<strong>只有一行代码</strong>，并且<strong>这行代码调用了某个类的静态方法</strong>，并且我们把要重写的<strong>抽象方法中的所有的参数都按照顺序传入了这个静态方法</strong></p>
-</li>
-<li><p>例子：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">Stream&lt;Author&gt; authorStream = authors.stream();</span><br><span class="line">author.map(author -&gt; author.getAge())</span><br><span class="line">       .map(age -&gt; String.valueOf(age));</span><br></pre></td></tr></table></figure>
+                <h1 id="对象转换"><a href="#对象转换" class="headerlink" title="对象转换"></a>对象转换</h1><h2 id="1-问题引入"><a href="#1-问题引入" class="headerlink" title="1. 问题引入"></a>1. 问题引入</h2><p>        最近实习中遇到一个问题：两个不同的类A和B中分别有实体类EntityA和EntityB，他们需要调用同一个方法C来实现某个功能，其中EntityA和EntityB中都有C中需要用到的字段。所以现在需要将其中一个对象转化另一个，这样才能都调用方法C。</p>
+<h2 id="2-问题解决"><a href="#2-问题解决" class="headerlink" title="2. 问题解决"></a>2. 问题解决</h2><h3 id="2-1-同名字段复制"><a href="#2-1-同名字段复制" class="headerlink" title="2.1 同名字段复制"></a>2.1 同名字段复制</h3><p>解决办法：通过泛型、反射等方式，获得一个对象的属性值然后赋值给另一个对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T,S&gt; T <span class="title function_">convert</span><span class="params">(T target,S source)</span> &#123;</span><br><span class="line">        Field[] declaredFields = getAllFields(target);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; declaredFields.length; i++) &#123;</span><br><span class="line">            <span class="keyword">try</span>&#123;</span><br><span class="line">                <span class="type">Field</span> <span class="variable">targetField</span> <span class="operator">=</span> declaredFields[i];</span><br><span class="line">                <span class="type">ExcludeConvert</span> <span class="variable">excludeConvert</span> <span class="operator">=</span> targetField.getAnnotation(ExcludeConvert.class);</span><br><span class="line">                <span class="keyword">if</span>(excludeConvert==<span class="literal">null</span>||!excludeConvert.value()) &#123;</span><br><span class="line">                    <span class="type">Field</span> <span class="variable">sourceField</span> <span class="operator">=</span> source.getClass().getDeclaredField(targetField.getName());</span><br><span class="line">                    <span class="keyword">if</span> (!sourceField.getName().equals(<span class="string">&quot;serialVersionUID&quot;</span>)) &#123;</span><br><span class="line">                        <span class="keyword">try</span> &#123;</span><br><span class="line">                            targetField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">                            sourceField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">                            <span class="type">Object</span> <span class="variable">value</span> <span class="operator">=</span> sourceField.get(source);</span><br><span class="line">                            <span class="keyword">if</span>(value!=<span class="literal">null</span>)&#123;</span><br><span class="line">                                targetField.set(target, value);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">                            e.printStackTrace();</span><br><span class="line">                        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                            targetField.setAccessible(<span class="literal">false</span>);</span><br><span class="line">                            sourceField.setAccessible(<span class="literal">false</span>);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;<span class="keyword">catch</span> (NoSuchFieldException e) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> target;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
-<p>优化后：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">author.map(author -&gt; author.getAge())</span><br><span class="line">       .map(String::valueOf);</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h3 id="4-2-引用对象的实例方法"><a href="#4-2-引用对象的实例方法" class="headerlink" title="4.2 引用对象的实例方法"></a>4.2 引用对象的实例方法</h3><ul>
-<li><p>格式：对象名::方法名</p>
-</li>
-<li><p>使用前提：在重写方法的时候，方法体中<strong>只有一行代码</strong>，并且这行代码是<strong>调用了某个对象的成员方法</strong>，并且把要<strong>重写的抽象方法中所有参数都按照顺序传入了这个成员方法中</strong>，这时候可以引用对象的实例方法</p>
-</li>
-<li><p>例子：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">Stream&lt;Author&gt; authorStream = authors.stream();</span><br><span class="line"><span class="type">StringBuilder</span> <span class="variable">sb</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">authorStream.map(author -&gt; author.getName())</span><br><span class="line">            .forEach(name -&gt; sb.append(name));</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取类的所有属性，包括父类</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> object</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Field[] getAllFields(Object object) &#123;</span><br><span class="line">    Class&lt;?&gt; clazz = object.getClass();</span><br><span class="line">    List&lt;Field&gt; fieldList = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">while</span> (clazz != <span class="literal">null</span>) &#123;</span><br><span class="line">        fieldList.addAll(<span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(Arrays.asList(clazz.getDeclaredFields())));</span><br><span class="line">        clazz = clazz.getSuperclass();</span><br><span class="line">    &#125;</span><br><span class="line">    Field[] fields = <span class="keyword">new</span> <span class="title class_">Field</span>[fieldList.size()];</span><br><span class="line">    fieldList.toArray(fields);</span><br><span class="line">    <span class="keyword">return</span> fields;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>优化后：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">authorStream.map(author -&gt; author.getName())</span><br><span class="line">            .forEach(sb::append);</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h3 id="4-3-引用类的实例方法"><a href="#4-3-引用类的实例方法" class="headerlink" title="4.3 引用类的实例方法"></a>4.3 引用类的实例方法</h3><ul>
-<li><p>格式：类名::方法名</p>
-</li>
-<li><p>使用前提：在重写方法的时候，方法体中<strong>只有一行代码</strong>，并且这行代码<strong>调用了第一个参数的成员方法</strong>，并且<strong>重写的抽象方法中剩余的所有的参数都按照顺序传入了这个成员方法中</strong>，这个时候可以引用类的实例方法</p>
-</li>
-</ul>
-<h3 id="4-4-构造器引用"><a href="#4-4-构造器引用" class="headerlink" title="4.4 构造器引用"></a>4.4 构造器引用</h3><p>        如果方法体中的一行代码是构造器的话可以使用构造器引用</p>
-<ul>
-<li><p>格式：类名::new</p>
-</li>
-<li><p>使用前提：在重写方法的时候，方法体中<strong>只有一行代码</strong>，并且这行代码是<strong>调用了某个类的构造方法</strong>，并且把<strong>要重写的抽象方法中的所有参数都按照顺序传入了这个构造方法中</strong>，这时候就可以使用引用构造</p>
-</li>
-<li><p>例如</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">authors.stream()</span><br><span class="line">        .map(author -&gt; author.getName())</span><br><span class="line">        .map(name -&gt; <span class="keyword">new</span> <span class="title class_">StringBuilder</span>(name))</span><br><span class="line">        .map(sb -&gt; sb.append(<span class="string">&quot;三更&quot;</span>).toString())</span><br><span class="line">        .forEach(str -&gt; System.out.println(str));</span><br></pre></td></tr></table></figure>
+<h3 id="2-2-指定字段复制"><a href="#2-2-指定字段复制" class="headerlink" title="2.2 指定字段复制"></a>2.2 指定字段复制</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> String [] baseFields=<span class="keyword">new</span> <span class="title class_">String</span>[]&#123;<span class="string">&quot;id&quot;</span>,<span class="string">&quot;createUser&quot;</span>,<span class="string">&quot;updateUser&quot;</span>,<span class="string">&quot;createTime&quot;</span>,<span class="string">&quot;updateTime&quot;</span>,<span class="string">&quot;deleted&quot;</span>,<span class="string">&quot;serialVersionUID&quot;</span>&#125;;</span><br></pre></td></tr></table></figure>
 
-<p>优化后:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Author&gt; authors = getAuthors();</span><br><span class="line">authors.stream()</span><br><span class="line">        .map(Author::getName)</span><br><span class="line">        .map(StringBuilder::<span class="keyword">new</span>)</span><br><span class="line">        .map(sb -&gt; sb.append(<span class="string">&quot;三更&quot;</span>).toString())</span><br><span class="line">        .forEach(System.out::println);</span><br></pre></td></tr></table></figure></li>
-</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T,S&gt; T <span class="title function_">convertWithoutBaseEntity</span><span class="params">(T target,S source)</span> &#123;</span><br><span class="line">        Set&lt;String&gt; baseFieldSet = Arrays.stream(baseFields).collect(Collectors.toSet());</span><br><span class="line">        Field[] declaredFields = getAllFields(target);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; declaredFields.length; i++) &#123;</span><br><span class="line">            <span class="keyword">try</span>&#123;</span><br><span class="line">                <span class="type">Field</span> <span class="variable">targetField</span> <span class="operator">=</span> declaredFields[i];</span><br><span class="line">                <span class="keyword">if</span>(baseFieldSet.contains(targetField.getName()))<span class="keyword">continue</span>;</span><br><span class="line">                <span class="type">ExcludeConvert</span> <span class="variable">excludeConvert</span> <span class="operator">=</span> targetField.getAnnotation(ExcludeConvert.class);</span><br><span class="line">                <span class="keyword">if</span>(excludeConvert==<span class="literal">null</span>||!excludeConvert.value()) &#123;</span><br><span class="line">                    <span class="type">Field</span> <span class="variable">sourceField</span> <span class="operator">=</span> source.getClass().getDeclaredField(targetField.getName());</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        targetField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">                        sourceField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">                        <span class="type">Object</span> <span class="variable">value</span> <span class="operator">=</span> sourceField.get(source);</span><br><span class="line">                        <span class="keyword">if</span>(value!=<span class="literal">null</span>)&#123;</span><br><span class="line">                            targetField.set(target, value);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                        targetField.setAccessible(<span class="literal">false</span>);</span><br><span class="line">                        sourceField.setAccessible(<span class="literal">false</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;<span class="keyword">catch</span> (NoSuchFieldException e) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> target;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Field[] getAllFields(Object object) &#123;</span><br><span class="line">        Class&lt;?&gt; clazz = object.getClass();</span><br><span class="line">        List&lt;Field&gt; fieldList = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">while</span> (clazz != <span class="literal">null</span>) &#123;</span><br><span class="line">            fieldList.addAll(<span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(Arrays.asList(clazz.getDeclaredFields())));</span><br><span class="line">            clazz = clazz.getSuperclass();</span><br><span class="line">        &#125;</span><br><span class="line">        Field[] fields = <span class="keyword">new</span> <span class="title class_">Field</span>[fieldList.size()];</span><br><span class="line">        fieldList.toArray(fields);</span><br><span class="line">        <span class="keyword">return</span> fields;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
                 
             </div>
@@ -453,8 +419,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/">
-                                    <span class="chip bg-color">函数式编程</span>
+                                <a href="/tags/%E7%BC%96%E7%A8%8B%E5%AE%9E%E6%88%98/">
+                                    <span class="chip bg-color">编程实战</span>
                                 </a>
                             
                         </div>
@@ -761,9 +727,10 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
             <div class="card">
                 <a href="/2024/01/09/%E5%AF%B9%E8%B1%A1%E8%BD%AC%E6%8D%A2/">
                     <div class="card-image">
@@ -781,9 +748,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2024-01-09
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-01-09
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -796,6 +763,7 @@
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -814,13 +782,13 @@
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2023/12/23/Stream%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95/">
+                <a href="/2023/12/23/%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="Stream高级用法">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="方法引用">
                         
-                        <span class="card-title">Stream高级用法</span>
+                        <span class="card-title">方法引用</span>
                     </div>
                 </a>
                 <div class="card-content article-content">

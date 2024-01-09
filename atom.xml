@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2023-12-23T01:46:11.428Z</updated>
+  <updated>2024-01-09T12:06:08.848Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>对象转换</title>
+    <link href="http://example.com/2024/01/09/%E5%AF%B9%E8%B1%A1%E8%BD%AC%E6%8D%A2/"/>
+    <id>http://example.com/2024/01/09/%E5%AF%B9%E8%B1%A1%E8%BD%AC%E6%8D%A2/</id>
+    <published>2024-01-09T12:04:50.239Z</published>
+    <updated>2024-01-09T12:06:08.848Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;对象转换&quot;&gt;&lt;a href=&quot;#对象转换&quot; class=&quot;headerlink&quot; title=&quot;对象转换&quot;&gt;&lt;/a&gt;对象转换&lt;/h1&gt;&lt;h2 id=&quot;1-问题引入&quot;&gt;&lt;a href=&quot;#1-问题引入&quot; class=&quot;headerlink&quot; title=&quot;1.</summary>
+        
+      
+    
+    
+    
+    <category term="技术" scheme="http://example.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+    <category term="编程实战" scheme="http://example.com/tags/%E7%BC%96%E7%A8%8B%E5%AE%9E%E6%88%98/"/>
+    
+  </entry>
   
   <entry>
     <title>方法引用</title>
