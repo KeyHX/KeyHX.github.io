@@ -1,0 +1,1770 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="MySQL高级, KeyHX">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>MySQL高级 | KeyHX</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="KeyHX" type="application/atom+xml">
+</head>
+
+
+
+   <style>
+    body{
+       background-image: url(https://blog-1310712259.cos.ap-nanjing.myqcloud.com/%E8%83%8C%E6%99%AF%E5%9B%BE/20240102-172721.jpg);
+       background-repeat:no-repeat;
+       background-size:cover;
+       background-attachment:fixed;
+    }
+</style>
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">KeyHX</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>主页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="" class="waves-effect waves-light">
+
+      
+      <span>博文目录</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/tags/MySQL">
+          
+          <span>Mysql</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/Redis">
+          
+          <span>Redis</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/%E6%91%84%E5%BD%B1">
+          
+          <span>摄影</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B">
+          
+          <span>函数式编程</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/%E5%90%8E%E6%9C%9F">
+          
+          <span>后期</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/gallery" class="waves-effect waves-light">
+      
+      <i class="fas fa-image" style="zoom: 0.6;"></i>
+      
+      <span>相册</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/gitar" class="waves-effect waves-light">
+      
+      <span>吉他</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="Search" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">KeyHX</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			主页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fas fa-fw fa-link"></i>
+			
+			博文目录
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>
+
+                  <a href="/tags/MySQL " style="margin-left:75px">
+				  
+		          <span>Mysql</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/tags/Redis " style="margin-left:75px">
+				  
+		          <span>Redis</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/tags/%E6%91%84%E5%BD%B1 " style="margin-left:75px">
+				  
+		          <span>摄影</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B " style="margin-left:75px">
+				  
+		          <span>函数式编程</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/tags/%E5%90%8E%E6%9C%9F " style="margin-left:75px">
+				  
+		          <span>后期</span>
+                  </a>
+                </li>
+              
+            </ul>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/gallery" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-image"></i>
+			
+			相册
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/gitar" class="waves-effect waves-light">
+			
+				<i class="fas fa-fw fa-link"></i>
+			
+			吉他
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">MySQL高级</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="container content">
+
+    
+    <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/MySQL/">
+                                <span class="chip bg-color">MySQL</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E6%8A%80%E6%9C%AF/" class="post-category">
+                                技术
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
+                    2022-09-25
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>Read Count:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="MySQL高级"><a href="#MySQL高级" class="headerlink" title="MySQL高级"></a>MySQL高级</h1><h2 id="1-存储引擎"><a href="#1-存储引擎" class="headerlink" title="1. 存储引擎"></a>1. 存储引擎</h2><h3 id="1-1-MySQL体系结构"><a href="#1-1-MySQL体系结构" class="headerlink" title="1.1 MySQL体系结构"></a>1.1 MySQL体系结构</h3><p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m1.jpg"></p>
+<ul>
+<li><p>连接层：最上层是一些客户端和链接服务，主要完成类似于连接处理、授权认证、以及相关的安全方案。服务器也会为安全接入的客户端验证他所具有的操作权限</p>
+</li>
+<li><p>服务层：第二层架构主要完成大多数的核心服务功能，如SQL接口，并完成缓存查询，SQL的分析和优化，部分内置函数的执行，所有跨存储引擎的功能也在这一层实现，如过程、函数等</p>
+</li>
+<li><p>引擎层：存储引擎负责MySQL中数据的存储和提取，服务器通过API和存储引擎进行通信</p>
+</li>
+<li><p>存储层：将数据存储在文件系统上，并完成与存储引擎的交互</p>
+</li>
+</ul>
+<h3 id="1-2-存储引擎简介"><a href="#1-2-存储引擎简介" class="headerlink" title="1.2 存储引擎简介"></a>1.2 存储引擎简介</h3><ul>
+<li><p><strong>存储引擎就是存储数据、建立索引、更新\查询数据等技术的实现方式。存储引擎是基于表的而不是基于库</strong></p>
+</li>
+<li><p>创建表的时候，指定存储引擎</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ceate table 表名(</span><br><span class="line">    字段1 字段1类型,</span><br><span class="line">    .......</span><br><span class="line">)engine = innodb</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看当前数据库支持的存储引擎</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show engines</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="1-3-存储引擎特点"><a href="#1-3-存储引擎特点" class="headerlink" title="1.3 存储引擎特点"></a>1.3 存储引擎特点</h3><ol>
+<li><p>InnoDB</p>
+<ul>
+<li><p>介绍：    </p>
+<p>        InnoDB是一种兼顾高可靠性和高性能的通用存储引擎，在MySQL5.5之后，就是MySQL的默认存储引擎</p>
+</li>
+<li><p>特点：</p>
+<ul>
+<li><p>DML(增删改)操作遵循ACID(事务的四大特性)模型，支持<strong>事务</strong></p>
+</li>
+<li><p><strong>行级锁</strong>，提高并发访问性能</p>
+</li>
+<li><p>支持<strong>外键</strong>约束，保证数据的完整性和一致性</p>
+</li>
+</ul>
+</li>
+<li><p>文件</p>
+<p>xxx.ibd:xxx代表的是表名，InnoDB引擎的每张表都会对应这样一个表空间文件，该表的表结构(frm、sdi)、数据和索引。</p>
+<p>参数：innodb_file_per_table表示是多张表公用一个表空间文件还是一张表一个表空间文件(打开时)</p>
+</li>
+<li><p>逻辑存储结构</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m2.jpg"></p>
+<p>一个段的大小为1M，一个页的大小为16k，所以个一个段包含64个页</p>
+</li>
+</ul>
+</li>
+<li><p>MyISAM</p>
+<ul>
+<li><p>介绍：</p>
+<p>MyISAM是MySQL早期默认的存储引擎</p>
+</li>
+<li><p>特点：</p>
+<ul>
+<li><p>不支持事务</p>
+</li>
+<li><p>支持表锁，不支持行锁</p>
+</li>
+<li><p>访问速度快</p>
+</li>
+</ul>
+</li>
+<li><p>文件：</p>
+<p>xxx.sdi:存储表结构信息</p>
+<p>xxx.MYD:存储数据</p>
+<p>xxx.MYI:存储索引</p>
+</li>
+</ul>
+</li>
+<li><p>Memory</p>
+<ul>
+<li><p>介绍：</p>
+<p>Memory引擎的表数据时存储在内存中，由于受到硬件或断电问题的影响，只能将这些表作为临时表或缓存使用</p>
+</li>
+<li><p>特点</p>
+<p>内存存放</p>
+<p>hash索引(默认)</p>
+</li>
+<li><p>文件</p>
+<p>xxx.sdi：存储表结构信息</p>
+</li>
+</ul>
+</li>
+<li><p>三者的区别</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m3.jpg"></p>
+</li>
+</ol>
+<h3 id="1-4-存储引擎选择"><a href="#1-4-存储引擎选择" class="headerlink" title="1.4 存储引擎选择"></a>1.4 存储引擎选择</h3><p>        在选择存储引擎时，应该根据应用系统的特点选择合适的存储引擎，对于复杂的应用系统，可以根据实际情况选择多种存储引擎进行组合</p>
+<ul>
+<li>InnoDB：是Mysql的默认存储引擎，支持事物、外键。如果应用对事物的完整性有比较高的要求，在并发条件下要求数据的一致性，数据操作除了插入和查询之外，还包含很多的更新、删除操作，则InnoDB存储引擎是比较合适的选择。</li>
+<li>MyISAM：如果应用是以读操作和插入操作为主，只有很少的更新和删除操作，并且对事物的完整性、并发性要求不是很高，可以选择该存储引擎</li>
+<li>MEMORY：将所有数据保存在内存中，访问速度快，通常用于临时表及缓存。但是太大的表无法缓存</li>
+</ul>
+<h2 id="2-索引"><a href="#2-索引" class="headerlink" title="2.索引"></a>2.索引</h2><h3 id="2-1-索引"><a href="#2-1-索引" class="headerlink" title="2.1 索引"></a>2.1 索引</h3><ol>
+<li><p>索引概述</p>
+<p>索引(index)是帮助MySQL<strong>高效获取数据</strong>的<strong>数据结构</strong>(有序)</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m5.jpg"></p>
+</li>
+<li><p>索引优缺点</p>
+<table>
+<thead>
+<tr>
+<th>优势</th>
+<th>劣势</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>提高数据检索的效率，降低数据库的IO成本</td>
+<td>索引列也是要占用空间</td>
+</tr>
+<tr>
+<td>&#x3D;&#x3D;</td>
+<td>索引大大提高了查询效率，同时也降低了更新表的速度，如对表进行INSERT、UPDATE、DELETE时，效率降低</td>
+</tr>
+</tbody></table>
+</li>
+</ol>
+<h3 id="2-2-索引结构"><a href="#2-2-索引结构" class="headerlink" title="2.2 索引结构"></a>2.2 索引结构</h3><p>MySQL索引是在存储引擎层实现的，不同的存储引擎有不同的结构，主要包含以下几种：</p>
+<table>
+<thead>
+<tr>
+<th>索引结构</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>B+Tree索引</td>
+<td>最常见的索引类型，大部分引擎都支持B+树索引</td>
+</tr>
+<tr>
+<td>Hash索引</td>
+<td>底层数据结构使用哈希表实现的，只有精确匹配索引列的查询才有效，不支持范围查询</td>
+</tr>
+<tr>
+<td>R+Tree(空间索引)</td>
+<td>空间索引是MyISAM引擎的一个特殊索引类型，主要用于地理空间数据类型，通常使用比较少</td>
+</tr>
+<tr>
+<td>Full-text(全文索引)</td>
+<td>是一种通过建立倒排索引，快速匹配文档的方式，类似Lucene,Solr,ES</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>索引</th>
+<th>InnoDB</th>
+<th>MyISAM</th>
+<th>Memory</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>B+Tree索引</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>Hash索引</td>
+<td>不支持</td>
+<td>不支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>R+Tree</td>
+<td>不支持</td>
+<td>支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>Full-text</td>
+<td>5.6版本之后支持</td>
+<td>支持</td>
+<td>不支持</td>
+</tr>
+</tbody></table>
+<p>平常说的索引如果没有特别指明，指的都是B+树结构索引54                                                                                                                     </p>
+<ol>
+<li><p>红黑树</p>
+<ul>
+<li><p>红黑树是自平衡的二叉树，每个节点要么红色要么黑色，在进行插入和删除操作的时候比AVL二叉树要好，但是当不需要频繁的插入和删除的时候还是AVL要好一点的</p>
+</li>
+<li><p>红黑树的根节点必须是黑色的，红节点的孩子是黑色的，叶子节点都是空指针</p>
+</li>
+<li><p>从任一节点开始到它的叶节点包含相同数量的黑色节点</p>
+</li>
+<li><p>红黑树的高度最高是$2\cdot \log _{2}(n+1) $ </p>
+</li>
+<li><p>黑色高度：从一个节点到另一个节点经过的黑色节点的个数</p>
+</li>
+</ul>
+</li>
+</ol>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m6.jpg"></p>
+<ol start="2">
+<li><p>B-Tree(多路平衡查找树)</p>
+<p>        一颗最大度数(max-degree)为5(5阶)b-tree为例(每个节点最多存储4个key，5个指针),树的度数指的是一个节点的子节点个数</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m7.jpg"></p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m8.jpg"></p>
+</li>
+<li><p>B+Tree</p>
+<p>   以一颗最大度数为4的b+tree为例</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m9.jpg"></p>
+<p>    与b-tree的区别，所有的元素最后都会在叶子节点出现，并且叶子节点形成一个单向列表</p>
+<ul>
+<li><p>MySQL索引数据结构对经典的B+Tree进行了优化，在原B+Tree的基础上，增加一个指向相邻叶子节点的链表指针，形成了带有顺序指针的B+Tree，提高区间的访问性能</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m10.jpg"></p>
+</li>
+</ul>
+</li>
+<li><p>Hash索引</p>
+<p>哈希索引就是采用一定的hash算法，将键值换算成新的hash值，映射到对应的槽位上，然后存储在hash表中。</p>
+<p>如果两个(或多个)键值，映射到一个相同的槽位上，他们就产生了hash冲突(也称为hash碰撞)，可以通过链表来解决。</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m11.jpg"></p>
+<ul>
+<li><p>索引特点</p>
+<ul>
+<li><p>hash索引只能用于对等比较(&#x3D;，in)，不支持范围查询(between，&gt;，&lt;，….)</p>
+</li>
+<li><p>无法利用索引完成排序操作</p>
+</li>
+<li><p>查询效率高，通常只需要一次检索就可以了，效率通常要高于B+tree索引</p>
+</li>
+</ul>
+</li>
+<li><p>存储引擎支持</p>
+<p>在MySQL中，支持hash索引的是Memory引擎，而InnoDB中具有自适应hash功能，hash索引是存储引擎根据B+Tree索引在指定条件下自动构建的</p>
+</li>
+</ul>
+</li>
+<li><p>思考题：为什么InnoDB存储引擎选择使用B+tree索引结构？</p>
+<ol>
+<li><p>相对于二叉树，层级更少，搜索效率高</p>
+</li>
+<li><p>对于B-tree，无论是叶子节点还是非叶子节点，都会保存数据，这样导致一页中存储的键值减少，指针跟着减少，要同样保存大量数据，只能增加树的高度，导致性能降低</p>
+</li>
+<li><p>相对于Hash索引，B+tree支持范围匹配及排序操作</p>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="2-3-索引分类"><a href="#2-3-索引分类" class="headerlink" title="2.3 索引分类"></a>2.3 索引分类</h3><ol>
+<li><p>索引分类</p>
+<table>
+<thead>
+<tr>
+<th>分类</th>
+<th>含义</th>
+<th>特点</th>
+<th>关键字</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>主键索引</td>
+<td>针对于表中主键创建的索引</td>
+<td>默认自动创建，只能有一个</td>
+<td>PRIMARY</td>
+</tr>
+<tr>
+<td>唯一索引</td>
+<td>避免同一表中某数据列中的值重复</td>
+<td>可以有多个</td>
+<td>UNIQUE</td>
+</tr>
+<tr>
+<td>常规索引</td>
+<td>快速定位特定数据</td>
+<td>可以有多个</td>
+<td></td>
+</tr>
+<tr>
+<td>全文索引</td>
+<td>全文索引查找的是文本中的关键字，而不是比较索引中的值</td>
+<td>可以有多个</td>
+<td>FULLTEXT</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>InnoDB中索引的分类</p>
+<p>在InnoDB存储引擎中，根据索引的存储形式，可以氛围以下两种</p>
+<table>
+<thead>
+<tr>
+<th>分类</th>
+<th>含义</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>聚集索引(Clustered Index)</td>
+<td>将数据存储和索引放到了一块，索引结构的叶子节点保存了行数据</td>
+<td>必须有，而且只有一个</td>
+</tr>
+<tr>
+<td>二级索引(Secondary Index)</td>
+<td>将数据与索引分开存储，索引结构的叶子节点关联的是对应的主键</td>
+<td>可以存在多个</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>聚集索引的选取规则</p>
+<ul>
+<li><p>如果存在主键，主键索引就是聚集索引   i</p>
+</li>
+<li><p>如果不存在主键，将使用第一个唯一索引作为聚集索引</p>
+</li>
+<li><p>如果表没有主键，或没有合适的唯一索引，则InnoDB会自动生成一个rowid作为隐藏的聚集索引</p>
+</li>
+</ul>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m12.jpg"></p>
+<p>比如查找<code> select * from user where name = &#39;Arm&#39;</code>  首先会查找二级索引获取主键id，然后再查找聚集索引中的数据，该过程就是回表查询</p>
+</li>
+</ul>
+</li>
+<li><p>思考题</p>
+<ol>
+<li><p>以下SQL语句，哪个执行效率高？为什么？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select * from user where id = 10;</span><br><span class="line">select * from user where name = &#x27;Arm&#x27;</span><br><span class="line">备注：id为主键，name字段创建的有索引</span><br></pre></td></tr></table></figure>
+
+<p>第一个执行的效率高，因为第二条指令还是需要先查询到id的</p>
+</li>
+<li><p>InnoDB主键索引的B+tree高度为多高呢？</p>
+<p>假设：一行数据大小为1k，一页中可以存储16行这样的数据。InnoDB的指针占用6个字节的空间，当主键为bigint的时候，占用字节数为8</p>
+<p>高度为2：</p>
+<p>  n * 8 + (n + 1) * 6 &#x3D; 16 * 1024，算出n约为1170，n为key的数量就是子节点的数量，则存储的大小为 1170 * 16 &#x3D; 18736</p>
+<p>高度为3：</p>
+<p>  1171 * 1171 * 16 &#x3D; 21939856</p>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="2-4-索引语法"><a href="#2-4-索引语法" class="headerlink" title="2.4 索引语法"></a>2.4 索引语法</h3><ol>
+<li><p>创建索引</p>
+<p><code> CREATE [UNIQUE][FULLTEXT] INDEX index_name ON table_name(index_name,.....);</code></p>
+</li>
+<li><p>查看索引</p>
+<p><code> SHOW INDEX FROM table_name;</code></p>
+</li>
+<li><p>删除索引</p>
+<p><code> DROP INDEX index_name ON table_name;</code></p>
+</li>
+<li><p>练习(使用的虚拟机)</p>
+<ol>
+<li><p>name字段为姓名字段，该字段的值可能会重复，为该字段创建索引</p>
+</li>
+<li><p>phone手机号字段的值，是非空，唯一的，为该字段创建唯一索引</p>
+</li>
+<li><p>为profession、age、status创建联合索引</p>
+</li>
+<li><p>为email建立合适的索引来提升查询的效率</p>
+</li>
+</ol>
+<p>需求1：<code> create index idx_user_name on tb_sku(name);</code></p>
+<p>需求2：<code> create unique index idx_user_phone on tb_sku(phone);</code></p>
+<p>需求3：<code> create index idx_user_pro_age_sta on tb_sku(profession,age,status);</code></p>
+<p>需求4：<code> create index idx_user_email on tb_sku(email);</code></p>
+</li>
+</ol>
+<h3 id="2-5-SQL性能分析"><a href="#2-5-SQL性能分析" class="headerlink" title="2.5 SQL性能分析"></a>2.5 SQL性能分析</h3><ul>
+<li><p>SQL执行频率</p>
+<p>MySQL客户端连接成功后，通过<code> show [session|global] status</code> (session就是当前会话、global就是全局)命令可以提供的服务器状态信息，通过如下指令，可以查看当前数据库的<code> ISNERT、UPDATE、DELETE、SELECT</code>的访问频次：</p>
+<p><code> show global status like &#39;Com_______&#39;;</code>(七个下划线)</p>
+</li>
+<li><p>慢查询日志</p>
+<p>慢查询日志记录了所有执行时间超过指定参数(long_query_time,单位：秒，默认10秒)的所有SQL语句的日志，慢查询日志默认没有开启，需要在MySQL的配置文件(&#x2F;etc&#x2F;my.cnf)中配置如下信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#开启慢日志查询开关</span><br><span class="line">slow_query_log = 1</span><br><span class="line">#设置慢日志的时间为2秒，SQL语句执行时间超过2秒，就会视为慢查询，记录慢查询日志</span><br><span class="line">long_query_time = 2</span><br></pre></td></tr></table></figure>
+
+<p>配置完毕之后，通过以下指令重新启动MySQL服务器进行测试，查看慢日志文件中记录的信息<code>/var/lib/mysql/localhost-slow.log</code></p>
+</li>
+<li><p>profile详情</p>
+<p><code> show profiles</code>能够在做SQL优化时帮助我们了解时间都消耗哪里去了，通过<code> have_profiling</code> 参数，能够看到当前<code> MySQL</code>是否支持<code> profile</code>操作：</p>
+<p><code> select @@have_profiling;//查看当前参数是否开启</code></p>
+<p>默认<code> profiling</code>是关闭的，可以通过<code> set</code>语句在<code> session/global</code>级别开启<code>profiling</code> :</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set profiling = 1;</span><br></pre></td></tr></table></figure>
+
+<p>可以通过如下指令查看指令的执行耗时：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//查看每一条SQL的耗时基本情况</span><br><span class="line">show profiles;</span><br><span class="line">//查看指定query_id的SQL语句各个阶段的耗时情况</span><br><span class="line">show profile for query query_id;</span><br><span class="line">//查看指定query_id的SQL语句CPU的使用情况</span><br><span class="line">show profile cpu for query query_id;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>explain执行计划</p>
+<ul>
+<li><p><code>explain</code>或者<code> desc</code>命令获取MySQL如何执行<code> SELECT</code>语句的信息，包括在<code> SELECT</code>语句执行过程中表如何连接和连接的顺序</p>
+</li>
+<li><p>语法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//直接在select语句之前加上关键字explain/desc</span><br><span class="line">explain select 字段列表 from 表名 where 条件;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m13.jpg"></p>
+</li>
+<li><p>explain执行计划各字段含义：</p>
+<ul>
+<li><p>id：select查询的序列号，表示查询中执行select子句或者是操作表的顺序(id相同，执行顺序从上到下，id不同，值越大，越先执行)</p>
+</li>
+<li><p>select_type：表示SELECT的类型，常见的取值有SIMPLE(简单表，即不使用表连接或者子查询)、PRIMARY(主查询，即外层查询)、UNION(UNION中的第二个或者后面的查询语句)、SUBQUERY(SELECT&#x2F;WHERE之后包含子查询)等</p>
+</li>
+<li><p><strong>type</strong>：表示连接类型，性能由好到差的连接类型为NULL(不牵扯到表，比如select “a”)、system、const(根据主键或者唯一索引查询时出现)、eq_ref、ref(非唯一索引)、range、index、all</p>
+</li>
+<li><p><strong>possible_key</strong>：显示可能应用在这张表上的索引，一个或者多个</p>
+</li>
+<li><p><strong>key</strong>：实际使用的索引，如果为null，则没有使用索引</p>
+</li>
+<li><p><strong>key_len</strong>：表示索引中使用的字节数，该值为索引字段最大可能长度，并非实际使用长度，在不损失精确性的前提下，长度越短越好。</p>
+</li>
+<li><p>rows：MySQL认为必须要执行查询的行数，在Innodb引擎的表中，是一个估计值，可能并不总是准确的</p>
+</li>
+<li><p>filtered：表示返回结果的行数占需要读取行数的百分比，filtered的值越大越好</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-6-索引使用"><a href="#2-6-索引使用" class="headerlink" title="2.6 索引使用"></a>2.6 索引使用</h3><ol>
+<li><p>索引使用的原则</p>
+<ul>
+<li><p>最左前缀法则：</p>
+<p>如果索引了多列(联合索引)，要遵守最左前缀法则，最左前缀法则指的是查询从索引的最左列开始，并且不跳过索引中的列。如果跳跃某一列，索引将部分失效(后面的字段索引失效)</p>
+</li>
+<li><p>范围查询：</p>
+<p>联合索引中，出现范围查询(&gt;,&lt;)，范围查询右侧的列索引失效(解决方案：在业务允许时使用大于等于，小于等于)</p>
+</li>
+<li><p>索引列运算：</p>
+<p>不要在索引列上进行运算，索引将失效，性能将下降</p>
+<p><code>explain select * from tb_user where substring(phone,10,1) = &#39;15&#39;;</code></p>
+</li>
+<li><p>字符串不加引号：</p>
+<p>字符串类型字段使用时，不加引号，索引将失效</p>
+<p><code>explain select * from tb_user where phone = 123</code></p>
+</li>
+<li><p>模糊查询：</p>
+<p>如果仅仅是尾部模糊匹配，所以不会失效，如果是头部模糊匹配，索引失效</p>
+</li>
+<li><p>or连接的条件：</p>
+<p>用or分割开的条件，如果or前的条件中的列有索引，而后面的列中没有索引，那么涉及的索引都不会被用到</p>
+</li>
+<li><p>数据分布影响：</p>
+<p>如果MySQL评估使用索引比全表更慢，则不适用索引</p>
+</li>
+</ul>
+</li>
+<li><p>SQL提示</p>
+<p>SQL提示，是优化数据库的一个重要手段，简单来说，就是在SQL语句中加入一些人为的提示来达到优化操作的目的。</p>
+<ul>
+<li><p><code>use index</code> ：告诉数据库使用哪个索引</p>
+<p><code>explain select * from tb_user use index(index_user_pro) where profession = &#39;软件工程&#39;</code></p>
+</li>
+<li><p><code>ignore index</code>：告诉数据库不要使用哪个索引</p>
+<p><code>explain select * from tb_user ignore index(id_user_pro) where profession = &#39;软件工程&#39;</code></p>
+</li>
+<li><p><code>force index</code> ：告诉数据库必须使用哪个索引</p>
+<p><code>explain select * from tb_user force index(idx_user_pro) where profession = &#39;软件工程&#39;</code></p>
+</li>
+</ul>
+</li>
+<li><p>覆盖索引</p>
+<p>尽量使用覆盖索引(查询使用了索引，并且需要返回的列，在该索引中已经全部能够找到)，减少select *。对于extra中的值，如果是：</p>
+<ul>
+<li><p><code>using index condition</code>:查找使用了索引，但是需要回表查询(先查询到二级索引，然后将查询到的结果再回表根据一级索引进行查询)</p>
+</li>
+<li><p><code>using where;using index</code>:查找使用了索引，但是需要的数据都在索引列中能够找到，所以不需要回表查询数据</p>
+</li>
+</ul>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m14.jpg"></p>
+</li>
+<li><p>前缀索引</p>
+<ul>
+<li><p>当字段类型为字符串(varchar,text等)时，有时候需要索引很长的字符串，这会让索引变得很大，查询时，浪费大量的磁盘IO，影响查询效率，此时可以只将字符串的一部分前缀，建立索引，这样可以大大节约索引空间，从而提高索引的效率。</p>
+</li>
+<li><p>语法：<code>create index idx_xxx on table_name(column(n))</code>只需要在字段名字上面添加n，表示前缀的长度</p>
+</li>
+<li><p>前缀长度：</p>
+<p>可以根据索引的选择性来决定，而选择性是指不重复的索引值(基数)和数据表的记录总数的比值，索引选择性越高则查询效率越高，唯一索引的选择性是1，这是最好的索引选择性，性能也是最好的。比如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select count(distinct email)/ count(*) from tb_user;</span><br><span class="line">select count(disrinct substring(email,1,5) / count(*) </span><br><span class="line">from tb_user</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>单列索引与联合索引</p>
+<ul>
+<li><p>单列索引：一个索引只包含单个列</p>
+</li>
+<li><p>联合索引：一个索引包含了多个列</p>
+</li>
+</ul>
+<p>在业务场景中，如果存在多个查询条件，考虑针对查询字段建立索引时，建议建立联合索引，而非单列索引(但是在多条件联合查询时，MySQL优化器会评估哪个字段的索引效率更高，会选择该索引完成本次查询)</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m15.jpg"></p>
+</li>
+</ol>
+<h3 id="2-7-索引设计原则"><a href="#2-7-索引设计原则" class="headerlink" title="2.7 索引设计原则"></a>2.7 索引设计原则</h3><ol>
+<li><p>针对数据量较大(数据量超过100w），且<strong>查询</strong>比较频繁的表建立索引</p>
+</li>
+<li><p>针对于常作为查询条件(where)、排序(order by)、分组(group by)操作的字段建立索引</p>
+</li>
+<li><p>尽量选择区分度高的列作为索引，尽量建立唯一索引，区分度越高，使用索引的效率越高</p>
+</li>
+<li><p>如果是字符串类型的字段，字段的长度较长，可以针对于字段的特点，建立前缀索引</p>
+</li>
+<li><p>尽量使用联合索引，减少单列索引，查询时，联合索引很多时候可以覆盖索引，节省存储空间，便面回表，提高查询的效率</p>
+</li>
+<li><p>要控制索引的数量，索引并不是多多益善，索引越多，维护索引结构的代价也就越大，会影响增删改的效率</p>
+</li>
+<li><p>如果索引列不能存储NULL值，在创建表时使用NOT NULL进行约束，当优化器知道每列是否包含NULL值时，他可以更好的确定哪个索引最有效的用于查询</p>
+</li>
+</ol>
+<h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><ol>
+<li><p>索引概述：</p>
+<p>索引是高效获取数据的数据结构</p>
+</li>
+<li><p>索引结构</p>
+<p>B+Tree、Hash</p>
+</li>
+<li><p>索引分类</p>
+<p>主键索引、唯一索引、常规索引、全文索引</p>
+<p>聚集索引、二级索引</p>
+</li>
+<li><p>索引语法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">crate [unique] index xxxx on xxx(xxxx);</span><br><span class="line">show idnex from xxx;</span><br><span class="line">drop index xxx on xxxx</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>SQL性能分析</p>
+<p>执行频次，慢查询日志、profile、explain</p>
+</li>
+<li><p>索引使用</p>
+<p>联合索引、索引失效、SQL提示、覆盖索引、前缀索引、单列&#x2F;联合索引</p>
+</li>
+<li><p>索引设计原则</p>
+<p>表、字段、索引</p>
+</li>
+</ol>
+<h2 id="3-SQL优化"><a href="#3-SQL优化" class="headerlink" title="3.SQL优化"></a>3.SQL优化</h2><h3 id="3-1-插入数据的优化"><a href="#3-1-插入数据的优化" class="headerlink" title="3.1 插入数据的优化"></a>3.1 插入数据的优化</h3><ul>
+<li><p>insert优化</p>
+<ol>
+<li><p>批量插入</p>
+<p><code>insert into tb_test values(1,&#39;Tom&#39;),(2,&#39;Cat&#39;),(3,&#39;Jerry&#39;)</code></p>
+</li>
+<li><p>手动提交事务</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">start transaction;</span><br><span class="line">insert into tb_test values(1,&#x27;Tom&#x27;);</span><br><span class="line">insert into tb_test values(2,&#x27;Tom2&#x27;);</span><br><span class="line">commit;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>主键顺序插入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">主键乱序插入：8 1 9 21 88 2 </span><br><span class="line">主键顺序插入：1 2 8 9 21 88</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>大批量插入数据</p>
+<p>如果一次性需要插入大批量的数据，使用insert语句插入性能较低，此时可以使用MySQL数据库提供的load指令进行插入，操作如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#客户端连接服务器时，加上参数 --local-infile</span><br><span class="line">mysql --local-infile -u root -p</span><br><span class="line">#设置全局参数local_infile为1，开启从本地加载文件导入数据的开关</span><br><span class="line">set global local_infile = 1;</span><br><span class="line">#执行load指令将准备好的数据，加载到表结构中</span><br><span class="line">load data local infile &#x27;/root/sql1.log&#x27; into table &#x27;tb_user&#x27; </span><br><span class="line">fields terminated by &#x27;,&#x27; lines terminated by &#x27;\n&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p>顺序插入的性能高于乱序插入</p>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="3-2-主键的优化"><a href="#3-2-主键的优化" class="headerlink" title="3.2 主键的优化"></a>3.2 主键的优化</h3><ol>
+<li><p>数据的组织方式</p>
+<p>在InnoDB存储引擎中，<strong>表数据都是根据主键顺序组织存放的</strong>，这种存储方式的表称为索引组织表(index organized table)</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m2.jpg"></p>
+<ul>
+<li><p>页分裂：页可以为空，也可以填充一半，也可以填充100%，每个页包含了2 - N行数据(如果一行数据过大，会行溢出)，根据主键排列</p>
+</li>
+<li><p>页合并：当删除一行记录时，实际上记录并没有物理删除，只是记录被标记为删除并且它的空间变得允许其他记录声明使用，当页中删除的记录达到MERGE_THRESHOLD(默认为页的50%)，InnoDB会开始寻找最靠近的页看看是否可以将两个页合并以优化空间(MERGE_THRESHOLD:合并页的阈值，可以自己设置，在创建表或者索引时指定)</p>
+</li>
+</ul>
+</li>
+<li><p>主键的设计原则</p>
+<ul>
+<li><p>在满足业务需求的情况下，尽量降低主键的长度(因为二级索引中的叶子节点存放的就是主键，主键如果太长，占用的空间就会比较大)</p>
+</li>
+<li><p>插入数据时，尽量选择顺序插入，选择使用AUTO_INCREMENT自增主键</p>
+</li>
+<li><p>尽量不要使用UUID做主键或者是其他自然主键，如身份证号(UUID是无序的，就有可能出现页分裂的现象)</p>
+</li>
+<li><p>业务操作时，避免对主键的修改</p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="3-3-order-by优化"><a href="#3-3-order-by优化" class="headerlink" title="3.3 order by优化"></a>3.3 order by优化</h3><ol>
+<li><p><code>Using filesort</code>:通过表的索引或全表扫描，读取满足条件的数据行，然后在排序缓冲区<code>sort buffer</code>中完成排序操作，所有不是通过索引直接返回排序结果的排序都叫<code>FileSort</code>排序，性能没有下面那个高</p>
+</li>
+<li><p><code>Using index</code>：通过有序索引顺序扫描直接返回有序数据，不需要额外排序，操作效率高</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#没有创建索引的时候，根据age和phone进行排序</span><br><span class="line">explain select id,age,phone from tb_user order by age,phone;</span><br><span class="line">#上面语句会勇敢filesort进行排序</span><br><span class="line">#创建索引</span><br><span class="line">create index idx_user_age_phone_aa on tb_user(age,phone);</span><br><span class="line">#创建索引后，根据age,phone进行升序排序</span><br><span class="line">explain select id,age,phone from tb_user order by age,phone;</span><br><span class="line">explain select id,age,phone from tb_user by age desc,phone desc;</span><br><span class="line">#上面语句会通过using index排序</span><br><span class="line"></span><br><span class="line">#根据age,phone进行降序一个升序一个降序</span><br><span class="line">explain select id,age,phone from tb_user order by age asc,phone desc;</span><br><span class="line">#上面的会用filesort</span><br><span class="line"></span><br><span class="line">#创建索引</span><br><span class="line">create index idx_user_age_phone_ad on tb_user(age asc,phone desc);</span><br><span class="line"></span><br><span class="line">#根据age,phone进行降序一个升序一个降序</span><br><span class="line">explain select id,age,phone from tb_user order by age asc,phone desc;</span><br><span class="line">#上面的会用index</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>order by</code>优化</p>
+<ul>
+<li><p>根据排序字段建立合适的索引，多字段排序时，也遵循最左前缀法则</p>
+</li>
+<li><p>尽量使用覆盖索引</p>
+</li>
+<li><p>多字段排序，一个升序一个降序，此时需要注意联合索引在创建时的规则(ASC&#x2F;DESC)</p>
+</li>
+<li><p>如果不可避免的出现filesort，大数据量排序时，可以适当增大排序缓冲区的大小<code>sort_buffer_size</code>(默认256k)</p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="3-4-group-by优化"><a href="#3-4-group-by优化" class="headerlink" title="3.4 group by优化"></a>3.4 group by优化</h3><ol>
+<li><p>在分组操作时，可以通过索引来提高效率</p>
+</li>
+<li><p>分组操作时，索引的使用也是满足最左前缀法则的</p>
+</li>
+</ol>
+<h3 id="3-5-limit优化"><a href="#3-5-limit优化" class="headerlink" title="3.5 limit优化"></a>3.5 limit优化</h3><ul>
+<li><p>一个常见的问题就是limit 2000000,10，此时需要MySQL排序前2000010记录，仅仅返<br>回2000000 - 2000010的记录，其他记录丢弃，查询排序的代价非常大。</p>
+</li>
+<li><p>优化思路：一般分页查询时，通过创建覆盖索引能够比较好的提高性能，可以通过覆盖索引加子查询形式进行优化</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">explain select * from tb_sku,(select id from tb_sku order by id </span><br><span class="line">limit 2000000,10) a where t.id = a.id;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="3-6-count优化"><a href="#3-6-count优化" class="headerlink" title="3.6 count优化"></a>3.6 count优化</h3><ol>
+<li><p><code>MyISQM</code>引擎把一个表的总行数存在了磁盘上，因此执行<code>count(*)</code>的时候会直接返回这个数，效率很高；</p>
+</li>
+<li><p><code>InnoDB</code>引擎就比较麻烦，它执行<code>count(*)</code>的时候，需要把数据一行一行地从引擎里面读出来，然后累积计数</p>
+</li>
+<li><p>优化思路：自己计数，比如使用<code>key value</code>，当增加数据的时候，<code>value</code>加1，当减少数据的时候，<code>value</code>减一</p>
+</li>
+<li><p><code>count</code>的几种用法：</p>
+<ul>
+<li><p><code>count()</code>是一个聚合函数，对于返回的结果集，一行行的判断，如果<code>count</code>函数的参数不是null，累计值就加1，否则不加，最后返回累加值</p>
+</li>
+<li><p>用法：<code>count(*),count(主键),count(字段),count(1)</code></p>
+<ul>
+<li><p><code>count(主键)</code></p>
+<p><code>InnoDB</code>引擎会遍历整张表，把每一行的主键id都取出来，返回给服务层，服务层拿到主键后，直接按行进行累加(主键不可能为null)</p>
+</li>
+<li><p><code>count(字段)</code></p>
+<p>没有<code>not null</code>约束：<code>InnoDB</code>引擎会遍历整张表把每一行的字段值都取出来，返回给服务层，服务层判断是否为<code>null</code>，不为<code>null</code>，计数累加。</p>
+<p>有<code>not null</code>约束：<code>InnoDB</code>引擎会遍历整张表把每一行字段值都取出来，返回给服务层，直接按行进行累加</p>
+</li>
+<li><p><code>count(1)</code></p>
+<p><code>InnoDB</code>引擎遍历整张表，但不取值，服务层对于返回的每一行，放一个数字1进去，直接按行进行累加</p>
+</li>
+<li><p><code>count(*)</code></p>
+<p><code>InnoDB</code>引擎不会把全部字段取出来，而是专门做了优化，不取值，服务层直接按行进行累加</p>
+</li>
+</ul>
+</li>
+<li><p>效率排序：<code>count(字段)&lt;count(主键)&lt;count(1) 约等于count(*)</code>，所以尽量使用最后一个</p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="3-7-update优化"><a href="#3-7-update优化" class="headerlink" title="3.7 update优化"></a>3.7 update优化</h3><ol>
+<li><p><code>InnoDB</code>的行锁是针对索引加的锁，不是针对记录加的锁，并且该索引不能失效，否则会从行锁升级为表锁</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">update student set no = &#x27;2000100100&#x27; where id = 1;</span><br><span class="line">update student set no = &#x27;2000100105&#x27; where name = &#x27;韦一笑&#x27;;</span><br><span class="line"># 第一条记录id是有索引的，所以加的是行锁，第二条记录name是没有索引的，所以加的是表锁</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="3-8-总结"><a href="#3-8-总结" class="headerlink" title="3.8 总结"></a>3.8 总结</h3><ol>
+<li><p>插入数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">insert:批量插入、手动控制事务、主键顺序插入</span><br><span class="line">大批量插入：load data local infile</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>主键插入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">主键长度尽量短、顺序插入 AUTO_INCREMENT</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>order by优化</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">using index:直接通过索引返回数据、性能高</span><br><span class="line">using filesort:需要将返回的结果在排序缓冲区排序</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>group by优化</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">索引，多字段分组满足最左前缀法则</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>limit优化</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">覆盖索引 + 子查询</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>count优化</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">性能：count(字段)&lt;count(主键)&lt;count(1)约等于count(*)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>update优化</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">尽量根据主键/索引字段进行数据更新，避免行锁变为表锁</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+                
+            </div>
+            <hr/>
+
+            
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/MySQL/">
+                                    <span class="chip bg-color">MySQL</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("/medias/comment_bg.png") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'cfDm4vNZha9Ccjn7PUEb5SmB-gzGzoHsz',
+        appKey: 'PvwALUSwvBfsE27CNQfkopUh',
+        notify: 'false' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'mm',
+        pageSize: '10',
+        lang: 'en',
+        placeholder: 'just go go'
+    });
+</script>
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+            <div class="card">
+                <a href="/2023/12/06/DataBase_MySQL/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="MySQL基础">
+                        
+                        <span class="card-title">MySQL基础</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2023-12-06
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%8A%80%E6%9C%AF/" class="post-category">
+                                    技术
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/MySQL/">
+                        <span class="chip bg-color">MySQL</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/04/11/MyBatis/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="MyBatis">
+                        
+                        <span class="card-title">MyBatis</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-11
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%8A%80%E6%9C%AF/" class="post-category">
+                                    技术
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+    
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2019-2024</span>
+            
+            <span id="year">2019</span>
+            <a href="/about" target="_blank">KeyHX</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/KeyHX?tab=repositories" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1216696105@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1216696105" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1216696105" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;Search</span>
+            <input type="search" id="searchInput" name="s" placeholder="Please enter a search keyword"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+	
+    
+    <script type="text/javascript" color="0,0,255"
+        pointColor="0,0,255" opacity='0.7'
+        zIndex="-1" count="99"
+        src="/libs/background/canvas-nest.js"></script>
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+
+    
+
+</body>
+
+</html>

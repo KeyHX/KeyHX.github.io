@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="对象转换, KeyHX">
+    <meta name="keywords" content="SSM_PRO, KeyHX">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>对象转换 | KeyHX</title>
+    <title>SSM_PRO | KeyHX</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -316,12 +316,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">对象转换</h1>
+                    <h1 class="description center-align post-title">SSM_PRO</h1>
                 </div>
             </div>
         </div>
@@ -343,8 +343,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E7%BC%96%E7%A8%8B%E5%AE%9E%E6%88%98/">
-                                <span class="chip bg-color">编程实战</span>
+                            <a href="/tags/SSM/">
+                                <span class="chip bg-color">SSM</span>
                             </a>
                         
                     </div>
@@ -368,7 +368,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2024-01-09
+                    2024-01-14
                 </div>
                 
 
@@ -394,17 +394,52 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="对象转换"><a href="#对象转换" class="headerlink" title="对象转换"></a>对象转换</h1><h2 id="1-问题引入"><a href="#1-问题引入" class="headerlink" title="1. 问题引入"></a>1. 问题引入</h2><p>        最近实习中遇到一个问题：两个不同的类A和B中分别有实体类EntityA和EntityB，他们需要调用同一个方法C来实现某个功能，其中EntityA和EntityB中都有C中需要用到的字段。所以现在需要将其中一个对象转化另一个，这样才能都调用方法C。</p>
-<h2 id="2-问题解决"><a href="#2-问题解决" class="headerlink" title="2. 问题解决"></a>2. 问题解决</h2><h3 id="2-1-同名字段复制"><a href="#2-1-同名字段复制" class="headerlink" title="2.1 同名字段复制"></a>2.1 同名字段复制</h3><p>解决办法：通过泛型、反射等方式，获得一个对象的属性值然后赋值给另一个对象</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T,S&gt; T <span class="title function_">convert</span><span class="params">(T target,S source)</span> &#123;</span><br><span class="line">        Field[] declaredFields = getAllFields(target);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; declaredFields.length; i++) &#123;</span><br><span class="line">            <span class="keyword">try</span>&#123;</span><br><span class="line">                <span class="type">Field</span> <span class="variable">targetField</span> <span class="operator">=</span> declaredFields[i];</span><br><span class="line">                <span class="type">ExcludeConvert</span> <span class="variable">excludeConvert</span> <span class="operator">=</span> targetField.getAnnotation(ExcludeConvert.class);</span><br><span class="line">                <span class="keyword">if</span>(excludeConvert==<span class="literal">null</span>||!excludeConvert.value()) &#123;</span><br><span class="line">                    <span class="type">Field</span> <span class="variable">sourceField</span> <span class="operator">=</span> source.getClass().getDeclaredField(targetField.getName());</span><br><span class="line">                    <span class="keyword">if</span> (!sourceField.getName().equals(<span class="string">&quot;serialVersionUID&quot;</span>)) &#123;</span><br><span class="line">                        <span class="keyword">try</span> &#123;</span><br><span class="line">                            targetField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">                            sourceField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">                            <span class="type">Object</span> <span class="variable">value</span> <span class="operator">=</span> sourceField.get(source);</span><br><span class="line">                            <span class="keyword">if</span>(value!=<span class="literal">null</span>)&#123;</span><br><span class="line">                                targetField.set(target, value);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">                            e.printStackTrace();</span><br><span class="line">                        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                            targetField.setAccessible(<span class="literal">false</span>);</span><br><span class="line">                            sourceField.setAccessible(<span class="literal">false</span>);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;<span class="keyword">catch</span> (NoSuchFieldException e) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> target;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+                <h1 id="SSM-PRO"><a href="#SSM-PRO" class="headerlink" title="SSM_PRO"></a>SSM_PRO</h1><h2 id="1、C3P0作用"><a href="#1、C3P0作用" class="headerlink" title="1、C3P0作用"></a>1、C3P0作用</h2><p>传统的JDBC数据库连接使用DriverManager来获取，每次向数据库建立连接的时候都要将Connection加载到内存中，再验证用户名和密码。需要获取数据库连接的时候，就像数据库要求一个，执行完成再断开连接，这样的方式会消耗大量的资源和时间。多人同时连接操作的时候会占用很多的系统资源，如果在数据库连接的时候，程序异常关闭，会导致内存泄漏。</p>
+<p>数据库连接池技术解决上面的连接问题。基本思想：为数据库建立一个缓冲池，预先在缓冲池中放入一定数量的连接，当需要建立连接的时候，就从中取出一个，使用完毕再放回去。数据库连接池负责分配、管理和释放数据库连接，它允许应用程序重复使用一个现有的数据库连接，而不是重新建立一个。</p>
+<p>常见数据库连接池：<strong>c3p0</strong>，<strong>dbcp</strong>，<strong>HikariCP</strong>，<strong>Druid</strong></p>
+<h2 id="2、mysql驱动"><a href="#2、mysql驱动" class="headerlink" title="2、mysql驱动"></a>2、mysql驱动</h2><p>mysql-connector-java，是用于将不同编程语言的应用程序连接到MySQL数据库服务器的驱动程序，没有的话JDBC无法访问数据库（无法注册驱动）。java.sql.Driver 接口是所有 JDBC 驱动程序需要实现的接口，在程序中不需要直接去访问实现了 Driver 接口的类，而是由驱动程序管理器类(java.sql.DriverManager)去调用这些Driver实现。</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/32.png"></p>
+<h2 id="3、servlet作用"><a href="#3、servlet作用" class="headerlink" title="3、servlet作用"></a>3、servlet作用</h2><p>servlet专门用来接收客户端的请求，专门接收客户端的请求数据，然后调用底层service处理数据并生成结果<br>浏览器http请求——》tomcat服务器——-》到达servlet—–》执行doget，dopost方法—-》返回数据<br>&lt;1&gt;客户端发送请求到服务器端<br>&lt;2&gt;服务器将请求信息发送至Servlet<br>&lt;3&gt;Servlet生成响应内容并将其传给服务器。<br>&lt;4&gt;服务器将响应返回给客户端。<br>servlet里的三大作用域：</p>
+<p>   request(请求)：它的作用范围是一次请求和响应，是三个作用域中最小的。<br>   session（会话）：它的作用比request要大一点，一次会话过程中，它的作用域就一直存在，(默认是30分钟)<br>   servletcontext：它作用范围最大，作用于整个服务器中。（Application）</p>
+<h2 id="4、Spring与SpringMVC包扫描"><a href="#4、Spring与SpringMVC包扫描" class="headerlink" title="4、Spring与SpringMVC包扫描"></a>4、Spring与SpringMVC包扫描</h2><p>在一个项目中，容器不一定只有一个，Spring可以包括多个容器，而且容器存在上下层的关系。在一个项目中引入Spring和SpringMVC两个框架，它就是两个容器，Spring是父容器，SpringMVC是子容器，并且在Spring父容器中注册的Bean对于SpringMVC容器中是可见的，而在SpringMVC容器中注册的Bean对于Spring父容器中是不可见的，也就是子容器可以看见父容器中的注册的Bean，反之就不行。Spring父容器负责所有其他非@Controller注解的Bean的注册，而SpringMVC只负责@Controller注解的Bean的注册，使得他们各负其责、明确边界。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;mvc:annotation-driven /&gt;</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取类的所有属性，包括父类</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> object</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Field[] getAllFields(Object object) &#123;</span><br><span class="line">    Class&lt;?&gt; clazz = object.getClass();</span><br><span class="line">    List&lt;Field&gt; fieldList = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">while</span> (clazz != <span class="literal">null</span>) &#123;</span><br><span class="line">        fieldList.addAll(<span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(Arrays.asList(clazz.getDeclaredFields())));</span><br><span class="line">        clazz = clazz.getSuperclass();</span><br><span class="line">    &#125;</span><br><span class="line">    Field[] fields = <span class="keyword">new</span> <span class="title class_">Field</span>[fieldList.size()];</span><br><span class="line">    fieldList.toArray(fields);</span><br><span class="line">    <span class="keyword">return</span> fields;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-2-指定字段复制"><a href="#2-2-指定字段复制" class="headerlink" title="2.2 指定字段复制"></a>2.2 指定字段复制</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> String [] baseFields=<span class="keyword">new</span> <span class="title class_">String</span>[]&#123;<span class="string">&quot;id&quot;</span>,<span class="string">&quot;createUser&quot;</span>,<span class="string">&quot;updateUser&quot;</span>,<span class="string">&quot;createTime&quot;</span>,<span class="string">&quot;updateTime&quot;</span>,<span class="string">&quot;deleted&quot;</span>,<span class="string">&quot;serialVersionUID&quot;</span>&#125;;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T,S&gt; T <span class="title function_">convertWithoutBaseEntity</span><span class="params">(T target,S source)</span> &#123;</span><br><span class="line">        Set&lt;String&gt; baseFieldSet = Arrays.stream(baseFields).collect(Collectors.toSet());</span><br><span class="line">        Field[] declaredFields = getAllFields(target);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; declaredFields.length; i++) &#123;</span><br><span class="line">            <span class="keyword">try</span>&#123;</span><br><span class="line">                <span class="type">Field</span> <span class="variable">targetField</span> <span class="operator">=</span> declaredFields[i];</span><br><span class="line">                <span class="keyword">if</span>(baseFieldSet.contains(targetField.getName()))<span class="keyword">continue</span>;</span><br><span class="line">                <span class="type">ExcludeConvert</span> <span class="variable">excludeConvert</span> <span class="operator">=</span> targetField.getAnnotation(ExcludeConvert.class);</span><br><span class="line">                <span class="keyword">if</span>(excludeConvert==<span class="literal">null</span>||!excludeConvert.value()) &#123;</span><br><span class="line">                    <span class="type">Field</span> <span class="variable">sourceField</span> <span class="operator">=</span> source.getClass().getDeclaredField(targetField.getName());</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        targetField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">                        sourceField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">                        <span class="type">Object</span> <span class="variable">value</span> <span class="operator">=</span> sourceField.get(source);</span><br><span class="line">                        <span class="keyword">if</span>(value!=<span class="literal">null</span>)&#123;</span><br><span class="line">                            targetField.set(target, value);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                        targetField.setAccessible(<span class="literal">false</span>);</span><br><span class="line">                        sourceField.setAccessible(<span class="literal">false</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;<span class="keyword">catch</span> (NoSuchFieldException e) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> target;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Field[] getAllFields(Object object) &#123;</span><br><span class="line">        Class&lt;?&gt; clazz = object.getClass();</span><br><span class="line">        List&lt;Field&gt; fieldList = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">while</span> (clazz != <span class="literal">null</span>) &#123;</span><br><span class="line">            fieldList.addAll(<span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(Arrays.asList(clazz.getDeclaredFields())));</span><br><span class="line">            clazz = clazz.getSuperclass();</span><br><span class="line">        &#125;</span><br><span class="line">        Field[] fields = <span class="keyword">new</span> <span class="title class_">Field</span>[fieldList.size()];</span><br><span class="line">        fieldList.toArray(fields);</span><br><span class="line">        <span class="keyword">return</span> fields;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>上面配置声明了@RequestMapping、@RequestBody、@ResponseBody等。并且，该配置默认加载很多的参数绑定方法，比如json转换解析器等。</p>
+<h2 id="5、后端进行校验"><a href="#5、后端进行校验" class="headerlink" title="5、后端进行校验"></a>5、后端进行校验</h2><p>使用JSR303步骤</p>
+<ol>
+<li><p>引入依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--JSR303数据校验--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.hibernate<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hibernate-validator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.4.1.Final<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在实体类中使用判断</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Pattern(regexp = &quot;(^[a-zA-Z0-9_-]&#123;6,16&#125;$)|(^[\\u2E80-\\u9FFF]&#123;2,5&#125;)&quot;</span></span><br><span class="line"><span class="meta">        ,message = &quot;用户名必须是2-5位中文，或者6-16位英文&quot;)</span></span><br><span class="line"><span class="keyword">private</span> String empName;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Pattern(regexp = &quot;^([a-z0-9_\\.-]+)@([\\da-z\\.-]+)\\.([a-z\\.]&#123;2,6&#125;)$&quot;,message = &quot;邮箱格式不正确&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> String email;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>控制器中进行判断</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 员工保存</span></span><br><span class="line"><span class="comment"> * 1、支持JSR303</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@RequestMapping(value = &quot;/emp&quot; , method = RequestMethod.POST)</span></span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="keyword">public</span> Msg <span class="title function_">saveEmp</span><span class="params">(<span class="meta">@Valid</span> Employee employee, BindingResult result)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (result.hasErrors()) &#123;</span><br><span class="line">        Map&lt;String,Object&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        <span class="comment">//校验失败,在提示框中显示</span></span><br><span class="line">        List&lt;FieldError&gt; errors = result.getFieldErrors();</span><br><span class="line">        <span class="keyword">for</span> (FieldError error : errors) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;错误的字段名：&quot;</span> + error.getField());</span><br><span class="line">            System.out.println(<span class="string">&quot;错误信息：&quot;</span> + error.getDefaultMessage());</span><br><span class="line">            map.put(error.getField(),error.getDefaultMessage());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Msg.fail().add(<span class="string">&quot;errorField&quot;</span>,map);</span><br><span class="line">    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">        employeeService.saveEmp(employee);</span><br><span class="line">        <span class="keyword">return</span> Msg.success();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="6、Hibernate-与Mybatis"><a href="#6、Hibernate-与Mybatis" class="headerlink" title="6、Hibernate 与Mybatis"></a>6、Hibernate 与Mybatis</h2><p>Hibernate ：是一个对象关系映射框架(ORM)，将实体类与数据库表建立映射关系，可以自动生成Sql语句，省去了绝大部分的sql编写，用面向对象的方式操作数据，是一套完整的数据库解决方案，能做到数据库无关性。</p>
+<p>Mybatis：是一个对象关系映射框架(ORM)，将实体类与数据库表建立映射关系，能够灵活编写sql语句</p>
+<h2 id="7、jdbc与jpa"><a href="#7、jdbc与jpa" class="headerlink" title="7、jdbc与jpa"></a>7、jdbc与jpa</h2><p>jdbc是数据库的统一接口标准，而jpa是orm框架的统一接口标准</p>
+<p>区别：jdbc更加注重数据库，orm则更加注重于java代码，实际上jpa实现的框架底层还是使用jdbc去和数据库交互</p>
+<h2 id="8、spring-data-JPA-和spring-data-JDBC"><a href="#8、spring-data-JPA-和spring-data-JDBC" class="headerlink" title="8、spring data JPA 和spring data JDBC"></a>8、spring data JPA 和spring data JDBC</h2><p>spring data JPA ：何为jpa（Java Persistence API）,java持久层的API。JPA的实现思想为ORM,JPA并不是一个框架，是一类框架的总称，是一个规范，本质上还是一种ORM规范，提供了一些编程的API接口，JPA属于应用程序和JSBC的一个中间层，对二者起连接作用，具体实现由ORM厂商提供实现。spring data JPA 是 Spring 基于 ORM 框架、JPA 规范的基础上封装的一套JPA应用框架，底层使用Hibernate实现。</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/33.png"></p>
+<p>spring data JDBC：jdbc是连接数据库的原生接口，定义的是对数据库操作的规范，由具体的厂家实现。spring data JDBC相比传统的jdbc省去了数据库驱动，连接等无关配置，只需要要写sql和设置参数</p>
+<p>区别：两个属于不同的层次，spring data JPA 是一个应用框架</p>
+<h2 id="9、序列化"><a href="#9、序列化" class="headerlink" title="9、序列化"></a>9、序列化</h2><p>序列化：对象的寿命随着生成该对象的程序的终止而终止，若想要将内存中对象的状态保存下来，Java提供一种机制即序列化保存对象状态。</p>
+<p>用途：</p>
+<ul>
+<li>把内存中的对象状态保存到一个文件或者数据库的时候</li>
+<li>将对象通过网络传播</li>
+</ul>
+<p>用法：将类继承Serialiable接口，可以加上serialVersionUID(不加也没事)。如果通过网络传播的时候，serialVersionUID不一致，反序列化就不能正常执行</p>
+<h2 id="10、session"><a href="#10、session" class="headerlink" title="10、session"></a>10、session</h2><p>session：会话控制，用来存储变量，当在应用程序和Web页面跳转的时候，存储在Session中的变量不会丢失，在整个用户会话中一直存在</p>
+<p>session销毁的方式：</p>
+<ol>
+<li>默认的时间到期(或者自己设置的时间，在配置文件中可以修改)</li>
+<li>关闭浏览器</li>
+<li>设置立即失效</li>
+</ol>
+<h2 id="11、JsonObject"><a href="#11、JsonObject" class="headerlink" title="11、JsonObject"></a>11、JsonObject</h2><p>JsonObject是一种存储json的数据结构，可以使用put方法给json对象添加元素</p>
+<h2 id="12、在SpringBoot中为什么要加-mapper或者-MapperScan"><a href="#12、在SpringBoot中为什么要加-mapper或者-MapperScan" class="headerlink" title="12、在SpringBoot中为什么要加@mapper或者@MapperScan"></a>12、在SpringBoot中为什么要加@mapper或者@MapperScan</h2><p>​        mybatis-config中只是会为对应的mapper创建代理类，而想真正包装成bean，注入到spring容器中，还是需要AutoConfiguredMapperScannerRegistrar，它会根据扫描@Mapper注释或是@MapperScan指定的包下的接口，将其注册为bean。</p>
 
                 
             </div>
@@ -419,8 +454,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E7%BC%96%E7%A8%8B%E5%AE%9E%E6%88%98/">
-                                    <span class="chip bg-color">编程实战</span>
+                                <a href="/tags/SSM/">
+                                    <span class="chip bg-color">SSM</span>
                                 </a>
                             
                         </div>
@@ -727,9 +762,10 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
             <div class="card">
                 <a href="/2024/01/14/SSM_PRO/">
                     <div class="card-image">
@@ -747,9 +783,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2024-01-14
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-01-14
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -762,6 +798,7 @@
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -780,13 +817,13 @@
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2023/12/23/%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8/">
+                <a href="/2024/01/09/%E5%AF%B9%E8%B1%A1%E8%BD%AC%E6%8D%A2/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="方法引用">
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="对象转换">
                         
-                        <span class="card-title">方法引用</span>
+                        <span class="card-title">对象转换</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -797,7 +834,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-12-23
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-01-09
                             </span>
                         <span class="publish-author">
                             
@@ -814,8 +851,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/">
-                        <span class="chip bg-color">函数式编程</span>
+                    <a href="/tags/%E7%BC%96%E7%A8%8B%E5%AE%9E%E6%88%98/">
+                        <span class="chip bg-color">编程实战</span>
                     </a>
                     
                 </div>
