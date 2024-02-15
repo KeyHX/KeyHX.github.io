@@ -336,6 +336,225 @@
       </tags>
   </entry>
   <entry>
+    <title>JVM</title>
+    <url>/2022/07/24/JVM/</url>
+    <content><![CDATA[<h1 id="JVM"><a href="#JVM" class="headerlink" title="JVM"></a>JVM</h1><h2 id="1-java的内存结构-运行时数据区"><a href="#1-java的内存结构-运行时数据区" class="headerlink" title="1.java的内存结构(运行时数据区)"></a>1.java的内存结构(运行时数据区)</h2><ul>
+<li><p>程序计数器：线程私有，记录正在执行的虚拟机字节码指令地址；如果正在执行的是native方法，这个计数器值则为空</p>
+</li>
+<li><p>java虚拟机：线程私有，描述的事java方法执行的内存模型；每个方法在执行的同时创建一个栈帧用于存储局部变量表、操作数栈、动态链接等。每个方法调用直至执行完成的过程，就对应着一个栈帧在虚拟机栈中入栈到出栈的过程。</p>
+</li>
+<li><p>本地方法栈：线程私有，本地方法栈与虚拟机栈所发挥的作用非常相似，他们之间的区别不过是虚拟机栈为虚拟机执行java方法，而本地方法栈执行的是native方法</p>
+</li>
+<li><p>Java堆：线程共享，用来存放对象实例</p>
+</li>
+<li><p>方法区：线程共享，用于存放以及被虚拟机加载的类信息、常量、静态常量等数据</p>
+</li>
+<li><p>运行时常量池：是方法区的一部分，用于存放编译期生成的各种字面量和符号引用</p>
+</li>
+</ul>
+<h2 id="2-什么是双亲委派模型"><a href="#2-什么是双亲委派模型" class="headerlink" title="2.什么是双亲委派模型"></a>2.什么是双亲委派模型</h2><p>        如果一个类加载器收到类加载的请求，它首先不会自己去加载这个类，而是把这个请求委派给父类加载器去完成，每个层次的加载器都是如此，因此所有的加载请求最终都应该传到顶层的启动类加载器中，只有父类加载器无法完成这个加载请求的时候，子类加载器才会尝试去加载。</p>
+<h2 id="3-java虚拟机有哪些类加载器"><a href="#3-java虚拟机有哪些类加载器" class="headerlink" title="3.java虚拟机有哪些类加载器"></a>3.java虚拟机有哪些类加载器</h2><ul>
+<li><p>启动类加载器(Bootstrap ClassLoader):</p>
+<p>这个类加载器负责加载lib目录下的</p>
+</li>
+<li><p>扩展类加载器(Extension ClassLoader):</p>
+<p>负责加载lib&#x2F;ext目录中的</p>
+</li>
+<li><p>应用程序类加载器(Application ClassLoader):</p>
+<p>负责加载用户类路径上的类库，开发者可以直接使用这个类加载器，如果应用程序没有自定义过类加载器，一般情况下程序默认是应用程序类加载器</p>
+</li>
+<li><p>自定义类加载器：</p>
+<p>用户自定义的类加载器</p>
+</li>
+</ul>
+<h2 id="4-类加载的过程"><a href="#4-类加载的过程" class="headerlink" title="4.类加载的过程"></a>4.类加载的过程</h2><p>类加载的过程包括：加载、验证、准备、解析、初始化，其中验证、准备、解析统称为连接</p>
+<ul>
+<li><p>加载：通过一个类的全限定名来获取定义此类的二进制字节流，在内存中生成代表这个类的java.lang.Class对象</p>
+</li>
+<li><p>验证：确保Class文件的字节流中包含的信息符合当前虚拟机的要求，并且不会危害虚拟机的安全</p>
+</li>
+<li><p>准备：为静态遍历分配内存并设置初始值</p>
+</li>
+<li><p>解析：将常量池内的符号引用替换为直接引用</p>
+</li>
+<li><p>初始化：到了初始化阶段，才真正开始执行类中的定义的java初始化程序代码</p>
+</li>
+</ul>
+<h2 id="5-为什么使用双亲委派模型"><a href="#5-为什么使用双亲委派模型" class="headerlink" title="5.为什么使用双亲委派模型"></a>5.为什么使用双亲委派模型</h2><p>        双亲委派模型<strong>保证了Java程序的稳定运行，可以避免类的重复加载</strong>（<strong>JVM 区分不同类的方式不仅仅根据类名，相同的类文件被不同的类加载器加载产生的是两个不同的类</strong>），也保证了 Java 的核心 API 不被篡改。如果没有使用双亲委派模型，而是每个类加载器加载自己的话就会出现一些问题，比如我们编写一个称为 java.lang.Object 类的话，那么程序运行的时候，系统就会出现多个不同的 Object 类。</p>
+<h2 id="6-为什么要破坏双亲委派模型"><a href="#6-为什么要破坏双亲委派模型" class="headerlink" title="6.为什么要破坏双亲委派模型"></a>6.为什么要破坏双亲委派模型</h2><p>        使用双亲委派模型无法满足需求，以Tomcat为例，一个web容器可能要部署一个或者多个应用程序，不同的应用程序可能会依赖同一个第三方库的不同版本，因此需要保证每一个应用程序的类库都是独立的，相互隔离的</p>
+<h2 id="7-如何破坏双亲委派模型"><a href="#7-如何破坏双亲委派模型" class="headerlink" title="7.如何破坏双亲委派模型"></a>7.如何破坏双亲委派模型</h2><p>        破坏双亲委派模型的思路类似，以Tomcat为例。</p>
+<ol>
+<li>继承ClassLoader，Tomcat中的WebappClassLoader继承ClassLoader的子类URLClassLoader</li>
+<li>重写loadClass方法，实现自己的逻辑，不需要每次都先委派给父类加载</li>
+</ol>
+<h2 id="8-java中有哪几种常量池"><a href="#8-java中有哪几种常量池" class="headerlink" title="8.java中有哪几种常量池?"></a>8.java中有哪几种常量池?</h2><ol>
+<li>class文件常量池：用于存放编译期生成的各种字面量(相当于常量)和符号引用</li>
+<li>运行时常量池：class文件时类被编译为class文件时生成的，而当类被加载到内存中后，jvm就会将class文件常量池中的内容存放到运行时常量池中</li>
+<li>字符串常量池：用来存放字符串，全局只有一份，被所有类共享</li>
+</ol>
+<h2 id="9-String中的intern方法"><a href="#9-String中的intern方法" class="headerlink" title="9.String中的intern方法"></a>9.String中的intern方法</h2><p>        在jdk 7之后的版本中，作用为：如果字符串常量池中已经有这个字符串了，则直接返回字符串常量池中的引用。如果没有，则将这个字符串的引用保存一份到字符串常量池，然后返回这个引用。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public static void main(String args[]) &#123;</span><br><span class="line"></span><br><span class="line">    // 创建2个对象，str持有的是new创建的对象引用</span><br><span class="line">    // 1）驻留（intern）在字符串常量池中的对象</span><br><span class="line">    // 2）new创建的对象</span><br><span class="line">    String str = new String(&quot;joonwhee&quot;);</span><br><span class="line">    // 字符串常量池中已经有了，返回字符串常量池中的引用</span><br><span class="line">    String str2 = &quot;joonwhee&quot;;</span><br><span class="line">    // false，str为new创建的对象引用，str2为字符创常量池中的引用</span><br><span class="line">    System.out.println(str == str2);</span><br><span class="line">    // str修改为字符串常量池的引用，所以下面为true</span><br><span class="line">    str = str.intern();</span><br><span class="line">    // true</span><br><span class="line">    System.out.println(str == str2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="10-怎么判断对象已经死去？"><a href="#10-怎么判断对象已经死去？" class="headerlink" title="10.怎么判断对象已经死去？"></a>10.怎么判断对象已经死去？</h2><p>常见两种判别方法：引用计数法和可达性分析算法，HotSpot中使用可达性分析算法</p>
+<ul>
+<li><p>引用计数法</p>
+<p>给对象添加一个引用计数器，每当有一个地方引用它时，计数器值就加一，当引用失效时，计数器值就减一。任何时刻计数器值为0的对象就不可能就再被使用</p>
+<p>优点：实现简单，判定效率高</p>
+<p>缺点：很难解决对象之间循环引用的问题</p>
+</li>
+<li><p>可达性分析算法</p>
+<p>通过一系列的称为“GC Roots”的对象作为起始点，从这些节点开始向下搜索，搜索所走过的路径称为引用链，当一个对象到GC Roots没有任何引用连接，则证明次对象时不可用的。</p>
+</li>
+</ul>
+<h2 id="11-哪些对象可以作为GC-Roots？"><a href="#11-哪些对象可以作为GC-Roots？" class="headerlink" title="11.哪些对象可以作为GC Roots？"></a>11.哪些对象可以作为GC Roots？</h2><ol>
+<li><p>虚拟机栈中的引用对象</p>
+</li>
+<li><p>本地方法栈中的引用对象</p>
+</li>
+<li><p>方法区中类静态属性引用对象</p>
+</li>
+<li><p>方法区中常量引用对象</p>
+</li>
+</ol>
+<h2 id="12-介绍四种引用"><a href="#12-介绍四种引用" class="headerlink" title="12.介绍四种引用"></a>12.介绍四种引用</h2><ul>
+<li><p>强引用：在代码中普遍存在，只要强引用还存在，垃圾收集器永远不会回收的</p>
+</li>
+<li><p>软引用：用来描述一些还有用但非必须的对象，使用SoftReference实现，在系统将要放生内存溢出的时候，将会进行回收</p>
+</li>
+<li><p>弱引用：用来描述非必须的对象，使用WeakReference来实现，在进行垃圾收集的时候将会被回收</p>
+</li>
+<li><p>虚引用：是最弱的一种引用关系，使用PhantomReference类来实现，虚引用必须和引用队列联合使用，当垃圾回收器准备回收一个对象时，如果发现他还有虚引用，就会在回收对象的内存之前，把这个虚引用加入到与之关联的引用队列中。通过判断队列中是不是有对象来判断对象是不是要回收。</p>
+</li>
+</ul>
+<h2 id="13-垃圾收集有哪些算法"><a href="#13-垃圾收集有哪些算法" class="headerlink" title="13.垃圾收集有哪些算法"></a>13.垃圾收集有哪些算法</h2><ol>
+<li><p>标记-清除算法</p>
+<p>首先标记出所有需要回收的对象，在标记完成后统一回收所有被标记的对象</p>
+<p>缺点：</p>
+<ul>
+<li><p>效率问题，标记和清除两个过程的效率都不高</p>
+</li>
+<li><p>空间问题，会产生大量不连续的碎片</p>
+</li>
+</ul>
+</li>
+<li><p>复制算法</p>
+<p>将内存按容量划分为大小相等的两块，每次只使用其中的一块，当这一块内存使用完，就将还或者的对象复制到另一块上面，然后再将已经使用过的内存空间一次清理掉。</p>
+</li>
+<li><p>标记-整理算法</p>
+<p>标记阶段与“标记-清除”算法一样，而后续是将所有存活的对象都向一端移动，然后直接清理掉端边界以外的内存</p>
+</li>
+</ol>
+<h2 id="14-HotSpot为什么要分为新生代和老年代"><a href="#14-HotSpot为什么要分为新生代和老年代" class="headerlink" title="14.HotSpot为什么要分为新生代和老年代"></a>14.HotSpot为什么要分为新生代和老年代</h2><p>        把java堆分为新生代和老年代，这样就可以根据各个代的特点采用最合适的收集算法</p>
+<p>在新生代中，每次都有大量的对象死去，只有少量的存活，一般采用复制算法。老年代中对象存活率高，一般采用标记-清理或者标记-整理算法</p>
+<h2 id="15-新生代中Eden区和Survior区的默认比例"><a href="#15-新生代中Eden区和Survior区的默认比例" class="headerlink" title="15.新生代中Eden区和Survior区的默认比例"></a>15.新生代中Eden区和Survior区的默认比例</h2><p>新生代分为1个Eden区和2个Survior区，通常称为From Survior和To Survior</p>
+<p>Eden区和Survior区默认比例：8：1：1</p>
+<h2 id="16-HotSpot-GC的分类"><a href="#16-HotSpot-GC的分类" class="headerlink" title="16.HotSpot GC的分类"></a>16.HotSpot GC的分类</h2><p>分为两大类</p>
+<ol>
+<li><p>Partial GC：不收集整个GC堆</p>
+<ul>
+<li><p>Young GC&#x2F;Minor GC：只收集新生代的GC</p>
+</li>
+<li><p>Old GC：只收集老年代</p>
+</li>
+<li><p>Mixed GC：收集整个新生代以及部分老年代</p>
+</li>
+</ul>
+</li>
+<li><p>Full GC&#x2F;Major GC：收集整个GC堆的模式</p>
+<p>包括新生代、老年代、永久代等</p>
+</li>
+</ol>
+<h2 id="17-GC触发的条件"><a href="#17-GC触发的条件" class="headerlink" title="17.GC触发的条件"></a>17.GC触发的条件</h2><ol>
+<li><p>Young GC：当新生代中的Eden区没有足够的空间进行分配的时候会触发</p>
+</li>
+<li><p>Full GC：</p>
+<ul>
+<li><p>当准备触发Young GC时，如果发现数据比目前老年代剩余空间大，就不会触发Young GC而是触发Full GC</p>
+</li>
+<li><p>如果有永久代，在永久代需要分配空间但是已经没有足够的空间时，也要触发一次Full GC</p>
+</li>
+<li><p>System.c()默认也是触发Full GC</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="18-什么情况下新生代对象会晋升到老年代？"><a href="#18-什么情况下新生代对象会晋升到老年代？" class="headerlink" title="18.什么情况下新生代对象会晋升到老年代？"></a>18.什么情况下新生代对象会晋升到老年代？</h2><ol>
+<li><p>如果新生代的垃圾收集器为Serial和ParNew，当对象大于设置的参数值时，会被认为时大对象，直接进入老年代</p>
+</li>
+<li><p>Young GC后，如果对象太大无法进入Survivor区，则会通过分配担保机制进入老年代</p>
+</li>
+<li><p>当Survivor区中的对象年龄增加到一定程度(默认是15)，就会被晋升到老年代中</p>
+</li>
+<li><p>如果Survivor区中相同年龄所有对象大小的总和大于Survivor空间的一半，年龄大于或者等于该年龄的对象就可以直接进入老年代</p>
+</li>
+</ol>
+<h2 id="19-发生Young-GC的时候需要扫描老年代对象吗"><a href="#19-发生Young-GC的时候需要扫描老年代对象吗" class="headerlink" title="19.发生Young GC的时候需要扫描老年代对象吗"></a>19.发生Young GC的时候需要扫描老年代对象吗</h2><p>不需要扫描，如果扫描的话Young GC的效率会下降</p>
+<h2 id="20-垃圾收集器有哪些？"><a href="#20-垃圾收集器有哪些？" class="headerlink" title="20.垃圾收集器有哪些？"></a>20.垃圾收集器有哪些？</h2><ul>
+<li><p>Serial收集器：只会用一条垃圾收集线程去完成垃圾收集工作，在进行收集时必须暂停其他线程工作(STW)</p>
+<ul>
+<li><p>新生代采用：标记-复制</p>
+</li>
+<li><p>老年代采用：标记-整理</p>
+</li>
+</ul>
+<p>优点：简单而高效</p>
+<p>缺点：会有STW</p>
+</li>
+<li><p>ParNew收集器</p>
+<p>就是多线程版本的Serial收集器</p>
+<ul>
+<li><p>新生代：标记-复制</p>
+</li>
+<li><p>老年代：标记-整理</p>
+</li>
+</ul>
+</li>
+<li><p>Parallel Scavenge收集器</p>
+<p>Parallel Scavenge看上去与ParNew一样，但它注重吞吐量，吞吐量是执行用户代码时间与CPU总耗时</p>
+<ul>
+<li><p>新生代：标记-复制</p>
+</li>
+<li><p>老年代：标记-整理</p>
+</li>
+</ul>
+</li>
+<li><p>Serial Old收集器</p>
+<p>Serial收集器老年代版本</p>
+<p>用途：</p>
+<ul>
+<li><p>JDK 1.5之前与Parallel Scavenge搭配使用</p>
+</li>
+<li><p>作为CMS的后备方案</p>
+</li>
+</ul>
+</li>
+<li><p>Parallel Old收集器</p>
+<p>Parallel Scavenge收集器的老年代版本</p>
+</li>
+</ul>
+<h2 id="21-介绍CMS垃圾收集器的特点"><a href="#21-介绍CMS垃圾收集器的特点" class="headerlink" title="21.介绍CMS垃圾收集器的特点"></a>21.介绍CMS垃圾收集器的特点</h2><p>        CMS(Concurrent Mark Sweep)收集器是一种以获取最短回收停顿时间为目标的收集器。CMS是HotSpot虚拟机第一款真正意义上的并发收集器。</p>
+<p>        CMS是以标记-清除算法实现的，分为四个步骤</p>
+<ul>
+<li><p>初始标记：暂停其他线程，<strong>记录与root相连对象</strong>，这个阶段速度很快</p>
+</li>
+<li><p>并发标记：同时开启GC与用户线程，会记录跟踪发生引用更新的地方</p>
+</li>
+<li><p>重新标记：修正并发标记期间因用户线程运行而产生变动的标记记录，时间比初始标记长，但远比并发标记短</p>
+</li>
+<li><p>并发清除：开启用户线程，同时GC开始对未标记的清除</p>
+</li>
+</ul>
+<p>优点：并发收集，低停顿</p>
+<p>缺点：对CPU资源敏感，利用并发清除算法会产生大量碎片</p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>JVM</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LR</title>
     <url>/2023/12/19/LR/</url>
     <content><![CDATA[<h1 id="LR"><a href="#LR" class="headerlink" title="LR"></a>LR</h1><h2 id="1-修图思路"><a href="#1-修图思路" class="headerlink" title="1. 修图思路"></a>1. 修图思路</h2><ol>
@@ -630,6 +849,898 @@
       </categories>
       <tags>
         <tag>后期</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Optional</title>
+    <url>/2023/12/18/Optional/</url>
+    <content><![CDATA[<h1 id="Optional"><a href="#Optional" class="headerlink" title="Optional"></a>Optional</h1><h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>        在编写代码的时候出现最多的就是空指针异常，所以在很多情况下我们需要做各种非空的判断，在<code>JDK1.8</code>之后，通过<code>Optional</code>我们可以写出更优雅的代码来避免空指针异常</p>
+<h2 id="2-使用"><a href="#2-使用" class="headerlink" title="2. 使用"></a>2. 使用</h2><h3 id="2-1-创建对象"><a href="#2-1-创建对象" class="headerlink" title="2.1 创建对象"></a>2.1 创建对象</h3><p>        <code>Optional</code>就好像是包装类，可以把我们的具体数据封装<code>Optional</code>对象内部，然后再去使用<code>Optional</code>中封装好的方法操作封装进去的数据就可以避免空指针异常</p>
+<p>        一般使用<code>Optional</code>的静态方法<code>ofNullable</code>来把数据封装成一个<code>Optional</code>对象，无论传入的参数是否为<code>null</code>都不会出现问题。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">Author</span> <span class="variable">author</span> <span class="operator">=</span> getAuthor();</span><br><span class="line">Optional&lt;Author&gt; authorOptional = Optional.ofNullable(author);</span><br></pre></td></tr></table></figure>
+
+<p>        如果确定一个对象不是空的则可以使用<code>Optional</code>的静态方法<code>of</code>来把数据封装成<code>Optional</code>对象</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">Author</span> <span class="variable">author</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Author</span>();</span><br><span class="line">Optional&lt;Author&gt; authorOptional = Optional.of(author);</span><br></pre></td></tr></table></figure>
+
+<p>       如果一个对象是<code>null</code>，这个时候需要将<code>null</code>封装成一个<code>Optional</code>对象返回，可以使用<code>Optional</code>的静态方法<code>empty</code>来进行封装</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Optional.empty()</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-安全消费值"><a href="#2-2-安全消费值" class="headerlink" title="2.2 安全消费值"></a>2.2 安全消费值</h3><p>        当获取到一个<code>Optional</code>对象后可以使用<code>ifPresent</code>方法消费其中的值，这个方法会判断其内封装的数据是否为空，不为空时才会执行具体的消费代码。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Optional&lt;Author&gt; authorOptional = Optional.ofNullable(getAuthor());</span><br><span class="line">authorOptional.ifPresent(author -&gt; System.out.println(author.getName());</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-获取值"><a href="#2-3-获取值" class="headerlink" title="2.3 获取值"></a>2.3 获取值</h3><p>        不推荐直接使用<code>get</code>方法获取值，因为当<code>Optional</code>内部的数据为空时会出现异常</p>
+<h3 id="2-4-安全获取值"><a href="#2-4-安全获取值" class="headerlink" title="2.4 安全获取值"></a>2.4 安全获取值</h3><ul>
+<li><p><code>orElseGet</code>：获取数据并且设置为空时的默认值。如果数据不为空就能获取到该数据，如果为空则根据传入的参数来创建对象。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Optional&lt;Author&gt; authorOptional = Optional.ofNullable(getAuthor));</span><br><span class="line"><span class="type">Author</span> <span class="variable">author</span> <span class="operator">=</span> authorOptional.orElseGet(() -&gt; <span class="keyword">new</span> <span class="title class_">Author</span>());</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>orElseThrow</code></p>
+<p>获取数据，如果数据不为空就能获取到该数据，如果为空则根据传入的参数来创建异常抛出</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Optional&lt;Author&gt; authorOptional = Optional.ofNullable(getAuthor));</span><br><span class="line"><span class="type">Author</span> <span class="variable">author</span> <span class="operator">=</span> authorOptional.orElseThrow((Supplier&lt;Throwable&gt;) ()</span><br><span class="line">-&gt; <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(<span class="string">&quot;author为空&quot;</span>));</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="2-5-过滤"><a href="#2-5-过滤" class="headerlink" title="2.5 过滤"></a>2.5 过滤</h3><p>        可以使用<code>filter</code>方法对数据进行过滤，如果原本是有数据的，但是不符合判断，也会变成一个无数据的<code>Optional</code>对象</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Optional&lt;Author&gt; authorOptional = Optional.ofNullable(getAuthor));</span><br><span class="line">authorOptional.filter(author -&gt; author.getAge() &gt; <span class="number">100</span>).ifPresent(</span><br><span class="line">    author -&gt; System.out.println(author.getAge())</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-6-判断"><a href="#2-6-判断" class="headerlink" title="2.6 判断"></a>2.6 判断</h3><p>        可以使用<code>isPresent</code>方法判断数据是否存在，如果为空返回值为<code>false</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Optional&lt;Author&gt; authorOptional = Optional.ofNullable(getAuthor));</span><br><span class="line"><span class="keyword">if</span>(authorOptional.isPresent())&#123;</span><br><span class="line">    System.out.println(authorOptional.get().getName());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-7-数据转换"><a href="#2-7-数据转换" class="headerlink" title="2.7 数据转换"></a>2.7 数据转换</h3><p>        <code>Optional</code>还提供了<code>map</code>可以让我们对数据进行转换，并且得到的数据也还是被<code>Optional</code>包装好的</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Optional&lt;Author&gt; authorOptional = Optional.ofNullable(getAuthor));</span><br><span class="line">Optional&lt;List&lt;Book&gt;&gt; books = authorOptional.map(author -&gt; author.getBooks())</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>函数式编程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Redis</title>
+    <url>/2023/12/09/Redis/</url>
+    <content><![CDATA[<h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><h2 id="1-NoSQL数据库简介"><a href="#1-NoSQL数据库简介" class="headerlink" title="1. NoSQL数据库简介"></a>1. NoSQL数据库简介</h2><h3 id="1-1-技术发展"><a href="#1-1-技术发展" class="headerlink" title="1.1 技术发展"></a>1.1 技术发展</h3><ol>
+<li><p>解决功能性的问题：Java、Jsp、RDBMS、Tomcat、HTML、Linux、JDBC、SVM</p>
+</li>
+<li><p>解决扩展性的问题：Struts、Spring、SpringMVC、Hibernate、Mybatis</p>
+</li>
+<li><p>解决性能的问题：NoSQL、Java线程、Hadoop、Ngin、MQ、ElasticSearch</p>
+</li>
+</ol>
+<h3 id="1-2-NoSQL数据库概述"><a href="#1-2-NoSQL数据库概述" class="headerlink" title="1.2 NoSQL数据库概述"></a>1.2 NoSQL数据库概述</h3><ol>
+<li><p>NoSQL(Not Only SQL),意即不仅仅是SQL，泛指非关系型数据库，NoSQL不依赖业务逻辑方式存储，而是以简单的key-value模式存储，因此大大的增加了数据库的扩展能力</p>
+<ul>
+<li><p>不遵循SQL标准</p>
+</li>
+<li><p>不支持ACID</p>
+</li>
+<li><p>远超于SQL的性能</p>
+</li>
+</ul>
+</li>
+<li><p>NoSQL使用场景</p>
+<ul>
+<li><p>对数据高并发读写</p>
+</li>
+<li><p>海量数据的读写</p>
+</li>
+<li><p>对数据高可扩展性</p>
+</li>
+</ul>
+</li>
+<li><p>NoSQL不适用场景</p>
+<ul>
+<li><p>需要事务支持</p>
+</li>
+<li><p>基于sql的结构化查询，处理复杂的关系</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="2-Redis概述"><a href="#2-Redis概述" class="headerlink" title="2. Redis概述"></a>2. Redis概述</h2><ul>
+<li><p>redis是一个开源的<strong>key-value</strong>存储系统</p>
+</li>
+<li><p>和Memcached类似，它<strong>支持存储的value类型相对更多</strong>，包括string(字符串)、list(链表)、set(集合)、zset(sorted set 有序集合)和hash(哈希类型)</p>
+</li>
+<li><p>这些数据类型都支持push&#x2F;pop，add&#x2F;remove及取交集并集及更丰富的操作，而且这些操作都是<strong>原子性</strong>的</p>
+</li>
+<li><p>redis支持各种不同方式的<strong>排序</strong></p>
+</li>
+<li><p>与memcached一样，为了保证效率，数据都是<strong>缓存在内存</strong>中</p>
+</li>
+<li><p>区别的是redis会<strong>周期性</strong>的把更新的<strong>数据写入磁盘</strong>或者把修改操作写入追加的记录文件</p>
+</li>
+<li><p>实现了**master-slave(主从)**同步</p>
+</li>
+</ul>
+<h3 id="2-1-Redis相关知识"><a href="#2-1-Redis相关知识" class="headerlink" title="2.1 Redis相关知识"></a>2.1 Redis相关知识</h3><ol>
+<li><p>默认16个数据库，从下标0开始，初始默认使用0号库</p>
+</li>
+<li><p>使用<code>select &lt;dbid&gt;</code>来切换数据库，如select 8</p>
+</li>
+<li><p>统一密码管理，所有库密码相同</p>
+</li>
+<li><p>dbsize查看当前数据库的key的数量</p>
+</li>
+<li><p>flushdb清空当前库</p>
+</li>
+<li><p>flushall通杀全部库</p>
+</li>
+<li><p>Redis是单线程+多路IO复用技术</p>
+</li>
+</ol>
+<h2 id="3-常用五大数据类型"><a href="#3-常用五大数据类型" class="headerlink" title="3. 常用五大数据类型"></a>3. 常用五大数据类型</h2><h3 id="3-1-Redis键-key"><a href="#3-1-Redis键-key" class="headerlink" title="3.1 Redis键(key)"></a>3.1 Redis键(key)</h3><p><code>keys *</code>查看当前库所有key</p>
+<p><code>exists key</code>判断某个key是否存在</p>
+<p><code>type key</code>查看key是什么类型</p>
+<p><code>del key</code>删除指定的key数据</p>
+<p><code>unlink key</code>根据value选择非阻塞删除，仅将keys从keyspace元数据中删除，真正的删除会在后续异步操作。</p>
+<p><code>expire key 10</code>为指定的key设置过期时间10秒钟</p>
+<p><code>ttl key</code>查看还有多少秒过期，-1表示永不过期，-2表示已过期</p>
+<p><code>select</code>切换数据库</p>
+<p><code>dbsize</code>查看当前数据库的key的数量</p>
+<p><code>flushdb</code>清空当前库</p>
+<p><code>flushall</code>通杀全部库 </p>
+<h3 id="3-2-Redis字符串-String"><a href="#3-2-Redis字符串-String" class="headerlink" title="3.2 Redis字符串(String)"></a>3.2 Redis字符串(String)</h3><ol>
+<li><p>简介</p>
+<ul>
+<li><p>String类型是二进制安全的，意味着Redis的string可以包含任何数据，比如jpg图片或者序列化的对象</p>
+</li>
+<li><p>String类型是Redis最基本的数据类型，一个Redis中字符串value最多是512M</p>
+</li>
+</ul>
+</li>
+<li><p>常用命令</p>
+<ul>
+<li><p><code>set &lt;Key&gt; &lt;value&gt;</code>：添加键值对</p>
+</li>
+<li><p><code>get &lt;Key&gt;</code>：查询对应键值</p>
+</li>
+<li><p><code>append &lt;key&gt; &lt;value&gt;</code>：将给定的value追加到原值末尾</p>
+</li>
+<li><p><code>strlen &lt;key&gt;</code>：获得值的长度</p>
+</li>
+<li><p><code>setnx &lt;key&gt; &lt;value&gt;</code>：只有key不存在时，设置key的值</p>
+</li>
+<li><p><code>incr &lt;key&gt;</code>：将key中存储的数字值加1，只能对数字值操作，如果为空，新增值为1</p>
+</li>
+<li><p><code>decr &lt;key&gt;</code>：将key中存储的数字值减一，只能对数字值操作，如果为空，新增值为-1</p>
+</li>
+<li><p><code>incrby/decrby &lt;key&gt;&lt;步长&gt;</code>：将key中存储的数字值增减，自定义步长</p>
+</li>
+<li><p><code>mset &lt;key1&gt;&lt;value1&gt;&lt;key2&gt;&lt;value2&gt;</code>：同时设置一个或多个key-value</p>
+</li>
+<li><p><code>mget &lt;key1&gt;&lt;key2&gt;&lt;key3&gt;</code>：同时获取一个或多个value</p>
+</li>
+<li><p><code>msetnx &lt;key1&gt;&lt;value1&gt;&lt;key2&gt;&lt;value2&gt;</code>：同时设置一个或多个key-value对，当且仅当所有给定key都不存在</p>
+<p>原子性，有一个失效都失败</p>
+</li>
+<li><p><code>getrange &lt;key&gt;&lt;起始位置&gt;&lt;结束位置&gt;</code>：获得值的范围，类似java中的substring</p>
+</li>
+<li><p><code>setrange &lt;key&gt;&lt;起始位置&gt;&lt;value&gt;</code>：用value覆写key所存储的字符串值，从起始位置开始(索引从0开始)</p>
+</li>
+<li><p><code>setex &lt;key&gt;&lt;过期时间&gt;&lt;value&gt;</code>：设置键值的同时，设置过期时间，单位为秒</p>
+</li>
+<li><p><code>getset &lt;key&gt;&lt;value&gt;</code>：以新换旧，设置了新值的同时获得旧值</p>
+</li>
+</ul>
+</li>
+<li><p>原子性</p>
+<ol>
+<li><p>所谓原子操作是指不会被线程调度机制打断的操作，这种操作一旦开始，就一直运行到结束，中间不会切换到另一个线程。Redis单命令的原子性主要得益于Redis的单线程</p>
+</li>
+<li><p>在单线程中，能够在单条指令中完成的操作都可以认为是原子操作，因为中断只能发生于指令之间</p>
+</li>
+<li><p>在多线程中，不能被其他进程(线程)打断的操作就叫原子操作</p>
+</li>
+</ol>
+</li>
+<li><p>数据结构</p>
+<ul>
+<li>String的数据结构为简单动态字符串，是可以修改的字符串，内部结构实现上类似于Java的ArrayList，采用预分配冗余空间的方式来减少内存的频繁分配</li>
+</ul>
+</li>
+</ol>
+<h3 id="3-3-Redis列表-List"><a href="#3-3-Redis列表-List" class="headerlink" title="3.3  Redis列表(List)"></a>3.3  Redis列表(List)</h3><ol>
+<li><p>简介</p>
+<p>单键多值，Redis列表是简单的字符串列表，按照插入顺序排序，可以添加一个元素到列表的头部或者尾部，它的底层实际是一个<strong>双向链表</strong>，对两端的操作性能很高，通过索引下标的操作中间的节点性能会较差</p>
+</li>
+<li><p>常用命令</p>
+<ul>
+<li><p><code>lpush/rpush &lt;key&gt;&lt;value1&gt;&lt;value2&gt;&lt;value3&gt;..</code>：从左边&#x2F;右边插入一个或多个值，每次都是从左边放入</p>
+</li>
+<li><p><code>lpop/rpop &lt;key&gt;</code>：从左边&#x2F;右边吐出一个值，值在键在，值光键亡</p>
+</li>
+<li><p><code>rpoplpush &lt;key1&gt;&lt;key2&gt;</code>：从key1列表右边吐出一个值，插到key2列表左边</p>
+</li>
+<li><p><code>lrange &lt;key&gt;&lt;start&gt;&lt;stop&gt;</code>：按照索引下标获得元素(从左到右)，<code>start=0,stop=-1</code>：表示获取所有</p>
+</li>
+<li><p><code>lindex &lt;key&gt;&lt;index&gt;</code>：按照索引下标获得元素(从左到右)</p>
+</li>
+<li><p><code>llen &lt;key&gt;</code>：获得列表长度</p>
+</li>
+<li><p><code>linsert &lt;key&gt; before &lt;value&gt; &lt;newvalue&gt;</code>：在value的前(后)面插入newvalue值</p>
+</li>
+<li><p><code>lrem &lt;key&gt;&lt;n&gt;&lt;value&gt;</code>：从左边删除n个value(从左到右)</p>
+</li>
+<li><p><code>lset &lt;key&gt;&lt;index&gt;&lt;value&gt;</code>：将列表key下标为index的值替换为value</p>
+</li>
+</ul>
+</li>
+<li><p>数据结构</p>
+<ul>
+<li>List的数据结构为快速链表quickList。首先在列表元素较少的情况下会使用一块连续的内存存储，这个结构是ziplist，也即是压缩列表。它将所有的元素紧挨着一起存储，分配的是一块连续的内存，当数据量比较多的时候才会改成quicklist。因为普通的链表需要的附加指针空间太大，会比较浪费空间，比如列表里面存的只是int类型的数据，结构上还需要两个额外的指针prew和next。Redis将链表和ziplist结合起来组成了quicklist。也就是将多个ziplist使用双向指针串起来使用，这样既满足了快速插入删除性能，又不会出现太大的空间冗余</li>
+</ul>
+</li>
+</ol>
+<h3 id="3-4-Redis集合-Set"><a href="#3-4-Redis集合-Set" class="headerlink" title="3.4 Redis集合(Set)"></a>3.4 Redis集合(Set)</h3><ol>
+<li><p>简介</p>
+<p>Redis set对外提供的功能和list类似是一个列表的功能，特殊之处在于set是可以自动排重的，当需要存储一个列表数据，又不希望出现重复数据，set是一个很好的选择，并且set提供了判断某个成员是否在一个set集合内的重要接口，这个也是list所不能提供的。</p>
+<p>Redis的Set是string类型的无序集合，它底层其实是一个value为null的hash表，所以添加、删除、查找的复杂度都是O(1)</p>
+</li>
+<li><p>常用命令</p>
+<ul>
+<li><p><code>sadd &lt;key&gt;&lt;value1&gt;&lt;value2&gt;</code>：将一个或多个元素加入到集合key中，已经存在的元素将被忽略</p>
+</li>
+<li><p><code>smembers &lt;key&gt;</code>：取出该集合的所有值</p>
+</li>
+<li><p><code>sismember &lt;key&gt; &lt;value&gt;</code>：判断集合key是否为含有value值，有1，没有0</p>
+</li>
+<li><p><code>scard &lt;key&gt;</code>：返回该集合的元素个数</p>
+</li>
+<li><p><code>srem &lt;key&gt;&lt;value1&gt;&lt;value2&gt;</code>：删除集合中的某个元素</p>
+</li>
+<li><p><code>spop &lt;key&gt;</code>：随机从该集合从吐出一个值</p>
+</li>
+<li><p><code>srandmember &lt;key&gt;&lt;n&gt;</code>：随机从该集合中取出n个值，不会从集合中删除</p>
+</li>
+<li><p><code>smove &lt;source&gt;&lt;destination&gt;value</code>：把集合中一个值从一个集合移动到另一个集合</p>
+</li>
+<li><p><code>sinter &lt;key1&gt;&lt;key2&gt;</code>：返回两个集合的交集元素</p>
+</li>
+<li><p><code>sunion &lt;key1&gt;&lt;key2&gt;</code>：返回两个集合的并集元素</p>
+</li>
+<li><p><code>sdiff &lt;key1&gt;&lt;key2&gt;</code>：返回两个集合的差集元素(key1中的，不包含key2中的)</p>
+</li>
+</ul>
+</li>
+<li><p>数据结构</p>
+<p>Set数据结构是dict字典，字典是用哈希表实现的。Java中HashSet的内部实现使用的是HashMap，只不过所有的value都指向同一个对象。Redis的set结构也是一样，它的内部也使用hash结构，所有的value都指向同一个内部值</p>
+</li>
+</ol>
+<h3 id="3-5-Redis哈希-Hash"><a href="#3-5-Redis哈希-Hash" class="headerlink" title="3.5 Redis哈希(Hash)"></a>3.5 Redis哈希(Hash)</h3><ol>
+<li><p>Redis hash是一个键值对集合，是一个string类型的field和value的映射表，hash特别适合用于存储对象。类似java中的Map&lt;String,Object&gt;</p>
+</li>
+<li><p>主要的两种存储方式</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m21.jpg"></p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m22.jpg"></p>
+</li>
+<li><p>常用命令</p>
+<ul>
+<li><p><code>hset &lt;key&gt;&lt;field&gt;&lt;value&gt;</code>：给key集合中的field键赋值value</p>
+</li>
+<li><p><code>hget &lt;key1&gt;&lt;field&gt;</code>：从key1集合中取出value</p>
+</li>
+<li><p><code>hmset &lt;key1&gt;&lt;field&gt;&lt;value1&gt;&lt;key2&gt;&lt;value2&gt;</code>：批量设置hash的值</p>
+</li>
+<li><p><code>hexists &lt;key1&gt;&lt;field&gt;</code>：查看哈希表key中，给定field是否存在</p>
+</li>
+<li><p><code>hkeys &lt;key&gt;</code>：列出该hash集合中的所有field</p>
+</li>
+<li><p><code>hincrby &lt;key&gt;&lt;field&gt;&lt;increment&gt;</code>：为哈希表key中的field的值增量1</p>
+</li>
+<li><p><code>hsetnx &lt;key&gt;&lt;field&gt;&lt;value&gt;</code>：将哈希表key中的域field的值设置为value，当且仅当域field不存在</p>
+</li>
+</ul>
+</li>
+<li><p>数据结构</p>
+<p>Hash类型对应的数据结构是两种：ziplist(压缩列表)、hashtable(哈希表)。当field-value长度较短且个数较少时，使用ziplist，否则使用hashtable</p>
+</li>
+</ol>
+<h3 id="3-6-Redis有序集合Zset"><a href="#3-6-Redis有序集合Zset" class="headerlink" title="3.6 Redis有序集合Zset"></a>3.6 Redis有序集合Zset</h3><ol>
+<li><p>Redis有序集合zset与普通集合set非常相似，是一个<strong>没有重复元素</strong>的字符串集合。不同之处是有序集合的每个成员都关联一个<strong>评分</strong>，这个评分被用来按照从低分到最高分的方式排序集合中的成员，<strong>集合中的成员是唯一的，但是评分是可以重复的</strong>。因为元素是有序的，所以可以很快的根据评分或者次序来获取一个范围的元素，访问有序集合的中间元素也是非常快的，因此可以把有序集合作为一个没有重复成员的智能列表</p>
+</li>
+<li><p>常用命令</p>
+<ul>
+<li><p><code>zadd &lt;key&gt;&lt;score1&gt;&lt;value1&gt;&lt;score2&gt;&lt;value2&gt;..</code>：将一个或多个member元素及其score值加入到有序集合key当中</p>
+</li>
+<li><p><code>zrange &lt;key&gt;&lt;start&gt;&lt;stop&gt; [WITHSCORES]</code>：返回有序集key中，下标在start stop之间的元素，WITHSCORES可以让分数一起和值返回到结果集</p>
+</li>
+<li><p><code>zrangebuscore key minmax[withscores][limit offset count]</code>：返回有序集key中，所有score值介于min和max之间(包括min和max)的成员，有序集成员按score值递增(从小到大)次序排序</p>
+</li>
+<li><p><code>zrevrangebyscore key maxmin [withscores][limit offset count]</code>：同上，改为从大到小排列</p>
+</li>
+<li><p><code>zincrby &lt;key&gt;&lt;increment&gt;&lt;value&gt;</code>：为元素的score加上增量</p>
+</li>
+<li><p><code>zrem &lt;key&gt;&lt;value&gt;</code>：删除该集合下，指定值的元素</p>
+</li>
+<li><p><code>zcount &lt;key&gt;&lt;min&gt;&lt;max&gt;</code>：统计该集合，分数区间内的元素个数</p>
+</li>
+<li><p><code>zrank &lt;key&gt;&lt;value&gt;</code>：返回该值在集合中的排名，从0开始</p>
+</li>
+</ul>
+</li>
+<li><p>数据结构</p>
+<p>SortedSet(zset)是Redis提供的一个非常特别的数据结构，一方面它等价于Java的数据结构Map&lt;String,Double&gt;,可以给每一个元素value赋予一个权重score，另一方面它又类似于TreeSet，内部元素会按照权重score进行排序，可以得到每个元素的名次，还可以通过score的范围来获取元素的列表</p>
+<p>zset底层使用了两个数据结构：</p>
+<ol>
+<li><p>hash，hash的作用就是关联元素的value和权重score，保障元素value的唯一性，可以通过元素value找到相应的score值</p>
+</li>
+<li><p>跳跃表，跳跃表的目的在于给元素value排序，根据score的范围获取元素列表</p>
+</li>
+</ol>
+</li>
+<li><p>跳跃表</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m23.jpg"></p>
+</li>
+</ol>
+<h2 id="4-Redis6的发布和订阅"><a href="#4-Redis6的发布和订阅" class="headerlink" title="4. Redis6的发布和订阅"></a>4. Redis6的发布和订阅</h2><ol>
+<li><p>什么是发布和订阅</p>
+<p>Redis发布订阅(pub&#x2F;sub)是一种消息通信模式：发送者(pub)发送消息，订阅者(sub)接收消息，Redis客户端可以订阅任意数量的频道</p>
+</li>
+<li><p>Redis的发布和订阅</p>
+<ol>
+<li><p>客户端可以订阅频道</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m24.jpg"></p>
+</li>
+<li><p>当给这个频道发布消息后，消息就会发送给订阅的客户端</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m25.jpg"></p>
+</li>
+</ol>
+</li>
+<li><p>发布订阅命令行实现</p>
+<ol>
+<li><p>打开一个客户端订阅channel1</p>
+<p><code>SUBSCRIBE channel1</code></p>
+</li>
+<li><p>打开另一个客户端，给channel1发布消息hello</p>
+<p><code>publish channel1 hello</code>返回订阅者的数量</p>
+</li>
+<li><p>打开另一个客户端可以看到发送的消息</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="5-Redis6新数据类型"><a href="#5-Redis6新数据类型" class="headerlink" title="5.Redis6新数据类型"></a>5.Redis6新数据类型</h2><h3 id="5-1-Bitmaps"><a href="#5-1-Bitmaps" class="headerlink" title="5.1 Bitmaps"></a>5.1 Bitmaps</h3><ol>
+<li><p>简介</p>
+<p>Redis提供了Bitmaps这个数据类型可以实现对位的操作</p>
+<ul>
+<li><p>Bitmaps本身不是一种数据类型，实际上它就是字符串(key-value)，但是它可以对字符串的位进行操作</p>
+</li>
+<li><p>Bitmaps单独提供了一套命令，所以在Redis中使用Bitmaps和使用字符串的方法不太相同，可以把Bitmaps想象成一个以位为单位的数组，数组的每个单元只能存储0和1，数组的下标在Bitmaps中叫做偏移量</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m26.jpg"></p>
+</li>
+</ul>
+</li>
+<li><p>命令</p>
+<ol>
+<li><p><code>setbit &lt;key&gt;&lt;offset&gt;&lt;value&gt;</code>：设置Bitmaps中某个偏移量的值(0或1，offset偏移量从0开始)，注意：很多应用的用户id以一个指定数字(例如10000)开头，直接将用户id和Bitmaps的偏移量对应势必会造成一定的浪费，通常的做法是每次做setbit操作时将用户id减去这个指定的数字。在第一次初始化Bitmaps时，假如偏移量非常大，那么整个初始化过程执行会比较慢，可能造成Redis阻塞</p>
+</li>
+<li><p><code>getbit &lt;key&gt;&lt;offset&gt;</code>：获取Bitmaps中某个偏移量的值</p>
+</li>
+<li><p><code>bitcount &lt;key&gt;[start end]</code>：统计字符串从start字节到end字节比特值为1的数量</p>
+</li>
+<li><p><code>bitop and(or/not/xor) &lt;destkey&gt; [key..]</code>：bitop是一个复合操作，它可以做多个Bitmaps的交集，并集，非，异或操作，并将结果保存在destkey中</p>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="5-2-HyperLogLog"><a href="#5-2-HyperLogLog" class="headerlink" title="5.2 HyperLogLog"></a>5.2 HyperLogLog</h3><ol>
+<li><p>简介</p>
+<ul>
+<li><p>用来做基数统计的算法，优点是在输入元素的数量或者体积非常大时，计算基数所需的空间总是固定的、并且是很小的</p>
+</li>
+<li><p>在Redis中，每个HyperLogLog键只需要花费12KB内存，就可以计算接近2^64个不同元素的基数，这和计算基数时，元素越多耗费内存就越多的集合形成鲜明对比，但是因为HyperLogLog只会根据输入元素来计算基数，不会存储输入元素本身，所以不能像集合那样，返回输入的各个元素</p>
+</li>
+<li><p>什么是基数？比如数据集{1,3,5,7,7,8},那么这个数据集的基数集为</p>
+</li>
+</ul>
+</li>
+<li><p>命令</p>
+<ol>
+<li><p><code>pfadd &lt;key&gt;&lt;element&gt;[element..]</code>：添加指定元素到HyperLogLog中，如果执行命令后HLL估计的近似基数发生变化，则返回1，否则返回0</p>
+</li>
+<li><p><code>pfcount &lt;key&gt;[key...]</code>：计算HLL的近似基数，可以计算多个HLL</p>
+</li>
+<li><p><code>pfmerge &lt;destkey&gt;&lt;sourcekey&gt;[sourcekey...]</code>：将一个或多个HLL合并后的结果存储在另一个HLL中</p>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="5-3-Geospatial"><a href="#5-3-Geospatial" class="headerlink" title="5.3 Geospatial"></a>5.3 Geospatial</h3><ol>
+<li><p>简介</p>
+<p>Redis3.2增加了对GEO类型的支持。GEO,Geographic，地理信息的缩写。该类型，就是元素的2维坐标，在地图上就是经纬度。redis基于该类型，提供了经纬度设置，查询，范围查询，距离查询，经纬度Hash等常见操作</p>
+</li>
+<li><p>命令</p>
+<ol>
+<li><p><code>geoadd &lt;key&gt;&lt;longitude&gt;&lt;member&gt; [longitude latitude member..]</code>：添加地理位置(经度，纬度，名称)</p>
+</li>
+<li><p><code>geopos &lt;key&gt;&lt;member&gt;[member..]</code>：获得指定地区的坐标值</p>
+</li>
+<li><p><code>geodist &lt;key&gt;&lt;memmber1&gt;&lt;member2&gt; [m|km|ft|mi]</code>：获取两个位置之间的直线距离</p>
+</li>
+<li><p><code>georadius &lt;key&gt;&lt;longitude&gt;&lt;latitude&gt; radius m|km|ft|mi</code>：以给定的经纬度为中心找出某一半径内的元素</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="6-Redis事务操作"><a href="#6-Redis事务操作" class="headerlink" title="6. Redis事务操作"></a>6. Redis事务操作</h2><h3 id="6-1-事务的定义"><a href="#6-1-事务的定义" class="headerlink" title="6.1 事务的定义"></a>6.1 事务的定义</h3><p>Redis事务是一个单独的隔离操作：事务中的所有命令都会序列化、按顺序执行，事务在执行的过程中，不会被其他客户端发送来的命令请求打断。Redis事务的主要作用就是串联多个命令防止别的命令插队。</p>
+<h3 id="6-2-Multi、Exec、discard"><a href="#6-2-Multi、Exec、discard" class="headerlink" title="6.2 Multi、Exec、discard"></a>6.2 Multi、Exec、discard</h3><ul>
+<li>从输入Multi命令开始，输入的命令都会依次进入命令队列中，但不会执行，知道输入Exec后，Redis会将之前的命令队列中的命令依次执行，组队的过程中可以通过discard来放弃组队</li>
+</ul>
+<h3 id="6-3-事务的错误处理"><a href="#6-3-事务的错误处理" class="headerlink" title="6.3 事务的错误处理"></a>6.3 事务的错误处理</h3><ul>
+<li><p>组队中某个命令出现了报告错误，执行时整个的所有队列都会被取消</p>
+</li>
+<li><p>如果执行阶段某个命令报出了错误，则只有报错的命令不会被执行，而其他的命令都会执行，不会回滚</p>
+</li>
+</ul>
+<h3 id="6-4-事务冲突问题"><a href="#6-4-事务冲突问题" class="headerlink" title="6.4 事务冲突问题"></a>6.4 事务冲突问题</h3><ol>
+<li><p>例子</p>
+<p>一个请求想给金额减8000</p>
+<p>一个请求想给金额减5000</p>
+<p>一个请求想给金额减1000</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m27.jpg"></p>
+</li>
+<li><p>解决办法</p>
+<ul>
+<li><p>悲观锁</p>
+</li>
+<li><p>乐观锁</p>
+</li>
+</ul>
+</li>
+<li><p>悲观锁</p>
+<p>每次拿数据的时候都会认为别人会修改，所以每次在拿数据的时候都会上锁，这样别人想拿这个数据都会block直到它拿到锁，传统的关系型数据库里面就用到了很多这种锁机制，比如行锁，表锁等，读锁，写锁等，都是在做操作之前先上锁。缺点效率低</p>
+</li>
+<li><p>乐观锁</p>
+<p>每次拿数据的时候都认为别人不会修改，所以不会上锁，但是在更新的时候会判断一下在此期间别人有没有去更新这个数据，可以使用版本号等机制，乐观锁适用于多读的应用类型，这样可以提高吞吐量，Redis就是利用这种check-and-set机制实现事务</p>
+</li>
+</ol>
+<h3 id="6-5-WATCH-key-key…"><a href="#6-5-WATCH-key-key…" class="headerlink" title="6.5 WATCH key[key…]"></a>6.5 WATCH key[key…]</h3><ol>
+<li>在执行multi之前，先执行watch key1[key2],可以监视一个(或多个)key,如果在事务执行之前这些key被其他命令所改动，那么事务将被打断</li>
+</ol>
+<h3 id="6-6-UNWATCH"><a href="#6-6-UNWATCH" class="headerlink" title="6.6 UNWATCH"></a>6.6 UNWATCH</h3><ol>
+<li>取消WATCH命令对所有key的监视，如果在执行WATCH命令之后，EXEC命令或DISCARD命令先被执行了的话，那么就不需要再执行UNWATCH了</li>
+</ol>
+<h3 id="6-7-Redis事务三特性"><a href="#6-7-Redis事务三特性" class="headerlink" title="6.7 Redis事务三特性"></a>6.7 Redis事务三特性</h3><ol>
+<li><p>单独的隔离操作</p>
+<p>事务中的所有命令都会序列化，按顺序的执行，事务在执行的过程中，不会被其他客户端发送来的命令请求打断</p>
+</li>
+<li><p>没有隔离级别的概念</p>
+<p>队列中的命令没有提交之前都不会被执行，因为事务提交前任何指令都不会被实际执行</p>
+</li>
+<li><p>不保证原子性</p>
+<p>事务中如果有一条命令执行失败，其后的命令仍然会被执行，没有回滚</p>
+</li>
+</ol>
+<h2 id="7-Redis持久化RDB"><a href="#7-Redis持久化RDB" class="headerlink" title="7 Redis持久化RDB"></a>7 Redis持久化RDB</h2><ul>
+<li>什么是Redis持久化：Redis数据写入磁盘</li>
+</ul>
+<h3 id="7-1-Redis持久化的方式"><a href="#7-1-Redis持久化的方式" class="headerlink" title="7.1 Redis持久化的方式"></a>7.1 Redis持久化的方式</h3><ul>
+<li><p>RDB(Redis DataBase)</p>
+</li>
+<li><p>AOF(Append Of File)</p>
+</li>
+</ul>
+<h3 id="7-2-RDB简介"><a href="#7-2-RDB简介" class="headerlink" title="7.2 RDB简介"></a>7.2 RDB简介</h3><ul>
+<li>在指定的时间间隔内将内存中的数据集快照写入磁盘</li>
+</ul>
+<h3 id="7-3-RDB是如何执行"><a href="#7-3-RDB是如何执行" class="headerlink" title="7.3 RDB是如何执行"></a>7.3 RDB是如何执行</h3><ol>
+<li><p>Redis会单独创建(fork)一个子进程是进行持久化，会先将数据写入到一个<strong>临时文件</strong>中，待持久化过程都结束了，再用这个临时文件替换上次持久化好的文件，整个过程中，主进程是不进行任何IO操作的，这就确保了极高的性能，如果需要进行大规模数据的恢复，且对于数据恢复的完整性不是非常敏感，那么RDB方式要比AOF方式更加的高效，RDB缺点是最后一次持久化后的数据可能丢失</p>
+</li>
+<li><p>Fork</p>
+<ul>
+<li><p>Fork的作用是复制一个与当前进程一样的进程。新进程的所有数据(变量、环境变量、程序计数器等)数值都和原进程一致，但是是一个全新的进程，并作为原进程的子进程</p>
+</li>
+<li><p>在Linux程序中，fork()会产生一个和父进程完全相同的子进程，但子进程在此后多会exec系统调用，出于效率考虑，linux中引入了写时复制技术</p>
+</li>
+<li><p>一般情况父进程和子进程会公用同一段物理内存，只有进程空间的各段的内容要发生变化时，才会将父进程的内容复制一份给子进程</p>
+</li>
+</ul>
+</li>
+<li><p>持久化流程</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m28.jpg"></p>
+</li>
+<li><p>优缺点</p>
+<ul>
+<li><p>优点</p>
+<ul>
+<li><p>适合大规模的数据恢复</p>
+</li>
+<li><p>对数据完整性和一致性要求不高更适合使用</p>
+</li>
+<li><p>节省磁盘空间</p>
+</li>
+<li><p>恢复速度快</p>
+</li>
+</ul>
+</li>
+<li><p>缺点</p>
+<ul>
+<li><p>Fork的时候，内存中的数据被克隆了一份，大致2倍的膨胀性需要考虑</p>
+</li>
+<li><p>虽然Redis在fork时使用了写时拷贝技术，但是如果数据庞大时还是比较消耗性能</p>
+</li>
+<li><p>在备份周期在一定间隔时间做一次备份，所以如果Redis意外down掉的话，就会丢失最后一次快照后的所有修改</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="8-Redis持久化AOF"><a href="#8-Redis持久化AOF" class="headerlink" title="8. Redis持久化AOF"></a>8. Redis持久化AOF</h2><h3 id="8-1-AOF简介"><a href="#8-1-AOF简介" class="headerlink" title="8.1 AOF简介"></a>8.1 AOF简介</h3><ol>
+<li><p>什么是AOF</p>
+<p>以日志的形式来记录每个写操作(增量保存)，将Redis执行过的所有写指令记录下来(读操作不记录)，只许追加文件但不可以改写文件，redis启动之初会读取该文件重新构建数据，换言之，redis重启的话就会根据日志文件的内容将写指令从前到后执行一次以完成数据的恢复工作</p>
+</li>
+</ol>
+<h3 id="8-2-AOF持久化流程"><a href="#8-2-AOF持久化流程" class="headerlink" title="8.2 AOF持久化流程"></a>8.2 AOF持久化流程</h3><ol>
+<li><p>客户端的请求命令会被append追加到AOF缓冲区内</p>
+</li>
+<li><p>AOF缓冲区根据AOF持久化策略[always,everysec,no]将操作sync同步到磁盘的AOF文件中</p>
+</li>
+<li><p>AOF文件大小超过重写策略或手动重写时，会对AOF文件rewrite重写，压缩AOF文件容量</p>
+</li>
+<li><p>Redis服务重启时，会重新load加载AOF文件中的写操作达到数据恢复的目的</p>
+</li>
+</ol>
+<h3 id="8-3-AOF默认不开启"><a href="#8-3-AOF默认不开启" class="headerlink" title="8.3 AOF默认不开启"></a>8.3 AOF默认不开启</h3><ol>
+<li><p>可以在redis.conf中配置文件名称，默认为appendonly.aof,AOF文件保存路径，同RDB的路径一致</p>
+</li>
+<li><p>AOF和RDB同时开启，系统默认取AOF的数据(数据不会存在丢失)</p>
+</li>
+</ol>
+<h3 id="8-4-AOF启动-修复-恢复"><a href="#8-4-AOF启动-修复-恢复" class="headerlink" title="8.4 AOF启动&#x2F;修复&#x2F;恢复"></a>8.4 AOF启动&#x2F;修复&#x2F;恢复</h3><ul>
+<li><p>AOF备份机制和性能虽然和RDB不同，但是备份和恢复的操作同RDB一样，都是拷贝备份文件，需要恢复时再拷贝到Redis工作目录下，启动系统加载</p>
+</li>
+<li><p>正常恢复</p>
+<ul>
+<li><p>修改默认的appendonly no，为yes</p>
+</li>
+<li><p>将有数据的aof文件复制一份保存到对应目录(查看目录：config get dir)</p>
+</li>
+<li><p>恢复：重启redis然后重新加载</p>
+</li>
+</ul>
+</li>
+<li><p>异常恢复</p>
+<ul>
+<li><p>修改默认的appendonly no，为yes</p>
+</li>
+<li><p>如遇到AOF文件损坏，通过&#x2F;usr&#x2F;local&#x2F;bin&#x2F;redis-check-aof–fix appendonly.aof进行恢复</p>
+</li>
+<li><p>备份被写坏的AOF文件</p>
+</li>
+<li><p>恢复：重启redis，然后重新加载</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="8-5-AOF同步频率设置"><a href="#8-5-AOF同步频率设置" class="headerlink" title="8.5 AOF同步频率设置"></a>8.5 AOF同步频率设置</h3><ul>
+<li><p><code>appendfsync always</code>：始终同步，每次Redis的写入都会立刻记入日志，性能较差但数据完整性比较好</p>
+</li>
+<li><p><code>appendfsync everysec</code>：每秒同步，每秒记入日志一次，如果宕机，本秒的数据可能丢失</p>
+</li>
+<li><p><code>appendfsync no</code>：redis不主动进行同步，把同步时机交给操作系统</p>
+</li>
+</ul>
+<h3 id="8-6-Rewrite压缩"><a href="#8-6-Rewrite压缩" class="headerlink" title="8.6 Rewrite压缩"></a>8.6 Rewrite压缩</h3><ol>
+<li><p>简介</p>
+<p>AOF采用文件追加方式，文件会越来越大，为避免出现此种情况，新增了重写机制，当AOF文件的大小超过所设定的阈值时(当aof文件大小时上次rewrite后大小的一倍且文件大于64M时触发)，Redis就会启动AOF文件的内容压缩，只保留可以恢复数据的最小指令集，可以使用命令bgrewriteaof</p>
+</li>
+<li><p>重写原理</p>
+<p>AOF文件持续增长而过大时，会fork出一条新进程来将文件重写(也是先写临时文件最后再rename)，redis4.0版本后的重写，是指把rdb的快照，以二进制的形式附在新的aof头部，作为已有的历史数据，替换掉原来的流水账操作</p>
+</li>
+</ol>
+<h3 id="8-7-AOF的优缺点"><a href="#8-7-AOF的优缺点" class="headerlink" title="8.7 AOF的优缺点"></a>8.7 AOF的优缺点</h3><ol>
+<li><p>优点</p>
+<ul>
+<li><p>备份机制更稳健，丢失数据概率更低</p>
+</li>
+<li><p>可读的日志文本，通过操作AOF稳健，可以处理误操作</p>
+</li>
+</ul>
+</li>
+<li><p>缺点</p>
+<ol>
+<li><p>比起RDB占用更多的磁盘空间</p>
+</li>
+<li><p>恢复备份速度要慢</p>
+</li>
+<li><p>每次读写都同步的话，有一定的性能压力</p>
+</li>
+<li><p>存在个别Bug，造成不能恢复</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="9-Redis主从复制"><a href="#9-Redis主从复制" class="headerlink" title="9. Redis主从复制"></a>9. Redis主从复制</h2><h3 id="9-1-简介"><a href="#9-1-简介" class="headerlink" title="9.1 简介"></a>9.1 简介</h3><ul>
+<li><p>主机数据更新后根据配置和策略，自动同步到备机的master&#x2F;slaver机制，Master以写为主，slave以读为主</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m29.jpg"></p>
+</li>
+<li><p>当从服务器宕机之后，重启从服务需要重新设置主从关系，设置完毕之后能获取到主服务器上的所有数据</p>
+</li>
+<li><p>当主服务器宕机之后，重启之后主从关系依旧存在，不需要重新设置</p>
+</li>
+</ul>
+<h3 id="9-2-复制原理"><a href="#9-2-复制原理" class="headerlink" title="9.2 复制原理"></a>9.2 复制原理</h3><ol>
+<li><p>Slave启动成功连接到master后会发送一个sync命令</p>
+</li>
+<li><p>主服务器接到从服务器发送过来的同步消息，把主服务器数据进行持久化，rdb文件，把rdb文件发送从服务器，从服务器拿到rdb文件进行读取</p>
+</li>
+<li><p>每次主服务器进行写操作之后，和从服务器进行数据同步</p>
+</li>
+<li><p>全量复制：而slave服务再接收到数据库文件数据后，将其存盘并加载到内存中</p>
+</li>
+<li><p>增量复制：Master继续将新的所有收集到的修改命令一次传给slave，完成同步</p>
+</li>
+<li><p>但是只要是重新连接master，一次完全同步(增量复制)将被自动执行</p>
+</li>
+</ol>
+<h3 id="9-3-薪火相传"><a href="#9-3-薪火相传" class="headerlink" title="9.3 薪火相传"></a>9.3 薪火相传</h3><p>上一个Slave可以是下一个slave的Master，Slave同样可以接受其他slaves的连接和同步请求，那么该slave作为了链条中下一个的master，可以有效减轻master的写压力，去中心化降低风险。缺陷：一旦某个slave宕机，后面的slave都无法备份</p>
+<h3 id="9-4-反客为主"><a href="#9-4-反客为主" class="headerlink" title="9.4 反客为主"></a>9.4 反客为主</h3><p>当一个master宕机后，后面的slave可以立刻升级为master，其后面的slave不用做任何修改，用<code>slave no one</code>将从机变为主机</p>
+<h3 id="9-5-哨兵模式"><a href="#9-5-哨兵模式" class="headerlink" title="9.5 哨兵模式"></a>9.5 哨兵模式</h3><ol>
+<li><p>简介</p>
+<p>反客为主的自动版，能够后台监控主机是否故障，如果故障了根据投票数自动将从库转换为主库</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m30.jpg"></p>
+</li>
+<li><p>使用步骤</p>
+<ul>
+<li><p>设置一主二仆模式,6379带着6380，6381</p>
+</li>
+<li><p>自定义的&#x2F;myredis目录下新建sentinel.conf文件</p>
+</li>
+<li><p>配置哨兵，填写内容</p>
+<p><code>sentinel monltor mymaster 127.0.0.1 6379 1</code></p>
+<p>其中mymaster为监控对象起的服务器名称，1为至少有多少个哨兵同意切换</p>
+</li>
+<li><p>启动哨兵</p>
+<p><code>/usr/local/bin</code>执行<code>redis-sentinel /myredis/sentinel.conf</code></p>
+</li>
+<li><p>当主机挂掉，从机根据优先级别选举产生新的主机，原主机重启后会变为从机。选举条件依次为：</p>
+<ul>
+<li><p>选择优先级靠前的，优先级在redis.cof中默认:slave-priority 100，值越小优先级越高</p>
+</li>
+<li><p>选择偏移量最大的，偏移量是指获得原主机数据最全的</p>
+</li>
+<li><p>选择runid最小的从服务，每个redis实例启动后都会随机生成一个40位的runid</p>
+</li>
+</ul>
+<p>挑选出新主服务之后<code>sentinel</code>向原主服务的从服务发送<code>slaveof</code>新主服务的命令，复制新master。当已经下线的服务重新上线时， <code>sentinel</code>会向其发送<code>slaveof</code>命令，让其称为新主的从</p>
+</li>
+</ul>
+</li>
+<li><p>复制延时</p>
+<p>由于所有的写操作都是现在Master上操作，然后同步更新到slave上，所以从Master同步到Slave机器有一定的延迟，当系统很繁忙的时候，延迟问题会更加严重，slave机器数量的增加也会使这个问题更加严重</p>
+</li>
+</ol>
+<h2 id="10-Redis集群"><a href="#10-Redis集群" class="headerlink" title="10. Redis集群"></a>10. Redis集群</h2><h3 id="10-1-什么是集群"><a href="#10-1-什么是集群" class="headerlink" title="10.1 什么是集群"></a>10.1 什么是集群</h3><p>Redis集群实现了对Redis的水平扩容，即启动N个redis节点，将整个数据库分布存储在这N个节点中，每个节点存储总数居的1&#x2F;N</p>
+<p>Redis集群通过分区来提供一定程度的可用性：即使集群中有一部分节点失效或者无法进行通讯，集群也可以继续处理命令请求</p>
+<h3 id="10-2-什么是slots"><a href="#10-2-什么是slots" class="headerlink" title="10.2 什么是slots"></a>10.2 什么是slots</h3><ul>
+<li><p>一个redis集群包含16384个插槽，数据库中的每个键都属于这16384个插槽的其中一个</p>
+</li>
+<li><p>集群使用公式CRC16(key)%16384来计算键key属于哪个槽，其中CRC16(key)语句用于计算key的CRC16校验和</p>
+</li>
+<li><p>集群中的每个节点负责处理一部分插槽</p>
+</li>
+</ul>
+<h3 id="10-3-在集群中录入、查询值"><a href="#10-3-在集群中录入、查询值" class="headerlink" title="10.3 在集群中录入、查询值"></a>10.3 在集群中录入、查询值</h3><ol>
+<li><p>录入值</p>
+<ul>
+<li><p>在redis-cli每次录入、查询键值，redis都会计算出该key应该送往的插槽，如果不是该客户端对应服务器的插槽，redis会报错，并告知应该前往的redis实例地址和端口</p>
+</li>
+<li><p>不在一个slot下的键值，是不能使用mget、mset等多键操作的，可以通过{}来定义组的概念，从而使key中{}内相同内容的键值对应放到一个slot中</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mset k1&#123;user&#125; v1 k2&#123;user&#125; v2</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>查询值</p>
+<ul>
+<li><p><code>cluster getkeysinslot &lt;slot&gt;</code>：计算槽中有多少个key</p>
+</li>
+<li><p><code>cluster keyslot cust</code>：计算插槽的值</p>
+</li>
+<li><p><code>cluster getkeysinslot &lt;slot&gt;&lt;count&gt;</code>：返回count个槽中的键</p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="10-4-故障修复"><a href="#10-4-故障修复" class="headerlink" title="10.4 故障修复"></a>10.4 故障修复</h3><ol>
+<li><p>主节点下线，15秒超时之后从节点自动升为主节点</p>
+</li>
+<li><p>主节点恢复后，则变为从节点</p>
+</li>
+<li><p>如果某一段插槽的主从全都挂掉，而<code>cluster-require-full-coverage</code>为yes，那么整个集群都挂掉。如果为no，那么该插槽数据全都不能使用，也无法存储</p>
+</li>
+</ol>
+<h2 id="11-Redis应用问题解决"><a href="#11-Redis应用问题解决" class="headerlink" title="11. Redis应用问题解决"></a>11. Redis应用问题解决</h2><h3 id="11-1-缓存穿透"><a href="#11-1-缓存穿透" class="headerlink" title="11.1 缓存穿透"></a>11.1 缓存穿透</h3><ol>
+<li><p>redis查询不到，redis的命中率降低，每次都到数据库查询，但是数据库也没有，造成应用服务器压力变大</p>
+</li>
+<li><p>出现很多非正常的url访问</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m31.jpg"></p>
+</li>
+<li><p>解决办法</p>
+<ol>
+<li><p>对空值缓存：如果一个查询返回的数据为空，我们仍然将这个空结果(null)进行缓存,设置空结果的过期时间会很短，最长不超过五分钟</p>
+</li>
+<li><p>设置可访问的名单：使用bitmaps类型定义一个可以访问的名单，名单id作为bitmaps的偏移量，每次访问和bitmap里面的id进行比较，如果访问id不在bitmaps里面，进行拦截，不允许访问</p>
+</li>
+<li><p>采用布隆过滤器：它实际上是一个很长的二进制向量(位图)和一系列随机映射函数(哈希函数)。布隆过滤器可以用于检索一个元素是否在一个集合中。它的优点是空间效率和查询时间都圆圆超过一般的算法，缺点是有一定的误识别率和删除困难。将所有可能存在的哈希到一个足够大的bitmaps中，一个一定不存在的数据会被这个bitmaps拦截掉，从而避免了对底层存储系统的查询压力</p>
+</li>
+<li><p>进行实时监控：当发现Redis的命中率开始急速下降，需要排查访问对象和访问的数据，和运维人员配合，可以设置黑名单限制服务</p>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="11-2-缓存击穿"><a href="#11-2-缓存击穿" class="headerlink" title="11.2 缓存击穿"></a>11.2 缓存击穿</h3><ol>
+<li><p>key对应的数据存在，但在redis中过期，此时若有大量并发请求过来，这些请求发现缓存过期一般都会从后端DB加载数据并回设到缓存，这个时候大并发的请求可能会瞬间把后端DB压垮</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m32.jpg"></p>
+</li>
+<li><p>解决办法</p>
+<ol>
+<li><p>预先设置热门数据：在redis高峰访问之前，把一些热门数据提前存入到redis里面，加大这些热门数据key的时长</p>
+</li>
+<li><p>实时调整：现场监控哪些数据热门，实时调成key的过期时长</p>
+</li>
+<li><p>使用锁</p>
+<ul>
+<li><p>在缓存失效的时候(判断拿出来的值为空)，不是立即去load db</p>
+</li>
+<li><p>先使用缓存工具的某些带成功操作返回值的操作去set一个mutex key</p>
+</li>
+<li><p>当操作返回成功时，再进行load db操作，并回设缓存，最后删除mutex key</p>
+</li>
+<li><p>当操作返回失败，证明有线程在load db，当前线程睡眠一段时间再重试get缓存的方法</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m33.jpg"></p>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="11-3-缓存雪崩"><a href="#11-3-缓存雪崩" class="headerlink" title="11.3 缓存雪崩"></a>11.3 缓存雪崩</h3><ol>
+<li><p>在极少时间段，查询大量key的集中过期情况。缓存击穿与缓存雪崩的区别在于是否针对很多key缓存，前者时某一个key</p>
+</li>
+<li><p>解决办法</p>
+<ol>
+<li><p>构建多级缓存架构：nginx缓存+redis缓存+其他缓存等</p>
+</li>
+<li><p>使用锁或队列：用加锁或者队列的方式保证不会有大量的线程对数据库一次性进行读写，从而避免失效时大量的并发请求落到底层存储系统上，不适用高并发的情况</p>
+</li>
+<li><p>设置过期标志更新缓存：记录缓存数据是否过期，如果过期会触发通知另外的线程在后台去更新实际key的缓存</p>
+</li>
+<li><p>将缓存失效时间分散开：比如我们可以在原有的失效时间基础上增加一个随机值，比如1-5分钟随机，这样每一个缓存的过期时间的重复率就会降低，就很难引发集体失效事件</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="12-分布式锁"><a href="#12-分布式锁" class="headerlink" title="12. 分布式锁"></a>12. 分布式锁</h2><h3 id="12-1-问题描述"><a href="#12-1-问题描述" class="headerlink" title="12.1 问题描述"></a>12.1 问题描述</h3><ol>
+<li><p>随着业务发展的需要，原单体单机部署的系统被演化成分布式集群系统后，由于分布式系统多进程、多线程并且分布在不同的机器上，这将使原单机部署情况下的并发控制锁策略失效，单纯的java api并不能提供分布式锁的能力，为了解决这个问题就要一种跨JVM的互斥机制来控制共享资源的访问，这就是分布式锁要解决的问题(<strong>加的锁对所有的机器都有效</strong>)</p>
+</li>
+<li><p>分布式锁主流的实现方案：</p>
+<ul>
+<li><p>基于数据库实现分布式锁</p>
+</li>
+<li><p>基于缓存(Redis等)</p>
+</li>
+<li><p>基于Zookeeper</p>
+</li>
+</ul>
+</li>
+<li><p>每一种分布式锁都有各自的优缺点</p>
+<ol>
+<li><p>性能：redis最高</p>
+</li>
+<li><p>可靠性：zookeeper最高</p>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="12-2-使用redis实现分布式锁"><a href="#12-2-使用redis实现分布式锁" class="headerlink" title="12.2 使用redis实现分布式锁"></a>12.2 使用redis实现分布式锁</h3><ol>
+<li><p>通过<code>setnx</code>上锁，通过<code>del</code>释放锁。锁一直没有释放，设置key过期时间，自动释放。上锁之后突然出现异常，无法设置过期时间，所以需要上锁的时候同时设置过期时间</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m34.jpg"></p>
+</li>
+<li><p>问题一</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m35.jpg"></p>
+<ul>
+<li>a因为卡顿没有操作完，锁到期了自动释放，然后b抢到了锁，此时a有完成操作，手动释放了b的锁</li>
+</ul>
+<p>解决办法</p>
+<ol>
+<li><p>第一步uuid表示不同的操作set lock uuid nx ex 10</p>
+</li>
+<li><p>第二步释放锁的时候，首先判断当前uuid和要释放锁uuid是否一样</p>
+</li>
+</ol>
+</li>
+<li><p>问题二：没有原子性</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m36.jpg"></p>
+<p>解决办法：lua脚本</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>Redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Stream高级用法</title>
+    <url>/2023/12/23/Stream%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="Stream高级用法"><a href="#Stream高级用法" class="headerlink" title="Stream高级用法"></a>Stream高级用法</h1><h2 id="1-基本数据类型优化"><a href="#1-基本数据类型优化" class="headerlink" title="1. 基本数据类型优化"></a>1. 基本数据类型优化</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Authors&gt; authors = getAuthors();</span><br><span class="line">authors.stream</span><br><span class="line">        .map(author -&gt; author.getAge())</span><br><span class="line">        .map(age -&gt; age + <span class="number">10</span>)</span><br><span class="line">        .filter(age -&gt; age &gt; <span class="number">10</span>)    </span><br><span class="line">        .map(age -&gt; age + <span class="number">2</span>)</span><br><span class="line">        .forEach(System.out::println)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>问题：在对<code>age</code>进行加减比较操作的时候，首先需要转换为<code>Integer</code>类型，然后进行一些操作，操作完毕之后还需要转换为<code>Integer</code>类型，在数据量较大的时候需要耗费较大的时间。</p>
+</li>
+<li><p>优化：<code>mapToInt、mapToLong、mapToDouble、flatMapToInt、flatMapToDouble</code>等</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Authors&gt; authors = getAuthors();</span><br><span class="line">authors.stream</span><br><span class="line">        .mapToInt(author -&gt; author.getAge())<span class="comment">//经历这一步之后流中元素都是int类型</span></span><br><span class="line">        .map(age -&gt; age + <span class="number">10</span>)</span><br><span class="line">        .filter(age -&gt; age &gt; <span class="number">10</span>)    </span><br><span class="line">        .map(age -&gt; age + <span class="number">2</span>)</span><br><span class="line">        .forEach(System.out::println)</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-并行流"><a href="#2-并行流" class="headerlink" title="2. 并行流"></a>2. 并行流</h2><p>        当流中有大量元素的时候，我们可以使用并行流去提高操作的效率，本质就是把任务分配给多个线程去完成。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Stream&lt;Integer&gt; stream = Stream.of(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>)</span><br><span class="line"><span class="type">Integer</span> <span class="variable">sum</span> <span class="operator">=</span> stream.filter(num -&gt; num &gt; <span class="number">5</span>)</span><br><span class="line">        .reduce((res,ele) -&gt; res + ele)<span class="comment">//结果是Optional类型</span></span><br><span class="line">        .get();</span><br></pre></td></tr></table></figure>
+
+<p>优化：<code>parallel</code>可以将串行流变为并行流</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Stream&lt;Integer&gt; stream = Stream.of(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>)</span><br><span class="line"><span class="type">Integer</span> <span class="variable">sum</span> <span class="operator">=</span> stream.parallel() <span class="comment">//变为并行流</span></span><br><span class="line">        .filter(num -&gt; num &gt; <span class="number">5</span>)</span><br><span class="line">        .reduce((res,ele) -&gt; res + ele)<span class="comment">//结果是Optional类型</span></span><br><span class="line">        .get();</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>函数式编程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SSM_PRO</title>
+    <url>/2024/01/14/SSM_PRO/</url>
+    <content><![CDATA[<h1 id="SSM-PRO"><a href="#SSM-PRO" class="headerlink" title="SSM_PRO"></a>SSM_PRO</h1><h2 id="1、C3P0作用"><a href="#1、C3P0作用" class="headerlink" title="1、C3P0作用"></a>1、C3P0作用</h2><p>传统的JDBC数据库连接使用DriverManager来获取，每次向数据库建立连接的时候都要将Connection加载到内存中，再验证用户名和密码。需要获取数据库连接的时候，就像数据库要求一个，执行完成再断开连接，这样的方式会消耗大量的资源和时间。多人同时连接操作的时候会占用很多的系统资源，如果在数据库连接的时候，程序异常关闭，会导致内存泄漏。</p>
+<p>数据库连接池技术解决上面的连接问题。基本思想：为数据库建立一个缓冲池，预先在缓冲池中放入一定数量的连接，当需要建立连接的时候，就从中取出一个，使用完毕再放回去。数据库连接池负责分配、管理和释放数据库连接，它允许应用程序重复使用一个现有的数据库连接，而不是重新建立一个。</p>
+<p>常见数据库连接池：<strong>c3p0</strong>，<strong>dbcp</strong>，<strong>HikariCP</strong>，<strong>Druid</strong></p>
+<h2 id="2、mysql驱动"><a href="#2、mysql驱动" class="headerlink" title="2、mysql驱动"></a>2、mysql驱动</h2><p>mysql-connector-java，是用于将不同编程语言的应用程序连接到MySQL数据库服务器的驱动程序，没有的话JDBC无法访问数据库（无法注册驱动）。java.sql.Driver 接口是所有 JDBC 驱动程序需要实现的接口，在程序中不需要直接去访问实现了 Driver 接口的类，而是由驱动程序管理器类(java.sql.DriverManager)去调用这些Driver实现。</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/32.png"></p>
+<h2 id="3、servlet作用"><a href="#3、servlet作用" class="headerlink" title="3、servlet作用"></a>3、servlet作用</h2><p>servlet专门用来接收客户端的请求，专门接收客户端的请求数据，然后调用底层service处理数据并生成结果<br>浏览器http请求——》tomcat服务器——-》到达servlet—–》执行doget，dopost方法—-》返回数据<br>&lt;1&gt;客户端发送请求到服务器端<br>&lt;2&gt;服务器将请求信息发送至Servlet<br>&lt;3&gt;Servlet生成响应内容并将其传给服务器。<br>&lt;4&gt;服务器将响应返回给客户端。<br>servlet里的三大作用域：</p>
+<p>   request(请求)：它的作用范围是一次请求和响应，是三个作用域中最小的。<br>   session（会话）：它的作用比request要大一点，一次会话过程中，它的作用域就一直存在，(默认是30分钟)<br>   servletcontext：它作用范围最大，作用于整个服务器中。（Application）</p>
+<h2 id="4、Spring与SpringMVC包扫描"><a href="#4、Spring与SpringMVC包扫描" class="headerlink" title="4、Spring与SpringMVC包扫描"></a>4、Spring与SpringMVC包扫描</h2><p>在一个项目中，容器不一定只有一个，Spring可以包括多个容器，而且容器存在上下层的关系。在一个项目中引入Spring和SpringMVC两个框架，它就是两个容器，Spring是父容器，SpringMVC是子容器，并且在Spring父容器中注册的Bean对于SpringMVC容器中是可见的，而在SpringMVC容器中注册的Bean对于Spring父容器中是不可见的，也就是子容器可以看见父容器中的注册的Bean，反之就不行。Spring父容器负责所有其他非@Controller注解的Bean的注册，而SpringMVC只负责@Controller注解的Bean的注册，使得他们各负其责、明确边界。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;mvc:annotation-driven /&gt;</span><br></pre></td></tr></table></figure>
+
+<p>上面配置声明了@RequestMapping、@RequestBody、@ResponseBody等。并且，该配置默认加载很多的参数绑定方法，比如json转换解析器等。</p>
+<h2 id="5、后端进行校验"><a href="#5、后端进行校验" class="headerlink" title="5、后端进行校验"></a>5、后端进行校验</h2><p>使用JSR303步骤</p>
+<ol>
+<li><p>引入依赖</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--JSR303数据校验--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.hibernate<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hibernate-validator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.4.1.Final<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在实体类中使用判断</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Pattern(regexp = &quot;(^[a-zA-Z0-9_-]&#123;6,16&#125;$)|(^[\\u2E80-\\u9FFF]&#123;2,5&#125;)&quot;</span></span><br><span class="line"><span class="meta">        ,message = &quot;用户名必须是2-5位中文，或者6-16位英文&quot;)</span></span><br><span class="line"><span class="keyword">private</span> String empName;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Pattern(regexp = &quot;^([a-z0-9_\\.-]+)@([\\da-z\\.-]+)\\.([a-z\\.]&#123;2,6&#125;)$&quot;,message = &quot;邮箱格式不正确&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> String email;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>控制器中进行判断</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 员工保存</span></span><br><span class="line"><span class="comment"> * 1、支持JSR303</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@RequestMapping(value = &quot;/emp&quot; , method = RequestMethod.POST)</span></span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="keyword">public</span> Msg <span class="title function_">saveEmp</span><span class="params">(<span class="meta">@Valid</span> Employee employee, BindingResult result)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (result.hasErrors()) &#123;</span><br><span class="line">        Map&lt;String,Object&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        <span class="comment">//校验失败,在提示框中显示</span></span><br><span class="line">        List&lt;FieldError&gt; errors = result.getFieldErrors();</span><br><span class="line">        <span class="keyword">for</span> (FieldError error : errors) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;错误的字段名：&quot;</span> + error.getField());</span><br><span class="line">            System.out.println(<span class="string">&quot;错误信息：&quot;</span> + error.getDefaultMessage());</span><br><span class="line">            map.put(error.getField(),error.getDefaultMessage());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Msg.fail().add(<span class="string">&quot;errorField&quot;</span>,map);</span><br><span class="line">    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">        employeeService.saveEmp(employee);</span><br><span class="line">        <span class="keyword">return</span> Msg.success();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="6、Hibernate-与Mybatis"><a href="#6、Hibernate-与Mybatis" class="headerlink" title="6、Hibernate 与Mybatis"></a>6、Hibernate 与Mybatis</h2><p>Hibernate ：是一个对象关系映射框架(ORM)，将实体类与数据库表建立映射关系，可以自动生成Sql语句，省去了绝大部分的sql编写，用面向对象的方式操作数据，是一套完整的数据库解决方案，能做到数据库无关性。</p>
+<p>Mybatis：是一个对象关系映射框架(ORM)，将实体类与数据库表建立映射关系，能够灵活编写sql语句</p>
+<h2 id="7、jdbc与jpa"><a href="#7、jdbc与jpa" class="headerlink" title="7、jdbc与jpa"></a>7、jdbc与jpa</h2><p>jdbc是数据库的统一接口标准，而jpa是orm框架的统一接口标准</p>
+<p>区别：jdbc更加注重数据库，orm则更加注重于java代码，实际上jpa实现的框架底层还是使用jdbc去和数据库交互</p>
+<h2 id="8、spring-data-JPA-和spring-data-JDBC"><a href="#8、spring-data-JPA-和spring-data-JDBC" class="headerlink" title="8、spring data JPA 和spring data JDBC"></a>8、spring data JPA 和spring data JDBC</h2><p>spring data JPA ：何为jpa（Java Persistence API）,java持久层的API。JPA的实现思想为ORM,JPA并不是一个框架，是一类框架的总称，是一个规范，本质上还是一种ORM规范，提供了一些编程的API接口，JPA属于应用程序和JSBC的一个中间层，对二者起连接作用，具体实现由ORM厂商提供实现。spring data JPA 是 Spring 基于 ORM 框架、JPA 规范的基础上封装的一套JPA应用框架，底层使用Hibernate实现。</p>
+<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/33.png"></p>
+<p>spring data JDBC：jdbc是连接数据库的原生接口，定义的是对数据库操作的规范，由具体的厂家实现。spring data JDBC相比传统的jdbc省去了数据库驱动，连接等无关配置，只需要要写sql和设置参数</p>
+<p>区别：两个属于不同的层次，spring data JPA 是一个应用框架</p>
+<h2 id="9、序列化"><a href="#9、序列化" class="headerlink" title="9、序列化"></a>9、序列化</h2><p>序列化：对象的寿命随着生成该对象的程序的终止而终止，若想要将内存中对象的状态保存下来，Java提供一种机制即序列化保存对象状态。</p>
+<p>用途：</p>
+<ul>
+<li>把内存中的对象状态保存到一个文件或者数据库的时候</li>
+<li>将对象通过网络传播</li>
+</ul>
+<p>用法：将类继承Serialiable接口，可以加上serialVersionUID(不加也没事)。如果通过网络传播的时候，serialVersionUID不一致，反序列化就不能正常执行</p>
+<h2 id="10、session"><a href="#10、session" class="headerlink" title="10、session"></a>10、session</h2><p>session：会话控制，用来存储变量，当在应用程序和Web页面跳转的时候，存储在Session中的变量不会丢失，在整个用户会话中一直存在</p>
+<p>session销毁的方式：</p>
+<ol>
+<li>默认的时间到期(或者自己设置的时间，在配置文件中可以修改)</li>
+<li>关闭浏览器</li>
+<li>设置立即失效</li>
+</ol>
+<h2 id="11、JsonObject"><a href="#11、JsonObject" class="headerlink" title="11、JsonObject"></a>11、JsonObject</h2><p>JsonObject是一种存储json的数据结构，可以使用put方法给json对象添加元素</p>
+<h2 id="12、在SpringBoot中为什么要加-mapper或者-MapperScan"><a href="#12、在SpringBoot中为什么要加-mapper或者-MapperScan" class="headerlink" title="12、在SpringBoot中为什么要加@mapper或者@MapperScan"></a>12、在SpringBoot中为什么要加@mapper或者@MapperScan</h2><p>​        mybatis-config中只是会为对应的mapper创建代理类，而想真正包装成bean，注入到spring容器中，还是需要AutoConfiguredMapperScannerRegistrar，它会根据扫描@Mapper注释或是@MapperScan指定的包下的接口，将其注册为bean。</p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>SSM</tag>
       </tags>
   </entry>
   <entry>
@@ -1859,7 +2970,7 @@
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CacheMapperTest</span> &#123;</span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testCache</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="type">SqlSession</span> <span class="variable">sqlSession1</span> <span class="operator">=</span> SQLSessionUtils.getSQLSession();</span><br><span class="line">        <span class="type">CacheMapper</span> <span class="variable">mapper1</span> <span class="operator">=</span> sqlSession1.getMapper(CacheMapper.class);</span><br><span class="line">        <span class="type">Emp</span> <span class="variable">emp1</span> <span class="operator">=</span> mapper1.getEmpByEid(<span class="number">1</span>);</span><br><span class="line">        System.out.println(emp1);</span><br><span class="line">        <span class="type">CacheMapper</span> <span class="variable">mapper2</span> <span class="operator">=</span> sqlSession1.getMapper(CacheMapper.class);</span><br><span class="line">        <span class="type">Emp</span> <span class="variable">emp2</span> <span class="operator">=</span> mapper2.getEmpByEid(<span class="number">1</span>);</span><br><span class="line">        System.out.println(emp2);</span><br><span class="line"></span><br><span class="line">        <span class="type">SqlSession</span> <span class="variable">sqlSession2</span> <span class="operator">=</span> SQLSessionUtils.getSQLSession();</span><br><span class="line">        <span class="type">CacheMapper</span> <span class="variable">mapper3</span> <span class="operator">=</span> sqlSession2.getMapper(CacheMapper.class);</span><br><span class="line">        <span class="type">Emp</span> <span class="variable">empByEid</span> <span class="operator">=</span> mapper3.getEmpByEid(<span class="number">1</span>);</span><br><span class="line">        System.out.println(empByEid);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>执行结果</p>
-<p>DEBUG 04-14 11:24:47,487 &#x3D;&#x3D;&gt;  Preparing: select * from t_emp where eid &#x3D; ? (BaseJdbcLogger.java:137)<br>DEBUG 04-14 11:24:47,506 &#x3D;&#x3D;&gt; Parameters: 1(Integer) (BaseJdbcLogger.java:137)<br>DEBUG 04-14 11:24:47,521 &lt;&#x3D;&#x3D;      Total: 1 (BaseJdbcLogger.java:137)<br>Emp{eid&#x3D;1, empName&#x3D;’张三’, age&#x3D;1, sex&#x3D;’男’, email&#x3D;‘<a href="mailto:&#x31;&#x32;&#x33;&#64;&#113;&#x71;&#x2e;&#x63;&#x6f;&#x6d;">&#x31;&#x32;&#x33;&#64;&#113;&#x71;&#x2e;&#x63;&#x6f;&#x6d;</a>‘, dept&#x3D;null}<br>Emp{eid&#x3D;1, empName&#x3D;’张三’, age&#x3D;1, sex&#x3D;’男’, email&#x3D;‘<a href="mailto:&#x31;&#x32;&#51;&#x40;&#x71;&#x71;&#x2e;&#99;&#x6f;&#109;">&#x31;&#x32;&#51;&#x40;&#x71;&#x71;&#x2e;&#99;&#x6f;&#109;</a>‘, dept&#x3D;null}<br>DEBUG 04-14 11:24:47,593 &#x3D;&#x3D;&gt;  Preparing: select * from t_emp where eid &#x3D; ? (BaseJdbcLogger.java:137)<br>DEBUG 04-14 11:24:47,594 &#x3D;&#x3D;&gt; Parameters: 1(Integer) (BaseJdbcLogger.java:137)<br>DEBUG 04-14 11:24:47,595 &lt;&#x3D;&#x3D;      Total: 1 (BaseJdbcLogger.java:137)<br>Emp{eid&#x3D;1, empName&#x3D;’张三’, age&#x3D;1, sex&#x3D;’男’, email&#x3D;‘<a href="mailto:&#49;&#x32;&#x33;&#x40;&#x71;&#x71;&#x2e;&#x63;&#x6f;&#x6d;">&#49;&#x32;&#x33;&#x40;&#x71;&#x71;&#x2e;&#x63;&#x6f;&#x6d;</a>‘, dept&#x3D;null}</p>
+<p>DEBUG 04-14 11:24:47,487 &#x3D;&#x3D;&gt;  Preparing: select * from t_emp where eid &#x3D; ? (BaseJdbcLogger.java:137)<br>DEBUG 04-14 11:24:47,506 &#x3D;&#x3D;&gt; Parameters: 1(Integer) (BaseJdbcLogger.java:137)<br>DEBUG 04-14 11:24:47,521 &lt;&#x3D;&#x3D;      Total: 1 (BaseJdbcLogger.java:137)<br>Emp{eid&#x3D;1, empName&#x3D;’张三’, age&#x3D;1, sex&#x3D;’男’, email&#x3D;‘<a href="mailto:&#x31;&#50;&#51;&#64;&#113;&#113;&#x2e;&#x63;&#x6f;&#109;">&#x31;&#50;&#51;&#64;&#113;&#113;&#x2e;&#x63;&#x6f;&#109;</a>‘, dept&#x3D;null}<br>Emp{eid&#x3D;1, empName&#x3D;’张三’, age&#x3D;1, sex&#x3D;’男’, email&#x3D;‘<a href="mailto:&#49;&#50;&#x33;&#64;&#113;&#x71;&#x2e;&#99;&#111;&#109;">&#49;&#50;&#x33;&#64;&#113;&#x71;&#x2e;&#99;&#111;&#109;</a>‘, dept&#x3D;null}<br>DEBUG 04-14 11:24:47,593 &#x3D;&#x3D;&gt;  Preparing: select * from t_emp where eid &#x3D; ? (BaseJdbcLogger.java:137)<br>DEBUG 04-14 11:24:47,594 &#x3D;&#x3D;&gt; Parameters: 1(Integer) (BaseJdbcLogger.java:137)<br>DEBUG 04-14 11:24:47,595 &lt;&#x3D;&#x3D;      Total: 1 (BaseJdbcLogger.java:137)<br>Emp{eid&#x3D;1, empName&#x3D;’张三’, age&#x3D;1, sex&#x3D;’男’, email&#x3D;‘<a href="mailto:&#x31;&#x32;&#x33;&#64;&#x71;&#113;&#x2e;&#x63;&#111;&#x6d;">&#x31;&#x32;&#x33;&#64;&#x71;&#113;&#x2e;&#x63;&#111;&#x6d;</a>‘, dept&#x3D;null}</p>
 <h3 id="2、MyBatis二级缓存"><a href="#2、MyBatis二级缓存" class="headerlink" title="2、MyBatis二级缓存"></a>2、MyBatis二级缓存</h3><p>二级缓存是SqlSessionFactory级别的，通过一个SqlSessionFactory创建的SqlSession查询的结果会被缓存，此后若再执行相同的查询语句，结果就会从缓存中取</p>
 <p>二级缓存开启的条件</p>
 <ol>
@@ -1971,895 +3082,25 @@
       </tags>
   </entry>
   <entry>
-    <title>Optional</title>
-    <url>/2023/12/18/Optional/</url>
-    <content><![CDATA[<h1 id="Optional"><a href="#Optional" class="headerlink" title="Optional"></a>Optional</h1><h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>        在编写代码的时候出现最多的就是空指针异常，所以在很多情况下我们需要做各种非空的判断，在<code>JDK1.8</code>之后，通过<code>Optional</code>我们可以写出更优雅的代码来避免空指针异常</p>
-<h2 id="2-使用"><a href="#2-使用" class="headerlink" title="2. 使用"></a>2. 使用</h2><h3 id="2-1-创建对象"><a href="#2-1-创建对象" class="headerlink" title="2.1 创建对象"></a>2.1 创建对象</h3><p>        <code>Optional</code>就好像是包装类，可以把我们的具体数据封装<code>Optional</code>对象内部，然后再去使用<code>Optional</code>中封装好的方法操作封装进去的数据就可以避免空指针异常</p>
-<p>        一般使用<code>Optional</code>的静态方法<code>ofNullable</code>来把数据封装成一个<code>Optional</code>对象，无论传入的参数是否为<code>null</code>都不会出现问题。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">Author</span> <span class="variable">author</span> <span class="operator">=</span> getAuthor();</span><br><span class="line">Optional&lt;Author&gt; authorOptional = Optional.ofNullable(author);</span><br></pre></td></tr></table></figure>
+    <title>对象转换</title>
+    <url>/2024/01/09/%E5%AF%B9%E8%B1%A1%E8%BD%AC%E6%8D%A2/</url>
+    <content><![CDATA[<h1 id="对象转换"><a href="#对象转换" class="headerlink" title="对象转换"></a>对象转换</h1><h2 id="1-问题引入"><a href="#1-问题引入" class="headerlink" title="1. 问题引入"></a>1. 问题引入</h2><p>        最近实习中遇到一个问题：两个不同的类A和B中分别有实体类EntityA和EntityB，他们需要调用同一个方法C来实现某个功能，其中EntityA和EntityB中都有C中需要用到的字段。所以现在需要将其中一个对象转化另一个，这样才能都调用方法C。</p>
+<h2 id="2-问题解决"><a href="#2-问题解决" class="headerlink" title="2. 问题解决"></a>2. 问题解决</h2><h3 id="2-1-同名字段复制"><a href="#2-1-同名字段复制" class="headerlink" title="2.1 同名字段复制"></a>2.1 同名字段复制</h3><p>解决办法：通过泛型、反射等方式，获得一个对象的属性值然后赋值给另一个对象</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T,S&gt; T <span class="title function_">convert</span><span class="params">(T target,S source)</span> &#123;</span><br><span class="line">        Field[] declaredFields = getAllFields(target);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; declaredFields.length; i++) &#123;</span><br><span class="line">            <span class="keyword">try</span>&#123;</span><br><span class="line">                <span class="type">Field</span> <span class="variable">targetField</span> <span class="operator">=</span> declaredFields[i];</span><br><span class="line">                <span class="type">ExcludeConvert</span> <span class="variable">excludeConvert</span> <span class="operator">=</span> targetField.getAnnotation(ExcludeConvert.class);</span><br><span class="line">                <span class="keyword">if</span>(excludeConvert==<span class="literal">null</span>||!excludeConvert.value()) &#123;</span><br><span class="line">                    <span class="type">Field</span> <span class="variable">sourceField</span> <span class="operator">=</span> source.getClass().getDeclaredField(targetField.getName());</span><br><span class="line">                    <span class="keyword">if</span> (!sourceField.getName().equals(<span class="string">&quot;serialVersionUID&quot;</span>)) &#123;</span><br><span class="line">                        <span class="keyword">try</span> &#123;</span><br><span class="line">                            targetField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">                            sourceField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">                            <span class="type">Object</span> <span class="variable">value</span> <span class="operator">=</span> sourceField.get(source);</span><br><span class="line">                            <span class="keyword">if</span>(value!=<span class="literal">null</span>)&#123;</span><br><span class="line">                                targetField.set(target, value);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">                            e.printStackTrace();</span><br><span class="line">                        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                            targetField.setAccessible(<span class="literal">false</span>);</span><br><span class="line">                            sourceField.setAccessible(<span class="literal">false</span>);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;<span class="keyword">catch</span> (NoSuchFieldException e) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> target;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
-<p>        如果确定一个对象不是空的则可以使用<code>Optional</code>的静态方法<code>of</code>来把数据封装成<code>Optional</code>对象</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">Author</span> <span class="variable">author</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Author</span>();</span><br><span class="line">Optional&lt;Author&gt; authorOptional = Optional.of(author);</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取类的所有属性，包括父类</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> object</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Field[] getAllFields(Object object) &#123;</span><br><span class="line">    Class&lt;?&gt; clazz = object.getClass();</span><br><span class="line">    List&lt;Field&gt; fieldList = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">while</span> (clazz != <span class="literal">null</span>) &#123;</span><br><span class="line">        fieldList.addAll(<span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(Arrays.asList(clazz.getDeclaredFields())));</span><br><span class="line">        clazz = clazz.getSuperclass();</span><br><span class="line">    &#125;</span><br><span class="line">    Field[] fields = <span class="keyword">new</span> <span class="title class_">Field</span>[fieldList.size()];</span><br><span class="line">    fieldList.toArray(fields);</span><br><span class="line">    <span class="keyword">return</span> fields;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>       如果一个对象是<code>null</code>，这个时候需要将<code>null</code>封装成一个<code>Optional</code>对象返回，可以使用<code>Optional</code>的静态方法<code>empty</code>来进行封装</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Optional.empty()</span><br></pre></td></tr></table></figure>
+<h3 id="2-2-指定字段复制"><a href="#2-2-指定字段复制" class="headerlink" title="2.2 指定字段复制"></a>2.2 指定字段复制</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> String [] baseFields=<span class="keyword">new</span> <span class="title class_">String</span>[]&#123;<span class="string">&quot;id&quot;</span>,<span class="string">&quot;createUser&quot;</span>,<span class="string">&quot;updateUser&quot;</span>,<span class="string">&quot;createTime&quot;</span>,<span class="string">&quot;updateTime&quot;</span>,<span class="string">&quot;deleted&quot;</span>,<span class="string">&quot;serialVersionUID&quot;</span>&#125;;</span><br></pre></td></tr></table></figure>
 
-<h3 id="2-2-安全消费值"><a href="#2-2-安全消费值" class="headerlink" title="2.2 安全消费值"></a>2.2 安全消费值</h3><p>        当获取到一个<code>Optional</code>对象后可以使用<code>ifPresent</code>方法消费其中的值，这个方法会判断其内封装的数据是否为空，不为空时才会执行具体的消费代码。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Optional&lt;Author&gt; authorOptional = Optional.ofNullable(getAuthor());</span><br><span class="line">authorOptional.ifPresent(author -&gt; System.out.println(author.getName());</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T,S&gt; T <span class="title function_">convertWithoutBaseEntity</span><span class="params">(T target,S source)</span> &#123;</span><br><span class="line">        Set&lt;String&gt; baseFieldSet = Arrays.stream(baseFields).collect(Collectors.toSet());</span><br><span class="line">        Field[] declaredFields = getAllFields(target);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; declaredFields.length; i++) &#123;</span><br><span class="line">            <span class="keyword">try</span>&#123;</span><br><span class="line">                <span class="type">Field</span> <span class="variable">targetField</span> <span class="operator">=</span> declaredFields[i];</span><br><span class="line">                <span class="keyword">if</span>(baseFieldSet.contains(targetField.getName()))<span class="keyword">continue</span>;</span><br><span class="line">                <span class="type">ExcludeConvert</span> <span class="variable">excludeConvert</span> <span class="operator">=</span> targetField.getAnnotation(ExcludeConvert.class);</span><br><span class="line">                <span class="keyword">if</span>(excludeConvert==<span class="literal">null</span>||!excludeConvert.value()) &#123;</span><br><span class="line">                    <span class="type">Field</span> <span class="variable">sourceField</span> <span class="operator">=</span> source.getClass().getDeclaredField(targetField.getName());</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        targetField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">                        sourceField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">                        <span class="type">Object</span> <span class="variable">value</span> <span class="operator">=</span> sourceField.get(source);</span><br><span class="line">                        <span class="keyword">if</span>(value!=<span class="literal">null</span>)&#123;</span><br><span class="line">                            targetField.set(target, value);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                        targetField.setAccessible(<span class="literal">false</span>);</span><br><span class="line">                        sourceField.setAccessible(<span class="literal">false</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;<span class="keyword">catch</span> (NoSuchFieldException e) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> target;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="2-3-获取值"><a href="#2-3-获取值" class="headerlink" title="2.3 获取值"></a>2.3 获取值</h3><p>        不推荐直接使用<code>get</code>方法获取值，因为当<code>Optional</code>内部的数据为空时会出现异常</p>
-<h3 id="2-4-安全获取值"><a href="#2-4-安全获取值" class="headerlink" title="2.4 安全获取值"></a>2.4 安全获取值</h3><ul>
-<li><p><code>orElseGet</code>：获取数据并且设置为空时的默认值。如果数据不为空就能获取到该数据，如果为空则根据传入的参数来创建对象。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Optional&lt;Author&gt; authorOptional = Optional.ofNullable(getAuthor));</span><br><span class="line"><span class="type">Author</span> <span class="variable">author</span> <span class="operator">=</span> authorOptional.orElseGet(() -&gt; <span class="keyword">new</span> <span class="title class_">Author</span>());</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><code>orElseThrow</code></p>
-<p>获取数据，如果数据不为空就能获取到该数据，如果为空则根据传入的参数来创建异常抛出</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Optional&lt;Author&gt; authorOptional = Optional.ofNullable(getAuthor));</span><br><span class="line"><span class="type">Author</span> <span class="variable">author</span> <span class="operator">=</span> authorOptional.orElseThrow((Supplier&lt;Throwable&gt;) ()</span><br><span class="line">-&gt; <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(<span class="string">&quot;author为空&quot;</span>));</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h3 id="2-5-过滤"><a href="#2-5-过滤" class="headerlink" title="2.5 过滤"></a>2.5 过滤</h3><p>        可以使用<code>filter</code>方法对数据进行过滤，如果原本是有数据的，但是不符合判断，也会变成一个无数据的<code>Optional</code>对象</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Optional&lt;Author&gt; authorOptional = Optional.ofNullable(getAuthor));</span><br><span class="line">authorOptional.filter(author -&gt; author.getAge() &gt; <span class="number">100</span>).ifPresent(</span><br><span class="line">    author -&gt; System.out.println(author.getAge())</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-6-判断"><a href="#2-6-判断" class="headerlink" title="2.6 判断"></a>2.6 判断</h3><p>        可以使用<code>isPresent</code>方法判断数据是否存在，如果为空返回值为<code>false</code></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Optional&lt;Author&gt; authorOptional = Optional.ofNullable(getAuthor));</span><br><span class="line"><span class="keyword">if</span>(authorOptional.isPresent())&#123;</span><br><span class="line">    System.out.println(authorOptional.get().getName());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-7-数据转换"><a href="#2-7-数据转换" class="headerlink" title="2.7 数据转换"></a>2.7 数据转换</h3><p>        <code>Optional</code>还提供了<code>map</code>可以让我们对数据进行转换，并且得到的数据也还是被<code>Optional</code>包装好的</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Optional&lt;Author&gt; authorOptional = Optional.ofNullable(getAuthor));</span><br><span class="line">Optional&lt;List&lt;Book&gt;&gt; books = authorOptional.map(author -&gt; author.getBooks())</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Field[] getAllFields(Object object) &#123;</span><br><span class="line">        Class&lt;?&gt; clazz = object.getClass();</span><br><span class="line">        List&lt;Field&gt; fieldList = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">while</span> (clazz != <span class="literal">null</span>) &#123;</span><br><span class="line">            fieldList.addAll(<span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(Arrays.asList(clazz.getDeclaredFields())));</span><br><span class="line">            clazz = clazz.getSuperclass();</span><br><span class="line">        &#125;</span><br><span class="line">        Field[] fields = <span class="keyword">new</span> <span class="title class_">Field</span>[fieldList.size()];</span><br><span class="line">        fieldList.toArray(fields);</span><br><span class="line">        <span class="keyword">return</span> fields;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>技术</category>
       </categories>
       <tags>
-        <tag>函数式编程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SSM_PRO</title>
-    <url>/2024/01/14/SSM_PRO/</url>
-    <content><![CDATA[<h1 id="SSM-PRO"><a href="#SSM-PRO" class="headerlink" title="SSM_PRO"></a>SSM_PRO</h1><h2 id="1、C3P0作用"><a href="#1、C3P0作用" class="headerlink" title="1、C3P0作用"></a>1、C3P0作用</h2><p>传统的JDBC数据库连接使用DriverManager来获取，每次向数据库建立连接的时候都要将Connection加载到内存中，再验证用户名和密码。需要获取数据库连接的时候，就像数据库要求一个，执行完成再断开连接，这样的方式会消耗大量的资源和时间。多人同时连接操作的时候会占用很多的系统资源，如果在数据库连接的时候，程序异常关闭，会导致内存泄漏。</p>
-<p>数据库连接池技术解决上面的连接问题。基本思想：为数据库建立一个缓冲池，预先在缓冲池中放入一定数量的连接，当需要建立连接的时候，就从中取出一个，使用完毕再放回去。数据库连接池负责分配、管理和释放数据库连接，它允许应用程序重复使用一个现有的数据库连接，而不是重新建立一个。</p>
-<p>常见数据库连接池：<strong>c3p0</strong>，<strong>dbcp</strong>，<strong>HikariCP</strong>，<strong>Druid</strong></p>
-<h2 id="2、mysql驱动"><a href="#2、mysql驱动" class="headerlink" title="2、mysql驱动"></a>2、mysql驱动</h2><p>mysql-connector-java，是用于将不同编程语言的应用程序连接到MySQL数据库服务器的驱动程序，没有的话JDBC无法访问数据库（无法注册驱动）。java.sql.Driver 接口是所有 JDBC 驱动程序需要实现的接口，在程序中不需要直接去访问实现了 Driver 接口的类，而是由驱动程序管理器类(java.sql.DriverManager)去调用这些Driver实现。</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/32.png"></p>
-<h2 id="3、servlet作用"><a href="#3、servlet作用" class="headerlink" title="3、servlet作用"></a>3、servlet作用</h2><p>servlet专门用来接收客户端的请求，专门接收客户端的请求数据，然后调用底层service处理数据并生成结果<br>浏览器http请求——》tomcat服务器——-》到达servlet—–》执行doget，dopost方法—-》返回数据<br>&lt;1&gt;客户端发送请求到服务器端<br>&lt;2&gt;服务器将请求信息发送至Servlet<br>&lt;3&gt;Servlet生成响应内容并将其传给服务器。<br>&lt;4&gt;服务器将响应返回给客户端。<br>servlet里的三大作用域：</p>
-<p>   request(请求)：它的作用范围是一次请求和响应，是三个作用域中最小的。<br>   session（会话）：它的作用比request要大一点，一次会话过程中，它的作用域就一直存在，(默认是30分钟)<br>   servletcontext：它作用范围最大，作用于整个服务器中。（Application）</p>
-<h2 id="4、Spring与SpringMVC包扫描"><a href="#4、Spring与SpringMVC包扫描" class="headerlink" title="4、Spring与SpringMVC包扫描"></a>4、Spring与SpringMVC包扫描</h2><p>在一个项目中，容器不一定只有一个，Spring可以包括多个容器，而且容器存在上下层的关系。在一个项目中引入Spring和SpringMVC两个框架，它就是两个容器，Spring是父容器，SpringMVC是子容器，并且在Spring父容器中注册的Bean对于SpringMVC容器中是可见的，而在SpringMVC容器中注册的Bean对于Spring父容器中是不可见的，也就是子容器可以看见父容器中的注册的Bean，反之就不行。Spring父容器负责所有其他非@Controller注解的Bean的注册，而SpringMVC只负责@Controller注解的Bean的注册，使得他们各负其责、明确边界。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;mvc:annotation-driven /&gt;</span><br></pre></td></tr></table></figure>
-
-<p>上面配置声明了@RequestMapping、@RequestBody、@ResponseBody等。并且，该配置默认加载很多的参数绑定方法，比如json转换解析器等。</p>
-<h2 id="5、后端进行校验"><a href="#5、后端进行校验" class="headerlink" title="5、后端进行校验"></a>5、后端进行校验</h2><p>使用JSR303步骤</p>
-<ol>
-<li><p>引入依赖</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--JSR303数据校验--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.hibernate<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hibernate-validator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.4.1.Final<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>在实体类中使用判断</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Pattern(regexp = &quot;(^[a-zA-Z0-9_-]&#123;6,16&#125;$)|(^[\\u2E80-\\u9FFF]&#123;2,5&#125;)&quot;</span></span><br><span class="line"><span class="meta">        ,message = &quot;用户名必须是2-5位中文，或者6-16位英文&quot;)</span></span><br><span class="line"><span class="keyword">private</span> String empName;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Pattern(regexp = &quot;^([a-z0-9_\\.-]+)@([\\da-z\\.-]+)\\.([a-z\\.]&#123;2,6&#125;)$&quot;,message = &quot;邮箱格式不正确&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> String email;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>控制器中进行判断</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 员工保存</span></span><br><span class="line"><span class="comment"> * 1、支持JSR303</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@RequestMapping(value = &quot;/emp&quot; , method = RequestMethod.POST)</span></span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="keyword">public</span> Msg <span class="title function_">saveEmp</span><span class="params">(<span class="meta">@Valid</span> Employee employee, BindingResult result)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (result.hasErrors()) &#123;</span><br><span class="line">        Map&lt;String,Object&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        <span class="comment">//校验失败,在提示框中显示</span></span><br><span class="line">        List&lt;FieldError&gt; errors = result.getFieldErrors();</span><br><span class="line">        <span class="keyword">for</span> (FieldError error : errors) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;错误的字段名：&quot;</span> + error.getField());</span><br><span class="line">            System.out.println(<span class="string">&quot;错误信息：&quot;</span> + error.getDefaultMessage());</span><br><span class="line">            map.put(error.getField(),error.getDefaultMessage());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Msg.fail().add(<span class="string">&quot;errorField&quot;</span>,map);</span><br><span class="line">    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">        employeeService.saveEmp(employee);</span><br><span class="line">        <span class="keyword">return</span> Msg.success();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h2 id="6、Hibernate-与Mybatis"><a href="#6、Hibernate-与Mybatis" class="headerlink" title="6、Hibernate 与Mybatis"></a>6、Hibernate 与Mybatis</h2><p>Hibernate ：是一个对象关系映射框架(ORM)，将实体类与数据库表建立映射关系，可以自动生成Sql语句，省去了绝大部分的sql编写，用面向对象的方式操作数据，是一套完整的数据库解决方案，能做到数据库无关性。</p>
-<p>Mybatis：是一个对象关系映射框架(ORM)，将实体类与数据库表建立映射关系，能够灵活编写sql语句</p>
-<h2 id="7、jdbc与jpa"><a href="#7、jdbc与jpa" class="headerlink" title="7、jdbc与jpa"></a>7、jdbc与jpa</h2><p>jdbc是数据库的统一接口标准，而jpa是orm框架的统一接口标准</p>
-<p>区别：jdbc更加注重数据库，orm则更加注重于java代码，实际上jpa实现的框架底层还是使用jdbc去和数据库交互</p>
-<h2 id="8、spring-data-JPA-和spring-data-JDBC"><a href="#8、spring-data-JPA-和spring-data-JDBC" class="headerlink" title="8、spring data JPA 和spring data JDBC"></a>8、spring data JPA 和spring data JDBC</h2><p>spring data JPA ：何为jpa（Java Persistence API）,java持久层的API。JPA的实现思想为ORM,JPA并不是一个框架，是一类框架的总称，是一个规范，本质上还是一种ORM规范，提供了一些编程的API接口，JPA属于应用程序和JSBC的一个中间层，对二者起连接作用，具体实现由ORM厂商提供实现。spring data JPA 是 Spring 基于 ORM 框架、JPA 规范的基础上封装的一套JPA应用框架，底层使用Hibernate实现。</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/33.png"></p>
-<p>spring data JDBC：jdbc是连接数据库的原生接口，定义的是对数据库操作的规范，由具体的厂家实现。spring data JDBC相比传统的jdbc省去了数据库驱动，连接等无关配置，只需要要写sql和设置参数</p>
-<p>区别：两个属于不同的层次，spring data JPA 是一个应用框架</p>
-<h2 id="9、序列化"><a href="#9、序列化" class="headerlink" title="9、序列化"></a>9、序列化</h2><p>序列化：对象的寿命随着生成该对象的程序的终止而终止，若想要将内存中对象的状态保存下来，Java提供一种机制即序列化保存对象状态。</p>
-<p>用途：</p>
-<ul>
-<li>把内存中的对象状态保存到一个文件或者数据库的时候</li>
-<li>将对象通过网络传播</li>
-</ul>
-<p>用法：将类继承Serialiable接口，可以加上serialVersionUID(不加也没事)。如果通过网络传播的时候，serialVersionUID不一致，反序列化就不能正常执行</p>
-<h2 id="10、session"><a href="#10、session" class="headerlink" title="10、session"></a>10、session</h2><p>session：会话控制，用来存储变量，当在应用程序和Web页面跳转的时候，存储在Session中的变量不会丢失，在整个用户会话中一直存在</p>
-<p>session销毁的方式：</p>
-<ol>
-<li>默认的时间到期(或者自己设置的时间，在配置文件中可以修改)</li>
-<li>关闭浏览器</li>
-<li>设置立即失效</li>
-</ol>
-<h2 id="11、JsonObject"><a href="#11、JsonObject" class="headerlink" title="11、JsonObject"></a>11、JsonObject</h2><p>JsonObject是一种存储json的数据结构，可以使用put方法给json对象添加元素</p>
-<h2 id="12、在SpringBoot中为什么要加-mapper或者-MapperScan"><a href="#12、在SpringBoot中为什么要加-mapper或者-MapperScan" class="headerlink" title="12、在SpringBoot中为什么要加@mapper或者@MapperScan"></a>12、在SpringBoot中为什么要加@mapper或者@MapperScan</h2><p>​        mybatis-config中只是会为对应的mapper创建代理类，而想真正包装成bean，注入到spring容器中，还是需要AutoConfiguredMapperScannerRegistrar，它会根据扫描@Mapper注释或是@MapperScan指定的包下的接口，将其注册为bean。</p>
-]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>SSM</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Redis</title>
-    <url>/2023/12/09/Redis/</url>
-    <content><![CDATA[<h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><h2 id="1-NoSQL数据库简介"><a href="#1-NoSQL数据库简介" class="headerlink" title="1. NoSQL数据库简介"></a>1. NoSQL数据库简介</h2><h3 id="1-1-技术发展"><a href="#1-1-技术发展" class="headerlink" title="1.1 技术发展"></a>1.1 技术发展</h3><ol>
-<li><p>解决功能性的问题：Java、Jsp、RDBMS、Tomcat、HTML、Linux、JDBC、SVM</p>
-</li>
-<li><p>解决扩展性的问题：Struts、Spring、SpringMVC、Hibernate、Mybatis</p>
-</li>
-<li><p>解决性能的问题：NoSQL、Java线程、Hadoop、Ngin、MQ、ElasticSearch</p>
-</li>
-</ol>
-<h3 id="1-2-NoSQL数据库概述"><a href="#1-2-NoSQL数据库概述" class="headerlink" title="1.2 NoSQL数据库概述"></a>1.2 NoSQL数据库概述</h3><ol>
-<li><p>NoSQL(Not Only SQL),意即不仅仅是SQL，泛指非关系型数据库，NoSQL不依赖业务逻辑方式存储，而是以简单的key-value模式存储，因此大大的增加了数据库的扩展能力</p>
-<ul>
-<li><p>不遵循SQL标准</p>
-</li>
-<li><p>不支持ACID</p>
-</li>
-<li><p>远超于SQL的性能</p>
-</li>
-</ul>
-</li>
-<li><p>NoSQL使用场景</p>
-<ul>
-<li><p>对数据高并发读写</p>
-</li>
-<li><p>海量数据的读写</p>
-</li>
-<li><p>对数据高可扩展性</p>
-</li>
-</ul>
-</li>
-<li><p>NoSQL不适用场景</p>
-<ul>
-<li><p>需要事务支持</p>
-</li>
-<li><p>基于sql的结构化查询，处理复杂的关系</p>
-</li>
-</ul>
-</li>
-</ol>
-<h2 id="2-Redis概述"><a href="#2-Redis概述" class="headerlink" title="2. Redis概述"></a>2. Redis概述</h2><ul>
-<li><p>redis是一个开源的<strong>key-value</strong>存储系统</p>
-</li>
-<li><p>和Memcached类似，它<strong>支持存储的value类型相对更多</strong>，包括string(字符串)、list(链表)、set(集合)、zset(sorted set 有序集合)和hash(哈希类型)</p>
-</li>
-<li><p>这些数据类型都支持push&#x2F;pop，add&#x2F;remove及取交集并集及更丰富的操作，而且这些操作都是<strong>原子性</strong>的</p>
-</li>
-<li><p>redis支持各种不同方式的<strong>排序</strong></p>
-</li>
-<li><p>与memcached一样，为了保证效率，数据都是<strong>缓存在内存</strong>中</p>
-</li>
-<li><p>区别的是redis会<strong>周期性</strong>的把更新的<strong>数据写入磁盘</strong>或者把修改操作写入追加的记录文件</p>
-</li>
-<li><p>实现了**master-slave(主从)**同步</p>
-</li>
-</ul>
-<h3 id="2-1-Redis相关知识"><a href="#2-1-Redis相关知识" class="headerlink" title="2.1 Redis相关知识"></a>2.1 Redis相关知识</h3><ol>
-<li><p>默认16个数据库，从下标0开始，初始默认使用0号库</p>
-</li>
-<li><p>使用<code>select &lt;dbid&gt;</code>来切换数据库，如select 8</p>
-</li>
-<li><p>统一密码管理，所有库密码相同</p>
-</li>
-<li><p>dbsize查看当前数据库的key的数量</p>
-</li>
-<li><p>flushdb清空当前库</p>
-</li>
-<li><p>flushall通杀全部库</p>
-</li>
-<li><p>Redis是单线程+多路IO复用技术</p>
-</li>
-</ol>
-<h2 id="3-常用五大数据类型"><a href="#3-常用五大数据类型" class="headerlink" title="3. 常用五大数据类型"></a>3. 常用五大数据类型</h2><h3 id="3-1-Redis键-key"><a href="#3-1-Redis键-key" class="headerlink" title="3.1 Redis键(key)"></a>3.1 Redis键(key)</h3><p><code>keys *</code>查看当前库所有key</p>
-<p><code>exists key</code>判断某个key是否存在</p>
-<p><code>type key</code>查看key是什么类型</p>
-<p><code>del key</code>删除指定的key数据</p>
-<p><code>unlink key</code>根据value选择非阻塞删除，仅将keys从keyspace元数据中删除，真正的删除会在后续异步操作。</p>
-<p><code>expire key 10</code>为指定的key设置过期时间10秒钟</p>
-<p><code>ttl key</code>查看还有多少秒过期，-1表示永不过期，-2表示已过期</p>
-<p><code>select</code>切换数据库</p>
-<p><code>dbsize</code>查看当前数据库的key的数量</p>
-<p><code>flushdb</code>清空当前库</p>
-<p><code>flushall</code>通杀全部库 </p>
-<h3 id="3-2-Redis字符串-String"><a href="#3-2-Redis字符串-String" class="headerlink" title="3.2 Redis字符串(String)"></a>3.2 Redis字符串(String)</h3><ol>
-<li><p>简介</p>
-<ul>
-<li><p>String类型是二进制安全的，意味着Redis的string可以包含任何数据，比如jpg图片或者序列化的对象</p>
-</li>
-<li><p>String类型是Redis最基本的数据类型，一个Redis中字符串value最多是512M</p>
-</li>
-</ul>
-</li>
-<li><p>常用命令</p>
-<ul>
-<li><p><code>set &lt;Key&gt; &lt;value&gt;</code>：添加键值对</p>
-</li>
-<li><p><code>get &lt;Key&gt;</code>：查询对应键值</p>
-</li>
-<li><p><code>append &lt;key&gt; &lt;value&gt;</code>：将给定的value追加到原值末尾</p>
-</li>
-<li><p><code>strlen &lt;key&gt;</code>：获得值的长度</p>
-</li>
-<li><p><code>setnx &lt;key&gt; &lt;value&gt;</code>：只有key不存在时，设置key的值</p>
-</li>
-<li><p><code>incr &lt;key&gt;</code>：将key中存储的数字值加1，只能对数字值操作，如果为空，新增值为1</p>
-</li>
-<li><p><code>decr &lt;key&gt;</code>：将key中存储的数字值减一，只能对数字值操作，如果为空，新增值为-1</p>
-</li>
-<li><p><code>incrby/decrby &lt;key&gt;&lt;步长&gt;</code>：将key中存储的数字值增减，自定义步长</p>
-</li>
-<li><p><code>mset &lt;key1&gt;&lt;value1&gt;&lt;key2&gt;&lt;value2&gt;</code>：同时设置一个或多个key-value</p>
-</li>
-<li><p><code>mget &lt;key1&gt;&lt;key2&gt;&lt;key3&gt;</code>：同时获取一个或多个value</p>
-</li>
-<li><p><code>msetnx &lt;key1&gt;&lt;value1&gt;&lt;key2&gt;&lt;value2&gt;</code>：同时设置一个或多个key-value对，当且仅当所有给定key都不存在</p>
-<p>原子性，有一个失效都失败</p>
-</li>
-<li><p><code>getrange &lt;key&gt;&lt;起始位置&gt;&lt;结束位置&gt;</code>：获得值的范围，类似java中的substring</p>
-</li>
-<li><p><code>setrange &lt;key&gt;&lt;起始位置&gt;&lt;value&gt;</code>：用value覆写key所存储的字符串值，从起始位置开始(索引从0开始)</p>
-</li>
-<li><p><code>setex &lt;key&gt;&lt;过期时间&gt;&lt;value&gt;</code>：设置键值的同时，设置过期时间，单位为秒</p>
-</li>
-<li><p><code>getset &lt;key&gt;&lt;value&gt;</code>：以新换旧，设置了新值的同时获得旧值</p>
-</li>
-</ul>
-</li>
-<li><p>原子性</p>
-<ol>
-<li><p>所谓原子操作是指不会被线程调度机制打断的操作，这种操作一旦开始，就一直运行到结束，中间不会切换到另一个线程。Redis单命令的原子性主要得益于Redis的单线程</p>
-</li>
-<li><p>在单线程中，能够在单条指令中完成的操作都可以认为是原子操作，因为中断只能发生于指令之间</p>
-</li>
-<li><p>在多线程中，不能被其他进程(线程)打断的操作就叫原子操作</p>
-</li>
-</ol>
-</li>
-<li><p>数据结构</p>
-<ul>
-<li>String的数据结构为简单动态字符串，是可以修改的字符串，内部结构实现上类似于Java的ArrayList，采用预分配冗余空间的方式来减少内存的频繁分配</li>
-</ul>
-</li>
-</ol>
-<h3 id="3-3-Redis列表-List"><a href="#3-3-Redis列表-List" class="headerlink" title="3.3  Redis列表(List)"></a>3.3  Redis列表(List)</h3><ol>
-<li><p>简介</p>
-<p>单键多值，Redis列表是简单的字符串列表，按照插入顺序排序，可以添加一个元素到列表的头部或者尾部，它的底层实际是一个<strong>双向链表</strong>，对两端的操作性能很高，通过索引下标的操作中间的节点性能会较差</p>
-</li>
-<li><p>常用命令</p>
-<ul>
-<li><p><code>lpush/rpush &lt;key&gt;&lt;value1&gt;&lt;value2&gt;&lt;value3&gt;..</code>：从左边&#x2F;右边插入一个或多个值，每次都是从左边放入</p>
-</li>
-<li><p><code>lpop/rpop &lt;key&gt;</code>：从左边&#x2F;右边吐出一个值，值在键在，值光键亡</p>
-</li>
-<li><p><code>rpoplpush &lt;key1&gt;&lt;key2&gt;</code>：从key1列表右边吐出一个值，插到key2列表左边</p>
-</li>
-<li><p><code>lrange &lt;key&gt;&lt;start&gt;&lt;stop&gt;</code>：按照索引下标获得元素(从左到右)，<code>start=0,stop=-1</code>：表示获取所有</p>
-</li>
-<li><p><code>lindex &lt;key&gt;&lt;index&gt;</code>：按照索引下标获得元素(从左到右)</p>
-</li>
-<li><p><code>llen &lt;key&gt;</code>：获得列表长度</p>
-</li>
-<li><p><code>linsert &lt;key&gt; before &lt;value&gt; &lt;newvalue&gt;</code>：在value的前(后)面插入newvalue值</p>
-</li>
-<li><p><code>lrem &lt;key&gt;&lt;n&gt;&lt;value&gt;</code>：从左边删除n个value(从左到右)</p>
-</li>
-<li><p><code>lset &lt;key&gt;&lt;index&gt;&lt;value&gt;</code>：将列表key下标为index的值替换为value</p>
-</li>
-</ul>
-</li>
-<li><p>数据结构</p>
-<ul>
-<li>List的数据结构为快速链表quickList。首先在列表元素较少的情况下会使用一块连续的内存存储，这个结构是ziplist，也即是压缩列表。它将所有的元素紧挨着一起存储，分配的是一块连续的内存，当数据量比较多的时候才会改成quicklist。因为普通的链表需要的附加指针空间太大，会比较浪费空间，比如列表里面存的只是int类型的数据，结构上还需要两个额外的指针prew和next。Redis将链表和ziplist结合起来组成了quicklist。也就是将多个ziplist使用双向指针串起来使用，这样既满足了快速插入删除性能，又不会出现太大的空间冗余</li>
-</ul>
-</li>
-</ol>
-<h3 id="3-4-Redis集合-Set"><a href="#3-4-Redis集合-Set" class="headerlink" title="3.4 Redis集合(Set)"></a>3.4 Redis集合(Set)</h3><ol>
-<li><p>简介</p>
-<p>Redis set对外提供的功能和list类似是一个列表的功能，特殊之处在于set是可以自动排重的，当需要存储一个列表数据，又不希望出现重复数据，set是一个很好的选择，并且set提供了判断某个成员是否在一个set集合内的重要接口，这个也是list所不能提供的。</p>
-<p>Redis的Set是string类型的无序集合，它底层其实是一个value为null的hash表，所以添加、删除、查找的复杂度都是O(1)</p>
-</li>
-<li><p>常用命令</p>
-<ul>
-<li><p><code>sadd &lt;key&gt;&lt;value1&gt;&lt;value2&gt;</code>：将一个或多个元素加入到集合key中，已经存在的元素将被忽略</p>
-</li>
-<li><p><code>smembers &lt;key&gt;</code>：取出该集合的所有值</p>
-</li>
-<li><p><code>sismember &lt;key&gt; &lt;value&gt;</code>：判断集合key是否为含有value值，有1，没有0</p>
-</li>
-<li><p><code>scard &lt;key&gt;</code>：返回该集合的元素个数</p>
-</li>
-<li><p><code>srem &lt;key&gt;&lt;value1&gt;&lt;value2&gt;</code>：删除集合中的某个元素</p>
-</li>
-<li><p><code>spop &lt;key&gt;</code>：随机从该集合从吐出一个值</p>
-</li>
-<li><p><code>srandmember &lt;key&gt;&lt;n&gt;</code>：随机从该集合中取出n个值，不会从集合中删除</p>
-</li>
-<li><p><code>smove &lt;source&gt;&lt;destination&gt;value</code>：把集合中一个值从一个集合移动到另一个集合</p>
-</li>
-<li><p><code>sinter &lt;key1&gt;&lt;key2&gt;</code>：返回两个集合的交集元素</p>
-</li>
-<li><p><code>sunion &lt;key1&gt;&lt;key2&gt;</code>：返回两个集合的并集元素</p>
-</li>
-<li><p><code>sdiff &lt;key1&gt;&lt;key2&gt;</code>：返回两个集合的差集元素(key1中的，不包含key2中的)</p>
-</li>
-</ul>
-</li>
-<li><p>数据结构</p>
-<p>Set数据结构是dict字典，字典是用哈希表实现的。Java中HashSet的内部实现使用的是HashMap，只不过所有的value都指向同一个对象。Redis的set结构也是一样，它的内部也使用hash结构，所有的value都指向同一个内部值</p>
-</li>
-</ol>
-<h3 id="3-5-Redis哈希-Hash"><a href="#3-5-Redis哈希-Hash" class="headerlink" title="3.5 Redis哈希(Hash)"></a>3.5 Redis哈希(Hash)</h3><ol>
-<li><p>Redis hash是一个键值对集合，是一个string类型的field和value的映射表，hash特别适合用于存储对象。类似java中的Map&lt;String,Object&gt;</p>
-</li>
-<li><p>主要的两种存储方式</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m21.jpg"></p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m22.jpg"></p>
-</li>
-<li><p>常用命令</p>
-<ul>
-<li><p><code>hset &lt;key&gt;&lt;field&gt;&lt;value&gt;</code>：给key集合中的field键赋值value</p>
-</li>
-<li><p><code>hget &lt;key1&gt;&lt;field&gt;</code>：从key1集合中取出value</p>
-</li>
-<li><p><code>hmset &lt;key1&gt;&lt;field&gt;&lt;value1&gt;&lt;key2&gt;&lt;value2&gt;</code>：批量设置hash的值</p>
-</li>
-<li><p><code>hexists &lt;key1&gt;&lt;field&gt;</code>：查看哈希表key中，给定field是否存在</p>
-</li>
-<li><p><code>hkeys &lt;key&gt;</code>：列出该hash集合中的所有field</p>
-</li>
-<li><p><code>hincrby &lt;key&gt;&lt;field&gt;&lt;increment&gt;</code>：为哈希表key中的field的值增量1</p>
-</li>
-<li><p><code>hsetnx &lt;key&gt;&lt;field&gt;&lt;value&gt;</code>：将哈希表key中的域field的值设置为value，当且仅当域field不存在</p>
-</li>
-</ul>
-</li>
-<li><p>数据结构</p>
-<p>Hash类型对应的数据结构是两种：ziplist(压缩列表)、hashtable(哈希表)。当field-value长度较短且个数较少时，使用ziplist，否则使用hashtable</p>
-</li>
-</ol>
-<h3 id="3-6-Redis有序集合Zset"><a href="#3-6-Redis有序集合Zset" class="headerlink" title="3.6 Redis有序集合Zset"></a>3.6 Redis有序集合Zset</h3><ol>
-<li><p>Redis有序集合zset与普通集合set非常相似，是一个<strong>没有重复元素</strong>的字符串集合。不同之处是有序集合的每个成员都关联一个<strong>评分</strong>，这个评分被用来按照从低分到最高分的方式排序集合中的成员，<strong>集合中的成员是唯一的，但是评分是可以重复的</strong>。因为元素是有序的，所以可以很快的根据评分或者次序来获取一个范围的元素，访问有序集合的中间元素也是非常快的，因此可以把有序集合作为一个没有重复成员的智能列表</p>
-</li>
-<li><p>常用命令</p>
-<ul>
-<li><p><code>zadd &lt;key&gt;&lt;score1&gt;&lt;value1&gt;&lt;score2&gt;&lt;value2&gt;..</code>：将一个或多个member元素及其score值加入到有序集合key当中</p>
-</li>
-<li><p><code>zrange &lt;key&gt;&lt;start&gt;&lt;stop&gt; [WITHSCORES]</code>：返回有序集key中，下标在start stop之间的元素，WITHSCORES可以让分数一起和值返回到结果集</p>
-</li>
-<li><p><code>zrangebuscore key minmax[withscores][limit offset count]</code>：返回有序集key中，所有score值介于min和max之间(包括min和max)的成员，有序集成员按score值递增(从小到大)次序排序</p>
-</li>
-<li><p><code>zrevrangebyscore key maxmin [withscores][limit offset count]</code>：同上，改为从大到小排列</p>
-</li>
-<li><p><code>zincrby &lt;key&gt;&lt;increment&gt;&lt;value&gt;</code>：为元素的score加上增量</p>
-</li>
-<li><p><code>zrem &lt;key&gt;&lt;value&gt;</code>：删除该集合下，指定值的元素</p>
-</li>
-<li><p><code>zcount &lt;key&gt;&lt;min&gt;&lt;max&gt;</code>：统计该集合，分数区间内的元素个数</p>
-</li>
-<li><p><code>zrank &lt;key&gt;&lt;value&gt;</code>：返回该值在集合中的排名，从0开始</p>
-</li>
-</ul>
-</li>
-<li><p>数据结构</p>
-<p>SortedSet(zset)是Redis提供的一个非常特别的数据结构，一方面它等价于Java的数据结构Map&lt;String,Double&gt;,可以给每一个元素value赋予一个权重score，另一方面它又类似于TreeSet，内部元素会按照权重score进行排序，可以得到每个元素的名次，还可以通过score的范围来获取元素的列表</p>
-<p>zset底层使用了两个数据结构：</p>
-<ol>
-<li><p>hash，hash的作用就是关联元素的value和权重score，保障元素value的唯一性，可以通过元素value找到相应的score值</p>
-</li>
-<li><p>跳跃表，跳跃表的目的在于给元素value排序，根据score的范围获取元素列表</p>
-</li>
-</ol>
-</li>
-<li><p>跳跃表</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m23.jpg"></p>
-</li>
-</ol>
-<h2 id="4-Redis6的发布和订阅"><a href="#4-Redis6的发布和订阅" class="headerlink" title="4. Redis6的发布和订阅"></a>4. Redis6的发布和订阅</h2><ol>
-<li><p>什么是发布和订阅</p>
-<p>Redis发布订阅(pub&#x2F;sub)是一种消息通信模式：发送者(pub)发送消息，订阅者(sub)接收消息，Redis客户端可以订阅任意数量的频道</p>
-</li>
-<li><p>Redis的发布和订阅</p>
-<ol>
-<li><p>客户端可以订阅频道</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m24.jpg"></p>
-</li>
-<li><p>当给这个频道发布消息后，消息就会发送给订阅的客户端</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m25.jpg"></p>
-</li>
-</ol>
-</li>
-<li><p>发布订阅命令行实现</p>
-<ol>
-<li><p>打开一个客户端订阅channel1</p>
-<p><code>SUBSCRIBE channel1</code></p>
-</li>
-<li><p>打开另一个客户端，给channel1发布消息hello</p>
-<p><code>publish channel1 hello</code>返回订阅者的数量</p>
-</li>
-<li><p>打开另一个客户端可以看到发送的消息</p>
-</li>
-</ol>
-</li>
-</ol>
-<h2 id="5-Redis6新数据类型"><a href="#5-Redis6新数据类型" class="headerlink" title="5.Redis6新数据类型"></a>5.Redis6新数据类型</h2><h3 id="5-1-Bitmaps"><a href="#5-1-Bitmaps" class="headerlink" title="5.1 Bitmaps"></a>5.1 Bitmaps</h3><ol>
-<li><p>简介</p>
-<p>Redis提供了Bitmaps这个数据类型可以实现对位的操作</p>
-<ul>
-<li><p>Bitmaps本身不是一种数据类型，实际上它就是字符串(key-value)，但是它可以对字符串的位进行操作</p>
-</li>
-<li><p>Bitmaps单独提供了一套命令，所以在Redis中使用Bitmaps和使用字符串的方法不太相同，可以把Bitmaps想象成一个以位为单位的数组，数组的每个单元只能存储0和1，数组的下标在Bitmaps中叫做偏移量</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m26.jpg"></p>
-</li>
-</ul>
-</li>
-<li><p>命令</p>
-<ol>
-<li><p><code>setbit &lt;key&gt;&lt;offset&gt;&lt;value&gt;</code>：设置Bitmaps中某个偏移量的值(0或1，offset偏移量从0开始)，注意：很多应用的用户id以一个指定数字(例如10000)开头，直接将用户id和Bitmaps的偏移量对应势必会造成一定的浪费，通常的做法是每次做setbit操作时将用户id减去这个指定的数字。在第一次初始化Bitmaps时，假如偏移量非常大，那么整个初始化过程执行会比较慢，可能造成Redis阻塞</p>
-</li>
-<li><p><code>getbit &lt;key&gt;&lt;offset&gt;</code>：获取Bitmaps中某个偏移量的值</p>
-</li>
-<li><p><code>bitcount &lt;key&gt;[start end]</code>：统计字符串从start字节到end字节比特值为1的数量</p>
-</li>
-<li><p><code>bitop and(or/not/xor) &lt;destkey&gt; [key..]</code>：bitop是一个复合操作，它可以做多个Bitmaps的交集，并集，非，异或操作，并将结果保存在destkey中</p>
-</li>
-</ol>
-</li>
-</ol>
-<h3 id="5-2-HyperLogLog"><a href="#5-2-HyperLogLog" class="headerlink" title="5.2 HyperLogLog"></a>5.2 HyperLogLog</h3><ol>
-<li><p>简介</p>
-<ul>
-<li><p>用来做基数统计的算法，优点是在输入元素的数量或者体积非常大时，计算基数所需的空间总是固定的、并且是很小的</p>
-</li>
-<li><p>在Redis中，每个HyperLogLog键只需要花费12KB内存，就可以计算接近2^64个不同元素的基数，这和计算基数时，元素越多耗费内存就越多的集合形成鲜明对比，但是因为HyperLogLog只会根据输入元素来计算基数，不会存储输入元素本身，所以不能像集合那样，返回输入的各个元素</p>
-</li>
-<li><p>什么是基数？比如数据集{1,3,5,7,7,8},那么这个数据集的基数集为</p>
-</li>
-</ul>
-</li>
-<li><p>命令</p>
-<ol>
-<li><p><code>pfadd &lt;key&gt;&lt;element&gt;[element..]</code>：添加指定元素到HyperLogLog中，如果执行命令后HLL估计的近似基数发生变化，则返回1，否则返回0</p>
-</li>
-<li><p><code>pfcount &lt;key&gt;[key...]</code>：计算HLL的近似基数，可以计算多个HLL</p>
-</li>
-<li><p><code>pfmerge &lt;destkey&gt;&lt;sourcekey&gt;[sourcekey...]</code>：将一个或多个HLL合并后的结果存储在另一个HLL中</p>
-</li>
-</ol>
-</li>
-</ol>
-<h3 id="5-3-Geospatial"><a href="#5-3-Geospatial" class="headerlink" title="5.3 Geospatial"></a>5.3 Geospatial</h3><ol>
-<li><p>简介</p>
-<p>Redis3.2增加了对GEO类型的支持。GEO,Geographic，地理信息的缩写。该类型，就是元素的2维坐标，在地图上就是经纬度。redis基于该类型，提供了经纬度设置，查询，范围查询，距离查询，经纬度Hash等常见操作</p>
-</li>
-<li><p>命令</p>
-<ol>
-<li><p><code>geoadd &lt;key&gt;&lt;longitude&gt;&lt;member&gt; [longitude latitude member..]</code>：添加地理位置(经度，纬度，名称)</p>
-</li>
-<li><p><code>geopos &lt;key&gt;&lt;member&gt;[member..]</code>：获得指定地区的坐标值</p>
-</li>
-<li><p><code>geodist &lt;key&gt;&lt;memmber1&gt;&lt;member2&gt; [m|km|ft|mi]</code>：获取两个位置之间的直线距离</p>
-</li>
-<li><p><code>georadius &lt;key&gt;&lt;longitude&gt;&lt;latitude&gt; radius m|km|ft|mi</code>：以给定的经纬度为中心找出某一半径内的元素</p>
-</li>
-</ol>
-</li>
-</ol>
-<h2 id="6-Redis事务操作"><a href="#6-Redis事务操作" class="headerlink" title="6. Redis事务操作"></a>6. Redis事务操作</h2><h3 id="6-1-事务的定义"><a href="#6-1-事务的定义" class="headerlink" title="6.1 事务的定义"></a>6.1 事务的定义</h3><p>Redis事务是一个单独的隔离操作：事务中的所有命令都会序列化、按顺序执行，事务在执行的过程中，不会被其他客户端发送来的命令请求打断。Redis事务的主要作用就是串联多个命令防止别的命令插队。</p>
-<h3 id="6-2-Multi、Exec、discard"><a href="#6-2-Multi、Exec、discard" class="headerlink" title="6.2 Multi、Exec、discard"></a>6.2 Multi、Exec、discard</h3><ul>
-<li>从输入Multi命令开始，输入的命令都会依次进入命令队列中，但不会执行，知道输入Exec后，Redis会将之前的命令队列中的命令依次执行，组队的过程中可以通过discard来放弃组队</li>
-</ul>
-<h3 id="6-3-事务的错误处理"><a href="#6-3-事务的错误处理" class="headerlink" title="6.3 事务的错误处理"></a>6.3 事务的错误处理</h3><ul>
-<li><p>组队中某个命令出现了报告错误，执行时整个的所有队列都会被取消</p>
-</li>
-<li><p>如果执行阶段某个命令报出了错误，则只有报错的命令不会被执行，而其他的命令都会执行，不会回滚</p>
-</li>
-</ul>
-<h3 id="6-4-事务冲突问题"><a href="#6-4-事务冲突问题" class="headerlink" title="6.4 事务冲突问题"></a>6.4 事务冲突问题</h3><ol>
-<li><p>例子</p>
-<p>一个请求想给金额减8000</p>
-<p>一个请求想给金额减5000</p>
-<p>一个请求想给金额减1000</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m27.jpg"></p>
-</li>
-<li><p>解决办法</p>
-<ul>
-<li><p>悲观锁</p>
-</li>
-<li><p>乐观锁</p>
-</li>
-</ul>
-</li>
-<li><p>悲观锁</p>
-<p>每次拿数据的时候都会认为别人会修改，所以每次在拿数据的时候都会上锁，这样别人想拿这个数据都会block直到它拿到锁，传统的关系型数据库里面就用到了很多这种锁机制，比如行锁，表锁等，读锁，写锁等，都是在做操作之前先上锁。缺点效率低</p>
-</li>
-<li><p>乐观锁</p>
-<p>每次拿数据的时候都认为别人不会修改，所以不会上锁，但是在更新的时候会判断一下在此期间别人有没有去更新这个数据，可以使用版本号等机制，乐观锁适用于多读的应用类型，这样可以提高吞吐量，Redis就是利用这种check-and-set机制实现事务</p>
-</li>
-</ol>
-<h3 id="6-5-WATCH-key-key…"><a href="#6-5-WATCH-key-key…" class="headerlink" title="6.5 WATCH key[key…]"></a>6.5 WATCH key[key…]</h3><ol>
-<li>在执行multi之前，先执行watch key1[key2],可以监视一个(或多个)key,如果在事务执行之前这些key被其他命令所改动，那么事务将被打断</li>
-</ol>
-<h3 id="6-6-UNWATCH"><a href="#6-6-UNWATCH" class="headerlink" title="6.6 UNWATCH"></a>6.6 UNWATCH</h3><ol>
-<li>取消WATCH命令对所有key的监视，如果在执行WATCH命令之后，EXEC命令或DISCARD命令先被执行了的话，那么就不需要再执行UNWATCH了</li>
-</ol>
-<h3 id="6-7-Redis事务三特性"><a href="#6-7-Redis事务三特性" class="headerlink" title="6.7 Redis事务三特性"></a>6.7 Redis事务三特性</h3><ol>
-<li><p>单独的隔离操作</p>
-<p>事务中的所有命令都会序列化，按顺序的执行，事务在执行的过程中，不会被其他客户端发送来的命令请求打断</p>
-</li>
-<li><p>没有隔离级别的概念</p>
-<p>队列中的命令没有提交之前都不会被执行，因为事务提交前任何指令都不会被实际执行</p>
-</li>
-<li><p>不保证原子性</p>
-<p>事务中如果有一条命令执行失败，其后的命令仍然会被执行，没有回滚</p>
-</li>
-</ol>
-<h2 id="7-Redis持久化RDB"><a href="#7-Redis持久化RDB" class="headerlink" title="7 Redis持久化RDB"></a>7 Redis持久化RDB</h2><ul>
-<li>什么是Redis持久化：Redis数据写入磁盘</li>
-</ul>
-<h3 id="7-1-Redis持久化的方式"><a href="#7-1-Redis持久化的方式" class="headerlink" title="7.1 Redis持久化的方式"></a>7.1 Redis持久化的方式</h3><ul>
-<li><p>RDB(Redis DataBase)</p>
-</li>
-<li><p>AOF(Append Of File)</p>
-</li>
-</ul>
-<h3 id="7-2-RDB简介"><a href="#7-2-RDB简介" class="headerlink" title="7.2 RDB简介"></a>7.2 RDB简介</h3><ul>
-<li>在指定的时间间隔内将内存中的数据集快照写入磁盘</li>
-</ul>
-<h3 id="7-3-RDB是如何执行"><a href="#7-3-RDB是如何执行" class="headerlink" title="7.3 RDB是如何执行"></a>7.3 RDB是如何执行</h3><ol>
-<li><p>Redis会单独创建(fork)一个子进程是进行持久化，会先将数据写入到一个<strong>临时文件</strong>中，待持久化过程都结束了，再用这个临时文件替换上次持久化好的文件，整个过程中，主进程是不进行任何IO操作的，这就确保了极高的性能，如果需要进行大规模数据的恢复，且对于数据恢复的完整性不是非常敏感，那么RDB方式要比AOF方式更加的高效，RDB缺点是最后一次持久化后的数据可能丢失</p>
-</li>
-<li><p>Fork</p>
-<ul>
-<li><p>Fork的作用是复制一个与当前进程一样的进程。新进程的所有数据(变量、环境变量、程序计数器等)数值都和原进程一致，但是是一个全新的进程，并作为原进程的子进程</p>
-</li>
-<li><p>在Linux程序中，fork()会产生一个和父进程完全相同的子进程，但子进程在此后多会exec系统调用，出于效率考虑，linux中引入了写时复制技术</p>
-</li>
-<li><p>一般情况父进程和子进程会公用同一段物理内存，只有进程空间的各段的内容要发生变化时，才会将父进程的内容复制一份给子进程</p>
-</li>
-</ul>
-</li>
-<li><p>持久化流程</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m28.jpg"></p>
-</li>
-<li><p>优缺点</p>
-<ul>
-<li><p>优点</p>
-<ul>
-<li><p>适合大规模的数据恢复</p>
-</li>
-<li><p>对数据完整性和一致性要求不高更适合使用</p>
-</li>
-<li><p>节省磁盘空间</p>
-</li>
-<li><p>恢复速度快</p>
-</li>
-</ul>
-</li>
-<li><p>缺点</p>
-<ul>
-<li><p>Fork的时候，内存中的数据被克隆了一份，大致2倍的膨胀性需要考虑</p>
-</li>
-<li><p>虽然Redis在fork时使用了写时拷贝技术，但是如果数据庞大时还是比较消耗性能</p>
-</li>
-<li><p>在备份周期在一定间隔时间做一次备份，所以如果Redis意外down掉的话，就会丢失最后一次快照后的所有修改</p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<h2 id="8-Redis持久化AOF"><a href="#8-Redis持久化AOF" class="headerlink" title="8. Redis持久化AOF"></a>8. Redis持久化AOF</h2><h3 id="8-1-AOF简介"><a href="#8-1-AOF简介" class="headerlink" title="8.1 AOF简介"></a>8.1 AOF简介</h3><ol>
-<li><p>什么是AOF</p>
-<p>以日志的形式来记录每个写操作(增量保存)，将Redis执行过的所有写指令记录下来(读操作不记录)，只许追加文件但不可以改写文件，redis启动之初会读取该文件重新构建数据，换言之，redis重启的话就会根据日志文件的内容将写指令从前到后执行一次以完成数据的恢复工作</p>
-</li>
-</ol>
-<h3 id="8-2-AOF持久化流程"><a href="#8-2-AOF持久化流程" class="headerlink" title="8.2 AOF持久化流程"></a>8.2 AOF持久化流程</h3><ol>
-<li><p>客户端的请求命令会被append追加到AOF缓冲区内</p>
-</li>
-<li><p>AOF缓冲区根据AOF持久化策略[always,everysec,no]将操作sync同步到磁盘的AOF文件中</p>
-</li>
-<li><p>AOF文件大小超过重写策略或手动重写时，会对AOF文件rewrite重写，压缩AOF文件容量</p>
-</li>
-<li><p>Redis服务重启时，会重新load加载AOF文件中的写操作达到数据恢复的目的</p>
-</li>
-</ol>
-<h3 id="8-3-AOF默认不开启"><a href="#8-3-AOF默认不开启" class="headerlink" title="8.3 AOF默认不开启"></a>8.3 AOF默认不开启</h3><ol>
-<li><p>可以在redis.conf中配置文件名称，默认为appendonly.aof,AOF文件保存路径，同RDB的路径一致</p>
-</li>
-<li><p>AOF和RDB同时开启，系统默认取AOF的数据(数据不会存在丢失)</p>
-</li>
-</ol>
-<h3 id="8-4-AOF启动-修复-恢复"><a href="#8-4-AOF启动-修复-恢复" class="headerlink" title="8.4 AOF启动&#x2F;修复&#x2F;恢复"></a>8.4 AOF启动&#x2F;修复&#x2F;恢复</h3><ul>
-<li><p>AOF备份机制和性能虽然和RDB不同，但是备份和恢复的操作同RDB一样，都是拷贝备份文件，需要恢复时再拷贝到Redis工作目录下，启动系统加载</p>
-</li>
-<li><p>正常恢复</p>
-<ul>
-<li><p>修改默认的appendonly no，为yes</p>
-</li>
-<li><p>将有数据的aof文件复制一份保存到对应目录(查看目录：config get dir)</p>
-</li>
-<li><p>恢复：重启redis然后重新加载</p>
-</li>
-</ul>
-</li>
-<li><p>异常恢复</p>
-<ul>
-<li><p>修改默认的appendonly no，为yes</p>
-</li>
-<li><p>如遇到AOF文件损坏，通过&#x2F;usr&#x2F;local&#x2F;bin&#x2F;redis-check-aof–fix appendonly.aof进行恢复</p>
-</li>
-<li><p>备份被写坏的AOF文件</p>
-</li>
-<li><p>恢复：重启redis，然后重新加载</p>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="8-5-AOF同步频率设置"><a href="#8-5-AOF同步频率设置" class="headerlink" title="8.5 AOF同步频率设置"></a>8.5 AOF同步频率设置</h3><ul>
-<li><p><code>appendfsync always</code>：始终同步，每次Redis的写入都会立刻记入日志，性能较差但数据完整性比较好</p>
-</li>
-<li><p><code>appendfsync everysec</code>：每秒同步，每秒记入日志一次，如果宕机，本秒的数据可能丢失</p>
-</li>
-<li><p><code>appendfsync no</code>：redis不主动进行同步，把同步时机交给操作系统</p>
-</li>
-</ul>
-<h3 id="8-6-Rewrite压缩"><a href="#8-6-Rewrite压缩" class="headerlink" title="8.6 Rewrite压缩"></a>8.6 Rewrite压缩</h3><ol>
-<li><p>简介</p>
-<p>AOF采用文件追加方式，文件会越来越大，为避免出现此种情况，新增了重写机制，当AOF文件的大小超过所设定的阈值时(当aof文件大小时上次rewrite后大小的一倍且文件大于64M时触发)，Redis就会启动AOF文件的内容压缩，只保留可以恢复数据的最小指令集，可以使用命令bgrewriteaof</p>
-</li>
-<li><p>重写原理</p>
-<p>AOF文件持续增长而过大时，会fork出一条新进程来将文件重写(也是先写临时文件最后再rename)，redis4.0版本后的重写，是指把rdb的快照，以二进制的形式附在新的aof头部，作为已有的历史数据，替换掉原来的流水账操作</p>
-</li>
-</ol>
-<h3 id="8-7-AOF的优缺点"><a href="#8-7-AOF的优缺点" class="headerlink" title="8.7 AOF的优缺点"></a>8.7 AOF的优缺点</h3><ol>
-<li><p>优点</p>
-<ul>
-<li><p>备份机制更稳健，丢失数据概率更低</p>
-</li>
-<li><p>可读的日志文本，通过操作AOF稳健，可以处理误操作</p>
-</li>
-</ul>
-</li>
-<li><p>缺点</p>
-<ol>
-<li><p>比起RDB占用更多的磁盘空间</p>
-</li>
-<li><p>恢复备份速度要慢</p>
-</li>
-<li><p>每次读写都同步的话，有一定的性能压力</p>
-</li>
-<li><p>存在个别Bug，造成不能恢复</p>
-</li>
-</ol>
-</li>
-</ol>
-<h2 id="9-Redis主从复制"><a href="#9-Redis主从复制" class="headerlink" title="9. Redis主从复制"></a>9. Redis主从复制</h2><h3 id="9-1-简介"><a href="#9-1-简介" class="headerlink" title="9.1 简介"></a>9.1 简介</h3><ul>
-<li><p>主机数据更新后根据配置和策略，自动同步到备机的master&#x2F;slaver机制，Master以写为主，slave以读为主</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m29.jpg"></p>
-</li>
-<li><p>当从服务器宕机之后，重启从服务需要重新设置主从关系，设置完毕之后能获取到主服务器上的所有数据</p>
-</li>
-<li><p>当主服务器宕机之后，重启之后主从关系依旧存在，不需要重新设置</p>
-</li>
-</ul>
-<h3 id="9-2-复制原理"><a href="#9-2-复制原理" class="headerlink" title="9.2 复制原理"></a>9.2 复制原理</h3><ol>
-<li><p>Slave启动成功连接到master后会发送一个sync命令</p>
-</li>
-<li><p>主服务器接到从服务器发送过来的同步消息，把主服务器数据进行持久化，rdb文件，把rdb文件发送从服务器，从服务器拿到rdb文件进行读取</p>
-</li>
-<li><p>每次主服务器进行写操作之后，和从服务器进行数据同步</p>
-</li>
-<li><p>全量复制：而slave服务再接收到数据库文件数据后，将其存盘并加载到内存中</p>
-</li>
-<li><p>增量复制：Master继续将新的所有收集到的修改命令一次传给slave，完成同步</p>
-</li>
-<li><p>但是只要是重新连接master，一次完全同步(增量复制)将被自动执行</p>
-</li>
-</ol>
-<h3 id="9-3-薪火相传"><a href="#9-3-薪火相传" class="headerlink" title="9.3 薪火相传"></a>9.3 薪火相传</h3><p>上一个Slave可以是下一个slave的Master，Slave同样可以接受其他slaves的连接和同步请求，那么该slave作为了链条中下一个的master，可以有效减轻master的写压力，去中心化降低风险。缺陷：一旦某个slave宕机，后面的slave都无法备份</p>
-<h3 id="9-4-反客为主"><a href="#9-4-反客为主" class="headerlink" title="9.4 反客为主"></a>9.4 反客为主</h3><p>当一个master宕机后，后面的slave可以立刻升级为master，其后面的slave不用做任何修改，用<code>slave no one</code>将从机变为主机</p>
-<h3 id="9-5-哨兵模式"><a href="#9-5-哨兵模式" class="headerlink" title="9.5 哨兵模式"></a>9.5 哨兵模式</h3><ol>
-<li><p>简介</p>
-<p>反客为主的自动版，能够后台监控主机是否故障，如果故障了根据投票数自动将从库转换为主库</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m30.jpg"></p>
-</li>
-<li><p>使用步骤</p>
-<ul>
-<li><p>设置一主二仆模式,6379带着6380，6381</p>
-</li>
-<li><p>自定义的&#x2F;myredis目录下新建sentinel.conf文件</p>
-</li>
-<li><p>配置哨兵，填写内容</p>
-<p><code>sentinel monltor mymaster 127.0.0.1 6379 1</code></p>
-<p>其中mymaster为监控对象起的服务器名称，1为至少有多少个哨兵同意切换</p>
-</li>
-<li><p>启动哨兵</p>
-<p><code>/usr/local/bin</code>执行<code>redis-sentinel /myredis/sentinel.conf</code></p>
-</li>
-<li><p>当主机挂掉，从机根据优先级别选举产生新的主机，原主机重启后会变为从机。选举条件依次为：</p>
-<ul>
-<li><p>选择优先级靠前的，优先级在redis.cof中默认:slave-priority 100，值越小优先级越高</p>
-</li>
-<li><p>选择偏移量最大的，偏移量是指获得原主机数据最全的</p>
-</li>
-<li><p>选择runid最小的从服务，每个redis实例启动后都会随机生成一个40位的runid</p>
-</li>
-</ul>
-<p>挑选出新主服务之后<code>sentinel</code>向原主服务的从服务发送<code>slaveof</code>新主服务的命令，复制新master。当已经下线的服务重新上线时， <code>sentinel</code>会向其发送<code>slaveof</code>命令，让其称为新主的从</p>
-</li>
-</ul>
-</li>
-<li><p>复制延时</p>
-<p>由于所有的写操作都是现在Master上操作，然后同步更新到slave上，所以从Master同步到Slave机器有一定的延迟，当系统很繁忙的时候，延迟问题会更加严重，slave机器数量的增加也会使这个问题更加严重</p>
-</li>
-</ol>
-<h2 id="10-Redis集群"><a href="#10-Redis集群" class="headerlink" title="10. Redis集群"></a>10. Redis集群</h2><h3 id="10-1-什么是集群"><a href="#10-1-什么是集群" class="headerlink" title="10.1 什么是集群"></a>10.1 什么是集群</h3><p>Redis集群实现了对Redis的水平扩容，即启动N个redis节点，将整个数据库分布存储在这N个节点中，每个节点存储总数居的1&#x2F;N</p>
-<p>Redis集群通过分区来提供一定程度的可用性：即使集群中有一部分节点失效或者无法进行通讯，集群也可以继续处理命令请求</p>
-<h3 id="10-2-什么是slots"><a href="#10-2-什么是slots" class="headerlink" title="10.2 什么是slots"></a>10.2 什么是slots</h3><ul>
-<li><p>一个redis集群包含16384个插槽，数据库中的每个键都属于这16384个插槽的其中一个</p>
-</li>
-<li><p>集群使用公式CRC16(key)%16384来计算键key属于哪个槽，其中CRC16(key)语句用于计算key的CRC16校验和</p>
-</li>
-<li><p>集群中的每个节点负责处理一部分插槽</p>
-</li>
-</ul>
-<h3 id="10-3-在集群中录入、查询值"><a href="#10-3-在集群中录入、查询值" class="headerlink" title="10.3 在集群中录入、查询值"></a>10.3 在集群中录入、查询值</h3><ol>
-<li><p>录入值</p>
-<ul>
-<li><p>在redis-cli每次录入、查询键值，redis都会计算出该key应该送往的插槽，如果不是该客户端对应服务器的插槽，redis会报错，并告知应该前往的redis实例地址和端口</p>
-</li>
-<li><p>不在一个slot下的键值，是不能使用mget、mset等多键操作的，可以通过{}来定义组的概念，从而使key中{}内相同内容的键值对应放到一个slot中</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mset k1&#123;user&#125; v1 k2&#123;user&#125; v2</span><br></pre></td></tr></table></figure></li>
-</ul>
-</li>
-<li><p>查询值</p>
-<ul>
-<li><p><code>cluster getkeysinslot &lt;slot&gt;</code>：计算槽中有多少个key</p>
-</li>
-<li><p><code>cluster keyslot cust</code>：计算插槽的值</p>
-</li>
-<li><p><code>cluster getkeysinslot &lt;slot&gt;&lt;count&gt;</code>：返回count个槽中的键</p>
-</li>
-</ul>
-</li>
-</ol>
-<h3 id="10-4-故障修复"><a href="#10-4-故障修复" class="headerlink" title="10.4 故障修复"></a>10.4 故障修复</h3><ol>
-<li><p>主节点下线，15秒超时之后从节点自动升为主节点</p>
-</li>
-<li><p>主节点恢复后，则变为从节点</p>
-</li>
-<li><p>如果某一段插槽的主从全都挂掉，而<code>cluster-require-full-coverage</code>为yes，那么整个集群都挂掉。如果为no，那么该插槽数据全都不能使用，也无法存储</p>
-</li>
-</ol>
-<h2 id="11-Redis应用问题解决"><a href="#11-Redis应用问题解决" class="headerlink" title="11. Redis应用问题解决"></a>11. Redis应用问题解决</h2><h3 id="11-1-缓存穿透"><a href="#11-1-缓存穿透" class="headerlink" title="11.1 缓存穿透"></a>11.1 缓存穿透</h3><ol>
-<li><p>redis查询不到，redis的命中率降低，每次都到数据库查询，但是数据库也没有，造成应用服务器压力变大</p>
-</li>
-<li><p>出现很多非正常的url访问</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m31.jpg"></p>
-</li>
-<li><p>解决办法</p>
-<ol>
-<li><p>对空值缓存：如果一个查询返回的数据为空，我们仍然将这个空结果(null)进行缓存,设置空结果的过期时间会很短，最长不超过五分钟</p>
-</li>
-<li><p>设置可访问的名单：使用bitmaps类型定义一个可以访问的名单，名单id作为bitmaps的偏移量，每次访问和bitmap里面的id进行比较，如果访问id不在bitmaps里面，进行拦截，不允许访问</p>
-</li>
-<li><p>采用布隆过滤器：它实际上是一个很长的二进制向量(位图)和一系列随机映射函数(哈希函数)。布隆过滤器可以用于检索一个元素是否在一个集合中。它的优点是空间效率和查询时间都圆圆超过一般的算法，缺点是有一定的误识别率和删除困难。将所有可能存在的哈希到一个足够大的bitmaps中，一个一定不存在的数据会被这个bitmaps拦截掉，从而避免了对底层存储系统的查询压力</p>
-</li>
-<li><p>进行实时监控：当发现Redis的命中率开始急速下降，需要排查访问对象和访问的数据，和运维人员配合，可以设置黑名单限制服务</p>
-</li>
-</ol>
-</li>
-</ol>
-<h3 id="11-2-缓存击穿"><a href="#11-2-缓存击穿" class="headerlink" title="11.2 缓存击穿"></a>11.2 缓存击穿</h3><ol>
-<li><p>key对应的数据存在，但在redis中过期，此时若有大量并发请求过来，这些请求发现缓存过期一般都会从后端DB加载数据并回设到缓存，这个时候大并发的请求可能会瞬间把后端DB压垮</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m32.jpg"></p>
-</li>
-<li><p>解决办法</p>
-<ol>
-<li><p>预先设置热门数据：在redis高峰访问之前，把一些热门数据提前存入到redis里面，加大这些热门数据key的时长</p>
-</li>
-<li><p>实时调整：现场监控哪些数据热门，实时调成key的过期时长</p>
-</li>
-<li><p>使用锁</p>
-<ul>
-<li><p>在缓存失效的时候(判断拿出来的值为空)，不是立即去load db</p>
-</li>
-<li><p>先使用缓存工具的某些带成功操作返回值的操作去set一个mutex key</p>
-</li>
-<li><p>当操作返回成功时，再进行load db操作，并回设缓存，最后删除mutex key</p>
-</li>
-<li><p>当操作返回失败，证明有线程在load db，当前线程睡眠一段时间再重试get缓存的方法</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m33.jpg"></p>
-</li>
-</ul>
-</li>
-</ol>
-</li>
-</ol>
-<h3 id="11-3-缓存雪崩"><a href="#11-3-缓存雪崩" class="headerlink" title="11.3 缓存雪崩"></a>11.3 缓存雪崩</h3><ol>
-<li><p>在极少时间段，查询大量key的集中过期情况。缓存击穿与缓存雪崩的区别在于是否针对很多key缓存，前者时某一个key</p>
-</li>
-<li><p>解决办法</p>
-<ol>
-<li><p>构建多级缓存架构：nginx缓存+redis缓存+其他缓存等</p>
-</li>
-<li><p>使用锁或队列：用加锁或者队列的方式保证不会有大量的线程对数据库一次性进行读写，从而避免失效时大量的并发请求落到底层存储系统上，不适用高并发的情况</p>
-</li>
-<li><p>设置过期标志更新缓存：记录缓存数据是否过期，如果过期会触发通知另外的线程在后台去更新实际key的缓存</p>
-</li>
-<li><p>将缓存失效时间分散开：比如我们可以在原有的失效时间基础上增加一个随机值，比如1-5分钟随机，这样每一个缓存的过期时间的重复率就会降低，就很难引发集体失效事件</p>
-</li>
-</ol>
-</li>
-</ol>
-<h2 id="12-分布式锁"><a href="#12-分布式锁" class="headerlink" title="12. 分布式锁"></a>12. 分布式锁</h2><h3 id="12-1-问题描述"><a href="#12-1-问题描述" class="headerlink" title="12.1 问题描述"></a>12.1 问题描述</h3><ol>
-<li><p>随着业务发展的需要，原单体单机部署的系统被演化成分布式集群系统后，由于分布式系统多进程、多线程并且分布在不同的机器上，这将使原单机部署情况下的并发控制锁策略失效，单纯的java api并不能提供分布式锁的能力，为了解决这个问题就要一种跨JVM的互斥机制来控制共享资源的访问，这就是分布式锁要解决的问题(<strong>加的锁对所有的机器都有效</strong>)</p>
-</li>
-<li><p>分布式锁主流的实现方案：</p>
-<ul>
-<li><p>基于数据库实现分布式锁</p>
-</li>
-<li><p>基于缓存(Redis等)</p>
-</li>
-<li><p>基于Zookeeper</p>
-</li>
-</ul>
-</li>
-<li><p>每一种分布式锁都有各自的优缺点</p>
-<ol>
-<li><p>性能：redis最高</p>
-</li>
-<li><p>可靠性：zookeeper最高</p>
-</li>
-</ol>
-</li>
-</ol>
-<h3 id="12-2-使用redis实现分布式锁"><a href="#12-2-使用redis实现分布式锁" class="headerlink" title="12.2 使用redis实现分布式锁"></a>12.2 使用redis实现分布式锁</h3><ol>
-<li><p>通过<code>setnx</code>上锁，通过<code>del</code>释放锁。锁一直没有释放，设置key过期时间，自动释放。上锁之后突然出现异常，无法设置过期时间，所以需要上锁的时候同时设置过期时间</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m34.jpg"></p>
-</li>
-<li><p>问题一</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m35.jpg"></p>
-<ul>
-<li>a因为卡顿没有操作完，锁到期了自动释放，然后b抢到了锁，此时a有完成操作，手动释放了b的锁</li>
-</ul>
-<p>解决办法</p>
-<ol>
-<li><p>第一步uuid表示不同的操作set lock uuid nx ex 10</p>
-</li>
-<li><p>第二步释放锁的时候，首先判断当前uuid和要释放锁uuid是否一样</p>
-</li>
-</ol>
-</li>
-<li><p>问题二：没有原子性</p>
-<p><img src="https://picture2-1310712259.cos.ap-nanjing.myqcloud.com/mysql/m36.jpg"></p>
-<p>解决办法：lua脚本</p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>Redis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Stream高级用法</title>
-    <url>/2023/12/23/Stream%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="Stream高级用法"><a href="#Stream高级用法" class="headerlink" title="Stream高级用法"></a>Stream高级用法</h1><h2 id="1-基本数据类型优化"><a href="#1-基本数据类型优化" class="headerlink" title="1. 基本数据类型优化"></a>1. 基本数据类型优化</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Authors&gt; authors = getAuthors();</span><br><span class="line">authors.stream</span><br><span class="line">        .map(author -&gt; author.getAge())</span><br><span class="line">        .map(age -&gt; age + <span class="number">10</span>)</span><br><span class="line">        .filter(age -&gt; age &gt; <span class="number">10</span>)    </span><br><span class="line">        .map(age -&gt; age + <span class="number">2</span>)</span><br><span class="line">        .forEach(System.out::println)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>问题：在对<code>age</code>进行加减比较操作的时候，首先需要转换为<code>Integer</code>类型，然后进行一些操作，操作完毕之后还需要转换为<code>Integer</code>类型，在数据量较大的时候需要耗费较大的时间。</p>
-</li>
-<li><p>优化：<code>mapToInt、mapToLong、mapToDouble、flatMapToInt、flatMapToDouble</code>等</p>
-</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Authors&gt; authors = getAuthors();</span><br><span class="line">authors.stream</span><br><span class="line">        .mapToInt(author -&gt; author.getAge())<span class="comment">//经历这一步之后流中元素都是int类型</span></span><br><span class="line">        .map(age -&gt; age + <span class="number">10</span>)</span><br><span class="line">        .filter(age -&gt; age &gt; <span class="number">10</span>)    </span><br><span class="line">        .map(age -&gt; age + <span class="number">2</span>)</span><br><span class="line">        .forEach(System.out::println)</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-并行流"><a href="#2-并行流" class="headerlink" title="2. 并行流"></a>2. 并行流</h2><p>        当流中有大量元素的时候，我们可以使用并行流去提高操作的效率，本质就是把任务分配给多个线程去完成。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Stream&lt;Integer&gt; stream = Stream.of(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>)</span><br><span class="line"><span class="type">Integer</span> <span class="variable">sum</span> <span class="operator">=</span> stream.filter(num -&gt; num &gt; <span class="number">5</span>)</span><br><span class="line">        .reduce((res,ele) -&gt; res + ele)<span class="comment">//结果是Optional类型</span></span><br><span class="line">        .get();</span><br></pre></td></tr></table></figure>
-
-<p>优化：<code>parallel</code>可以将串行流变为并行流</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Stream&lt;Integer&gt; stream = Stream.of(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>)</span><br><span class="line"><span class="type">Integer</span> <span class="variable">sum</span> <span class="operator">=</span> stream.parallel() <span class="comment">//变为并行流</span></span><br><span class="line">        .filter(num -&gt; num &gt; <span class="number">5</span>)</span><br><span class="line">        .reduce((res,ele) -&gt; res + ele)<span class="comment">//结果是Optional类型</span></span><br><span class="line">        .get();</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>函数式编程</tag>
+        <tag>编程实战</tag>
       </tags>
   </entry>
   <entry>
@@ -3446,28 +3687,6 @@
       </categories>
       <tags>
         <tag>函数式编程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>对象转换</title>
-    <url>/2024/01/09/%E5%AF%B9%E8%B1%A1%E8%BD%AC%E6%8D%A2/</url>
-    <content><![CDATA[<h1 id="对象转换"><a href="#对象转换" class="headerlink" title="对象转换"></a>对象转换</h1><h2 id="1-问题引入"><a href="#1-问题引入" class="headerlink" title="1. 问题引入"></a>1. 问题引入</h2><p>        最近实习中遇到一个问题：两个不同的类A和B中分别有实体类EntityA和EntityB，他们需要调用同一个方法C来实现某个功能，其中EntityA和EntityB中都有C中需要用到的字段。所以现在需要将其中一个对象转化另一个，这样才能都调用方法C。</p>
-<h2 id="2-问题解决"><a href="#2-问题解决" class="headerlink" title="2. 问题解决"></a>2. 问题解决</h2><h3 id="2-1-同名字段复制"><a href="#2-1-同名字段复制" class="headerlink" title="2.1 同名字段复制"></a>2.1 同名字段复制</h3><p>解决办法：通过泛型、反射等方式，获得一个对象的属性值然后赋值给另一个对象</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T,S&gt; T <span class="title function_">convert</span><span class="params">(T target,S source)</span> &#123;</span><br><span class="line">        Field[] declaredFields = getAllFields(target);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; declaredFields.length; i++) &#123;</span><br><span class="line">            <span class="keyword">try</span>&#123;</span><br><span class="line">                <span class="type">Field</span> <span class="variable">targetField</span> <span class="operator">=</span> declaredFields[i];</span><br><span class="line">                <span class="type">ExcludeConvert</span> <span class="variable">excludeConvert</span> <span class="operator">=</span> targetField.getAnnotation(ExcludeConvert.class);</span><br><span class="line">                <span class="keyword">if</span>(excludeConvert==<span class="literal">null</span>||!excludeConvert.value()) &#123;</span><br><span class="line">                    <span class="type">Field</span> <span class="variable">sourceField</span> <span class="operator">=</span> source.getClass().getDeclaredField(targetField.getName());</span><br><span class="line">                    <span class="keyword">if</span> (!sourceField.getName().equals(<span class="string">&quot;serialVersionUID&quot;</span>)) &#123;</span><br><span class="line">                        <span class="keyword">try</span> &#123;</span><br><span class="line">                            targetField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">                            sourceField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">                            <span class="type">Object</span> <span class="variable">value</span> <span class="operator">=</span> sourceField.get(source);</span><br><span class="line">                            <span class="keyword">if</span>(value!=<span class="literal">null</span>)&#123;</span><br><span class="line">                                targetField.set(target, value);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">                            e.printStackTrace();</span><br><span class="line">                        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                            targetField.setAccessible(<span class="literal">false</span>);</span><br><span class="line">                            sourceField.setAccessible(<span class="literal">false</span>);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;<span class="keyword">catch</span> (NoSuchFieldException e) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> target;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取类的所有属性，包括父类</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> object</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Field[] getAllFields(Object object) &#123;</span><br><span class="line">    Class&lt;?&gt; clazz = object.getClass();</span><br><span class="line">    List&lt;Field&gt; fieldList = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">while</span> (clazz != <span class="literal">null</span>) &#123;</span><br><span class="line">        fieldList.addAll(<span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(Arrays.asList(clazz.getDeclaredFields())));</span><br><span class="line">        clazz = clazz.getSuperclass();</span><br><span class="line">    &#125;</span><br><span class="line">    Field[] fields = <span class="keyword">new</span> <span class="title class_">Field</span>[fieldList.size()];</span><br><span class="line">    fieldList.toArray(fields);</span><br><span class="line">    <span class="keyword">return</span> fields;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-2-指定字段复制"><a href="#2-2-指定字段复制" class="headerlink" title="2.2 指定字段复制"></a>2.2 指定字段复制</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> String [] baseFields=<span class="keyword">new</span> <span class="title class_">String</span>[]&#123;<span class="string">&quot;id&quot;</span>,<span class="string">&quot;createUser&quot;</span>,<span class="string">&quot;updateUser&quot;</span>,<span class="string">&quot;createTime&quot;</span>,<span class="string">&quot;updateTime&quot;</span>,<span class="string">&quot;deleted&quot;</span>,<span class="string">&quot;serialVersionUID&quot;</span>&#125;;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T,S&gt; T <span class="title function_">convertWithoutBaseEntity</span><span class="params">(T target,S source)</span> &#123;</span><br><span class="line">        Set&lt;String&gt; baseFieldSet = Arrays.stream(baseFields).collect(Collectors.toSet());</span><br><span class="line">        Field[] declaredFields = getAllFields(target);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; declaredFields.length; i++) &#123;</span><br><span class="line">            <span class="keyword">try</span>&#123;</span><br><span class="line">                <span class="type">Field</span> <span class="variable">targetField</span> <span class="operator">=</span> declaredFields[i];</span><br><span class="line">                <span class="keyword">if</span>(baseFieldSet.contains(targetField.getName()))<span class="keyword">continue</span>;</span><br><span class="line">                <span class="type">ExcludeConvert</span> <span class="variable">excludeConvert</span> <span class="operator">=</span> targetField.getAnnotation(ExcludeConvert.class);</span><br><span class="line">                <span class="keyword">if</span>(excludeConvert==<span class="literal">null</span>||!excludeConvert.value()) &#123;</span><br><span class="line">                    <span class="type">Field</span> <span class="variable">sourceField</span> <span class="operator">=</span> source.getClass().getDeclaredField(targetField.getName());</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        targetField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">                        sourceField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">                        <span class="type">Object</span> <span class="variable">value</span> <span class="operator">=</span> sourceField.get(source);</span><br><span class="line">                        <span class="keyword">if</span>(value!=<span class="literal">null</span>)&#123;</span><br><span class="line">                            targetField.set(target, value);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                        targetField.setAccessible(<span class="literal">false</span>);</span><br><span class="line">                        sourceField.setAccessible(<span class="literal">false</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;<span class="keyword">catch</span> (NoSuchFieldException e) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> target;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Field[] getAllFields(Object object) &#123;</span><br><span class="line">        Class&lt;?&gt; clazz = object.getClass();</span><br><span class="line">        List&lt;Field&gt; fieldList = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">while</span> (clazz != <span class="literal">null</span>) &#123;</span><br><span class="line">            fieldList.addAll(<span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(Arrays.asList(clazz.getDeclaredFields())));</span><br><span class="line">            clazz = clazz.getSuperclass();</span><br><span class="line">        &#125;</span><br><span class="line">        Field[] fields = <span class="keyword">new</span> <span class="title class_">Field</span>[fieldList.size()];</span><br><span class="line">        fieldList.toArray(fields);</span><br><span class="line">        <span class="keyword">return</span> fields;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>编程实战</tag>
       </tags>
   </entry>
   <entry>

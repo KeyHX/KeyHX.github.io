@@ -391,4 +391,29 @@
     
   </entry>
   
+  <entry>
+    <title>JVM</title>
+    <link href="http://example.com/2022/07/24/JVM/"/>
+    <id>http://example.com/2022/07/24/JVM/</id>
+    <published>2022-07-24T12:58:22.198Z</published>
+    <updated>2024-02-15T10:09:00.886Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;JVM&quot;&gt;&lt;a href=&quot;#JVM&quot; class=&quot;headerlink&quot; title=&quot;JVM&quot;&gt;&lt;/a&gt;JVM&lt;/h1&gt;&lt;h2 id=&quot;1-java的内存结构-运行时数据区&quot;&gt;&lt;a href=&quot;#1-java的内存结构-运行时数据区&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="技术" scheme="http://example.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+    <category term="JVM" scheme="http://example.com/tags/JVM/"/>
+    
+  </entry>
+  
 </feed>

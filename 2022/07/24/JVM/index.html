@@ -1,0 +1,1309 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="JVM, KeyHX">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>JVM | KeyHX</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="KeyHX" type="application/atom+xml">
+</head>
+
+
+
+   <style>
+    body{
+       background-image: url(https://blog-1310712259.cos.ap-nanjing.myqcloud.com/%E8%83%8C%E6%99%AF%E5%9B%BE/20240102-172721.jpg);
+       background-repeat:no-repeat;
+       background-size:cover;
+       background-attachment:fixed;
+    }
+</style>
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">KeyHX</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>主页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="" class="waves-effect waves-light">
+
+      
+      <span>博文目录</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/tags/MySQL">
+          
+          <span>Mysql</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/Redis">
+          
+          <span>Redis</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/%E6%91%84%E5%BD%B1">
+          
+          <span>摄影</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B">
+          
+          <span>函数式编程</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/%E5%90%8E%E6%9C%9F">
+          
+          <span>后期</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/gallery" class="waves-effect waves-light">
+      
+      <i class="fas fa-image" style="zoom: 0.6;"></i>
+      
+      <span>相册</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="Search" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">KeyHX</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			主页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fas fa-fw fa-link"></i>
+			
+			博文目录
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>
+
+                  <a href="/tags/MySQL " style="margin-left:75px">
+				  
+		          <span>Mysql</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/tags/Redis " style="margin-left:75px">
+				  
+		          <span>Redis</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/tags/%E6%91%84%E5%BD%B1 " style="margin-left:75px">
+				  
+		          <span>摄影</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B " style="margin-left:75px">
+				  
+		          <span>函数式编程</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/tags/%E5%90%8E%E6%9C%9F " style="margin-left:75px">
+				  
+		          <span>后期</span>
+                  </a>
+                </li>
+              
+            </ul>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/gallery" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-image"></i>
+			
+			相册
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">JVM</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="container content">
+
+    
+    <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/JVM/">
+                                <span class="chip bg-color">JVM</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E6%8A%80%E6%9C%AF/" class="post-category">
+                                技术
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
+                    2022-07-24
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>Read Count:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="JVM"><a href="#JVM" class="headerlink" title="JVM"></a>JVM</h1><h2 id="1-java的内存结构-运行时数据区"><a href="#1-java的内存结构-运行时数据区" class="headerlink" title="1.java的内存结构(运行时数据区)"></a>1.java的内存结构(运行时数据区)</h2><ul>
+<li><p>程序计数器：线程私有，记录正在执行的虚拟机字节码指令地址；如果正在执行的是native方法，这个计数器值则为空</p>
+</li>
+<li><p>java虚拟机：线程私有，描述的事java方法执行的内存模型；每个方法在执行的同时创建一个栈帧用于存储局部变量表、操作数栈、动态链接等。每个方法调用直至执行完成的过程，就对应着一个栈帧在虚拟机栈中入栈到出栈的过程。</p>
+</li>
+<li><p>本地方法栈：线程私有，本地方法栈与虚拟机栈所发挥的作用非常相似，他们之间的区别不过是虚拟机栈为虚拟机执行java方法，而本地方法栈执行的是native方法</p>
+</li>
+<li><p>Java堆：线程共享，用来存放对象实例</p>
+</li>
+<li><p>方法区：线程共享，用于存放以及被虚拟机加载的类信息、常量、静态常量等数据</p>
+</li>
+<li><p>运行时常量池：是方法区的一部分，用于存放编译期生成的各种字面量和符号引用</p>
+</li>
+</ul>
+<h2 id="2-什么是双亲委派模型"><a href="#2-什么是双亲委派模型" class="headerlink" title="2.什么是双亲委派模型"></a>2.什么是双亲委派模型</h2><p>        如果一个类加载器收到类加载的请求，它首先不会自己去加载这个类，而是把这个请求委派给父类加载器去完成，每个层次的加载器都是如此，因此所有的加载请求最终都应该传到顶层的启动类加载器中，只有父类加载器无法完成这个加载请求的时候，子类加载器才会尝试去加载。</p>
+<h2 id="3-java虚拟机有哪些类加载器"><a href="#3-java虚拟机有哪些类加载器" class="headerlink" title="3.java虚拟机有哪些类加载器"></a>3.java虚拟机有哪些类加载器</h2><ul>
+<li><p>启动类加载器(Bootstrap ClassLoader):</p>
+<p>这个类加载器负责加载lib目录下的</p>
+</li>
+<li><p>扩展类加载器(Extension ClassLoader):</p>
+<p>负责加载lib&#x2F;ext目录中的</p>
+</li>
+<li><p>应用程序类加载器(Application ClassLoader):</p>
+<p>负责加载用户类路径上的类库，开发者可以直接使用这个类加载器，如果应用程序没有自定义过类加载器，一般情况下程序默认是应用程序类加载器</p>
+</li>
+<li><p>自定义类加载器：</p>
+<p>用户自定义的类加载器</p>
+</li>
+</ul>
+<h2 id="4-类加载的过程"><a href="#4-类加载的过程" class="headerlink" title="4.类加载的过程"></a>4.类加载的过程</h2><p>类加载的过程包括：加载、验证、准备、解析、初始化，其中验证、准备、解析统称为连接</p>
+<ul>
+<li><p>加载：通过一个类的全限定名来获取定义此类的二进制字节流，在内存中生成代表这个类的java.lang.Class对象</p>
+</li>
+<li><p>验证：确保Class文件的字节流中包含的信息符合当前虚拟机的要求，并且不会危害虚拟机的安全</p>
+</li>
+<li><p>准备：为静态遍历分配内存并设置初始值</p>
+</li>
+<li><p>解析：将常量池内的符号引用替换为直接引用</p>
+</li>
+<li><p>初始化：到了初始化阶段，才真正开始执行类中的定义的java初始化程序代码</p>
+</li>
+</ul>
+<h2 id="5-为什么使用双亲委派模型"><a href="#5-为什么使用双亲委派模型" class="headerlink" title="5.为什么使用双亲委派模型"></a>5.为什么使用双亲委派模型</h2><p>        双亲委派模型<strong>保证了Java程序的稳定运行，可以避免类的重复加载</strong>（<strong>JVM 区分不同类的方式不仅仅根据类名，相同的类文件被不同的类加载器加载产生的是两个不同的类</strong>），也保证了 Java 的核心 API 不被篡改。如果没有使用双亲委派模型，而是每个类加载器加载自己的话就会出现一些问题，比如我们编写一个称为 java.lang.Object 类的话，那么程序运行的时候，系统就会出现多个不同的 Object 类。</p>
+<h2 id="6-为什么要破坏双亲委派模型"><a href="#6-为什么要破坏双亲委派模型" class="headerlink" title="6.为什么要破坏双亲委派模型"></a>6.为什么要破坏双亲委派模型</h2><p>        使用双亲委派模型无法满足需求，以Tomcat为例，一个web容器可能要部署一个或者多个应用程序，不同的应用程序可能会依赖同一个第三方库的不同版本，因此需要保证每一个应用程序的类库都是独立的，相互隔离的</p>
+<h2 id="7-如何破坏双亲委派模型"><a href="#7-如何破坏双亲委派模型" class="headerlink" title="7.如何破坏双亲委派模型"></a>7.如何破坏双亲委派模型</h2><p>        破坏双亲委派模型的思路类似，以Tomcat为例。</p>
+<ol>
+<li>继承ClassLoader，Tomcat中的WebappClassLoader继承ClassLoader的子类URLClassLoader</li>
+<li>重写loadClass方法，实现自己的逻辑，不需要每次都先委派给父类加载</li>
+</ol>
+<h2 id="8-java中有哪几种常量池"><a href="#8-java中有哪几种常量池" class="headerlink" title="8.java中有哪几种常量池?"></a>8.java中有哪几种常量池?</h2><ol>
+<li>class文件常量池：用于存放编译期生成的各种字面量(相当于常量)和符号引用</li>
+<li>运行时常量池：class文件时类被编译为class文件时生成的，而当类被加载到内存中后，jvm就会将class文件常量池中的内容存放到运行时常量池中</li>
+<li>字符串常量池：用来存放字符串，全局只有一份，被所有类共享</li>
+</ol>
+<h2 id="9-String中的intern方法"><a href="#9-String中的intern方法" class="headerlink" title="9.String中的intern方法"></a>9.String中的intern方法</h2><p>        在jdk 7之后的版本中，作用为：如果字符串常量池中已经有这个字符串了，则直接返回字符串常量池中的引用。如果没有，则将这个字符串的引用保存一份到字符串常量池，然后返回这个引用。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String args[]) &#123;</span><br><span class="line"></span><br><span class="line">    // 创建2个对象，str持有的是new创建的对象引用</span><br><span class="line">    // 1）驻留（intern）在字符串常量池中的对象</span><br><span class="line">    // 2）new创建的对象</span><br><span class="line">    String str = new String(&quot;joonwhee&quot;);</span><br><span class="line">    // 字符串常量池中已经有了，返回字符串常量池中的引用</span><br><span class="line">    String str2 = &quot;joonwhee&quot;;</span><br><span class="line">    // false，str为new创建的对象引用，str2为字符创常量池中的引用</span><br><span class="line">    System.out.println(str == str2);</span><br><span class="line">    // str修改为字符串常量池的引用，所以下面为true</span><br><span class="line">    str = str.intern();</span><br><span class="line">    // true</span><br><span class="line">    System.out.println(str == str2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="10-怎么判断对象已经死去？"><a href="#10-怎么判断对象已经死去？" class="headerlink" title="10.怎么判断对象已经死去？"></a>10.怎么判断对象已经死去？</h2><p>常见两种判别方法：引用计数法和可达性分析算法，HotSpot中使用可达性分析算法</p>
+<ul>
+<li><p>引用计数法</p>
+<p>给对象添加一个引用计数器，每当有一个地方引用它时，计数器值就加一，当引用失效时，计数器值就减一。任何时刻计数器值为0的对象就不可能就再被使用</p>
+<p>优点：实现简单，判定效率高</p>
+<p>缺点：很难解决对象之间循环引用的问题</p>
+</li>
+<li><p>可达性分析算法</p>
+<p>通过一系列的称为“GC Roots”的对象作为起始点，从这些节点开始向下搜索，搜索所走过的路径称为引用链，当一个对象到GC Roots没有任何引用连接，则证明次对象时不可用的。</p>
+</li>
+</ul>
+<h2 id="11-哪些对象可以作为GC-Roots？"><a href="#11-哪些对象可以作为GC-Roots？" class="headerlink" title="11.哪些对象可以作为GC Roots？"></a>11.哪些对象可以作为GC Roots？</h2><ol>
+<li><p>虚拟机栈中的引用对象</p>
+</li>
+<li><p>本地方法栈中的引用对象</p>
+</li>
+<li><p>方法区中类静态属性引用对象</p>
+</li>
+<li><p>方法区中常量引用对象</p>
+</li>
+</ol>
+<h2 id="12-介绍四种引用"><a href="#12-介绍四种引用" class="headerlink" title="12.介绍四种引用"></a>12.介绍四种引用</h2><ul>
+<li><p>强引用：在代码中普遍存在，只要强引用还存在，垃圾收集器永远不会回收的</p>
+</li>
+<li><p>软引用：用来描述一些还有用但非必须的对象，使用SoftReference实现，在系统将要放生内存溢出的时候，将会进行回收</p>
+</li>
+<li><p>弱引用：用来描述非必须的对象，使用WeakReference来实现，在进行垃圾收集的时候将会被回收</p>
+</li>
+<li><p>虚引用：是最弱的一种引用关系，使用PhantomReference类来实现，虚引用必须和引用队列联合使用，当垃圾回收器准备回收一个对象时，如果发现他还有虚引用，就会在回收对象的内存之前，把这个虚引用加入到与之关联的引用队列中。通过判断队列中是不是有对象来判断对象是不是要回收。</p>
+</li>
+</ul>
+<h2 id="13-垃圾收集有哪些算法"><a href="#13-垃圾收集有哪些算法" class="headerlink" title="13.垃圾收集有哪些算法"></a>13.垃圾收集有哪些算法</h2><ol>
+<li><p>标记-清除算法</p>
+<p>首先标记出所有需要回收的对象，在标记完成后统一回收所有被标记的对象</p>
+<p>缺点：</p>
+<ul>
+<li><p>效率问题，标记和清除两个过程的效率都不高</p>
+</li>
+<li><p>空间问题，会产生大量不连续的碎片</p>
+</li>
+</ul>
+</li>
+<li><p>复制算法</p>
+<p>将内存按容量划分为大小相等的两块，每次只使用其中的一块，当这一块内存使用完，就将还或者的对象复制到另一块上面，然后再将已经使用过的内存空间一次清理掉。</p>
+</li>
+<li><p>标记-整理算法</p>
+<p>标记阶段与“标记-清除”算法一样，而后续是将所有存活的对象都向一端移动，然后直接清理掉端边界以外的内存</p>
+</li>
+</ol>
+<h2 id="14-HotSpot为什么要分为新生代和老年代"><a href="#14-HotSpot为什么要分为新生代和老年代" class="headerlink" title="14.HotSpot为什么要分为新生代和老年代"></a>14.HotSpot为什么要分为新生代和老年代</h2><p>        把java堆分为新生代和老年代，这样就可以根据各个代的特点采用最合适的收集算法</p>
+<p>在新生代中，每次都有大量的对象死去，只有少量的存活，一般采用复制算法。老年代中对象存活率高，一般采用标记-清理或者标记-整理算法</p>
+<h2 id="15-新生代中Eden区和Survior区的默认比例"><a href="#15-新生代中Eden区和Survior区的默认比例" class="headerlink" title="15.新生代中Eden区和Survior区的默认比例"></a>15.新生代中Eden区和Survior区的默认比例</h2><p>新生代分为1个Eden区和2个Survior区，通常称为From Survior和To Survior</p>
+<p>Eden区和Survior区默认比例：8：1：1</p>
+<h2 id="16-HotSpot-GC的分类"><a href="#16-HotSpot-GC的分类" class="headerlink" title="16.HotSpot GC的分类"></a>16.HotSpot GC的分类</h2><p>分为两大类</p>
+<ol>
+<li><p>Partial GC：不收集整个GC堆</p>
+<ul>
+<li><p>Young GC&#x2F;Minor GC：只收集新生代的GC</p>
+</li>
+<li><p>Old GC：只收集老年代</p>
+</li>
+<li><p>Mixed GC：收集整个新生代以及部分老年代</p>
+</li>
+</ul>
+</li>
+<li><p>Full GC&#x2F;Major GC：收集整个GC堆的模式</p>
+<p>包括新生代、老年代、永久代等</p>
+</li>
+</ol>
+<h2 id="17-GC触发的条件"><a href="#17-GC触发的条件" class="headerlink" title="17.GC触发的条件"></a>17.GC触发的条件</h2><ol>
+<li><p>Young GC：当新生代中的Eden区没有足够的空间进行分配的时候会触发</p>
+</li>
+<li><p>Full GC：</p>
+<ul>
+<li><p>当准备触发Young GC时，如果发现数据比目前老年代剩余空间大，就不会触发Young GC而是触发Full GC</p>
+</li>
+<li><p>如果有永久代，在永久代需要分配空间但是已经没有足够的空间时，也要触发一次Full GC</p>
+</li>
+<li><p>System.c()默认也是触发Full GC</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="18-什么情况下新生代对象会晋升到老年代？"><a href="#18-什么情况下新生代对象会晋升到老年代？" class="headerlink" title="18.什么情况下新生代对象会晋升到老年代？"></a>18.什么情况下新生代对象会晋升到老年代？</h2><ol>
+<li><p>如果新生代的垃圾收集器为Serial和ParNew，当对象大于设置的参数值时，会被认为时大对象，直接进入老年代</p>
+</li>
+<li><p>Young GC后，如果对象太大无法进入Survivor区，则会通过分配担保机制进入老年代</p>
+</li>
+<li><p>当Survivor区中的对象年龄增加到一定程度(默认是15)，就会被晋升到老年代中</p>
+</li>
+<li><p>如果Survivor区中相同年龄所有对象大小的总和大于Survivor空间的一半，年龄大于或者等于该年龄的对象就可以直接进入老年代</p>
+</li>
+</ol>
+<h2 id="19-发生Young-GC的时候需要扫描老年代对象吗"><a href="#19-发生Young-GC的时候需要扫描老年代对象吗" class="headerlink" title="19.发生Young GC的时候需要扫描老年代对象吗"></a>19.发生Young GC的时候需要扫描老年代对象吗</h2><p>不需要扫描，如果扫描的话Young GC的效率会下降</p>
+<h2 id="20-垃圾收集器有哪些？"><a href="#20-垃圾收集器有哪些？" class="headerlink" title="20.垃圾收集器有哪些？"></a>20.垃圾收集器有哪些？</h2><ul>
+<li><p>Serial收集器：只会用一条垃圾收集线程去完成垃圾收集工作，在进行收集时必须暂停其他线程工作(STW)</p>
+<ul>
+<li><p>新生代采用：标记-复制</p>
+</li>
+<li><p>老年代采用：标记-整理</p>
+</li>
+</ul>
+<p>优点：简单而高效</p>
+<p>缺点：会有STW</p>
+</li>
+<li><p>ParNew收集器</p>
+<p>就是多线程版本的Serial收集器</p>
+<ul>
+<li><p>新生代：标记-复制</p>
+</li>
+<li><p>老年代：标记-整理</p>
+</li>
+</ul>
+</li>
+<li><p>Parallel Scavenge收集器</p>
+<p>Parallel Scavenge看上去与ParNew一样，但它注重吞吐量，吞吐量是执行用户代码时间与CPU总耗时</p>
+<ul>
+<li><p>新生代：标记-复制</p>
+</li>
+<li><p>老年代：标记-整理</p>
+</li>
+</ul>
+</li>
+<li><p>Serial Old收集器</p>
+<p>Serial收集器老年代版本</p>
+<p>用途：</p>
+<ul>
+<li><p>JDK 1.5之前与Parallel Scavenge搭配使用</p>
+</li>
+<li><p>作为CMS的后备方案</p>
+</li>
+</ul>
+</li>
+<li><p>Parallel Old收集器</p>
+<p>Parallel Scavenge收集器的老年代版本</p>
+</li>
+</ul>
+<h2 id="21-介绍CMS垃圾收集器的特点"><a href="#21-介绍CMS垃圾收集器的特点" class="headerlink" title="21.介绍CMS垃圾收集器的特点"></a>21.介绍CMS垃圾收集器的特点</h2><p>        CMS(Concurrent Mark Sweep)收集器是一种以获取最短回收停顿时间为目标的收集器。CMS是HotSpot虚拟机第一款真正意义上的并发收集器。</p>
+<p>        CMS是以标记-清除算法实现的，分为四个步骤</p>
+<ul>
+<li><p>初始标记：暂停其他线程，<strong>记录与root相连对象</strong>，这个阶段速度很快</p>
+</li>
+<li><p>并发标记：同时开启GC与用户线程，会记录跟踪发生引用更新的地方</p>
+</li>
+<li><p>重新标记：修正并发标记期间因用户线程运行而产生变动的标记记录，时间比初始标记长，但远比并发标记短</p>
+</li>
+<li><p>并发清除：开启用户线程，同时GC开始对未标记的清除</p>
+</li>
+</ul>
+<p>优点：并发收集，低停顿</p>
+<p>缺点：对CPU资源敏感，利用并发清除算法会产生大量碎片</p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/JVM/">
+                                    <span class="chip bg-color">JVM</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("/medias/comment_bg.png") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'cfDm4vNZha9Ccjn7PUEb5SmB-gzGzoHsz',
+        appKey: 'PvwALUSwvBfsE27CNQfkopUh',
+        notify: 'false' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'mm',
+        pageSize: '10',
+        lang: 'en',
+        placeholder: 'just go go'
+    });
+</script>
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+            <div class="card">
+                <a href="/2023/12/06/DataBase_MySQL/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="MySQL基础">
+                        
+                        <span class="card-title">MySQL基础</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2023-12-06
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%8A%80%E6%9C%AF/" class="post-category">
+                                    技术
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/MySQL/">
+                        <span class="chip bg-color">MySQL</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Current&nbsp;<i class="far fa-dot-circle"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/07/24/JVM/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="JVM">
+                        
+                        <span class="card-title">JVM</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-07-24
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%8A%80%E6%9C%AF/" class="post-category">
+                                    技术
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/JVM/">
+                        <span class="chip bg-color">JVM</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+    
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2019-2024</span>
+            
+            <span id="year">2019</span>
+            <a href="/about" target="_blank">KeyHX</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/KeyHX?tab=repositories" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1216696105@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1216696105" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1216696105" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;Search</span>
+            <input type="search" id="searchInput" name="s" placeholder="Please enter a search keyword"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+	
+    
+    <script type="text/javascript" color="0,0,255"
+        pointColor="0,0,255" opacity='0.7'
+        zIndex="-1" count="99"
+        src="/libs/background/canvas-nest.js"></script>
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+
+    
+
+</body>
+
+</html>
